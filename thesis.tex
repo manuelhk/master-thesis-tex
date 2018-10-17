@@ -1,0 +1,116 @@
+\documentclass[11pt, twoside, ngerman, openright]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[top=25mm, bottom=25mm, bindingoffset=6mm, includeheadfoot]{geometry}
+\usepackage{fancyhdr}
+\usepackage{emptypage}
+\usepackage[style=alphabetic]{biblatex}
+\usepackage[ngerman]{babel}
+\usepackage[acronym]{glossaries}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+
+\addbibresource{chapters/my_bib.bib}
+
+\graphicspath{{images/}}
+
+\makeglossaries
+\loadglsentries[main]{chapters/glossaries}
+
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}{}}
+\fancyhead{}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+\fancyfoot{}
+\fancyfoot[RE]{\footnotesize{Institut für Technik der Informationsverarbeitung\\
+			   Karlsruhe Institut für Technologie}}
+\fancyfoot[LO]{\footnotesize{\mytitle}}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancypagestyle{plain}{
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[LE,RO]{\thepage}
+	\fancyfoot[LO]{\footnotesize{\mytitle}}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0.4pt}}
+
+
+\titleformat{\chapter}[display]
+  {\Huge\bfseries}
+  {}
+  {0pt}
+  {\thechapter.\ }
+
+\titleformat{name=\chapter,numberless}[display]
+  {\Huge\bfseries}
+  {}
+  {0pt}
+  {}
+
+
+\newcommand{\submissiondate}{23. Dezember 2018}
+\newcommand{\mytitle}{Titel der Arbeit}
+
+
+
+\begin{document}
+
+\pagestyle{fancy}
+\pagenumbering{Roman}
+
+\input{chapters/titlepage}
+
+\input{chapters/abstract}
+%\addcontentsline{toc}{chapter}{Abstract}
+
+\input{chapters/declaration}
+%\addcontentsline{toc}{chapter}{Eidesstattliche Erklärung}
+
+\tableofcontents
+
+\cleardoublepage
+\pagenumbering{arabic}
+
+\input{chapters/introduction}
+
+\input{chapters/grundlagen}
+
+\input{chapters/konzept}
+ 
+\input{chapters/datengenerierung}
+
+\input{chapters/training}
+
+\input{chapters/evaluation}
+
+\input{chapters/conclusion}
+
+\cleardoublepage
+\pagenumbering{Roman}
+\setcounter{page}{11}
+
+\renewcommand{\bibname}{Literaturverzeichnis}
+\printbibliography
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+
+\printglossary[type=\acronymtype, title={Abkürzungsverzeichnis}]
+\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+
+\listoftables
+\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+
+\listoffigures
+\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+
+\appendix
+
+\input{chapters/appendix}
+
+\end{document}
