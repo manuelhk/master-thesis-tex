@@ -10,7 +10,11 @@
 \label{einleitung_problemstellung}
 % ===========================
 
-Hochautomatisierte Fahrerassistenzsysteme werden zunehmend komplexer. Herkömmliche Testmethoden sind durch die Vielzahl an möglichen Szenarien nicht mehr praktisch testbar. Heutzutage wird schon vieles in Simulation getestet. Dabei git es aktuell noch Probleme...
+Hochautomatisierte Fahrerassistenzsysteme werden zunehmend komplexer. Herkömmliche Testmethoden sind durch die Vielzahl an möglichen Szenarien nicht mehr praktisch testbar. Heutzutage wird schon vieles in Simulation getestet. Dabei git es aktuell noch Probleme..
+
+Autonomes Fahren - kaum ein Trend ist aktuell ein stärkerer Treiber in der Automobilindustrie. Dabei spielt der Einsatz von Verfahren des maschinellen Lernens ein bedeutende Rolle. Eine große Herausforderung für diese Algorithmen ist, dass Trainingsdaten, sofern sie auf realen, aufgezeichneten Daten beruhen, manuell annotiert werden müssen, was diesen Prozess sehr aufwändig macht. Ein weiteres Problem von realen Daten ist Ihre geringe Varianz. Während Standardsituationen sehr häufig vorkommen und damit auch mit einem neuronalen Netz erlernt werden können, gibt es einige Situation die selten auftreten, allerdings sehr kritisch sind. Es ist daher schwieriger ein neuronales Netz für dieses Situationen, wie z.B. das „schneiden“ eines anderen Fahrzeugs beim Spurwechsel, zu trainieren.
+
+Genau hier soll diese Arbeit ansetzen. Es soll ein Konzept entwickelt und umgesetzt werden, wie eine bereits existierende Simulationsumgebung eingesetzt werden kann, um neuronale Netze zu trainieren und zu testen.
 
 
 % ===========================
@@ -18,7 +22,15 @@ Hochautomatisierte Fahrerassistenzsysteme werden zunehmend komplexer. Herkömmli
 \label{einleitung_zielsetzung}
 % ===========================
 
-Genau hier setzt diese Arbeit an.. 
+Das Ergebnis der Arbeit soll eine Methodik sein bisher unbekannte Testfälle zu finden. Dabei sollen Videodaten mit CarMaker erzeugt und mit diesen Daten ein neuronales Netz trainiert werden um Fahrszenarien zu klassifizieren. Mit einem trainierten neuronalen Netz sollen auch Fahrszenarien mit realen Daten erkannt und klassifiziert werden.
 
-Aufbau der Arbeit ist   
+Die oben genannten Probleme sollen mit der Verwendung von simulierten Trainingsdaten adressiert und weiter untersucht werden:
+
+\begin{itemize}
+\item Trainingsdaten müssen nicht mehr aufwendig manuell annotiert werden.
+\item Die Umgebung ist bei der Simulation der Daten vollständig kontrollierbar und die Datenerfassung wird effizienter.
+\item Bisher unbekannte Testfälle können gefunden werden.
+\end{itemize}
+
+Diese Arbeit soll einen theoretischen und praktischen Beitrag zum automatisierten Training von neuronalen Netzen im Bereich automatisiertem Fahren liefern. Der Fokus liegt dabei auf den Möglichkeiten und Herausforderungen, die sich durch die Verwendung von simulierten Trainingsdaten ergeben.
 
