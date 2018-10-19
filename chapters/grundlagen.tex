@@ -14,7 +14,7 @@ In diesem Kapitel werden die zum Verständnis nötigen Grundlagen für diese Arb
 
 Hochautomatisiertes Fahren wird in den vergangenen Jahren zunehmend von der Automobilindustrie vorangetrieben. Aktuelle \gls{fas} wie der Spurhalteassistant oder die Abstandsregelung sind nach der Norm SAE J3016 (Abbildung \ref{fig_level_autonomes_fahren}) bei Level 2 des autonomen Fahrens eingeordnet. Mit neuen Technologien werden immer mehr Funktionen für automatisiertes Fahren entwickelt und verknüpft. Es entstehen zunehmend komplexe Fahrfunktionen mit einer steigenden Anzahl möglicher Fahrsituationen und Szenarien \cite{king2017identification}. Das stellt Automobilhersteller und Automobilzulieferer vor eine große Herausforderung, da die Systemkomplexität wächst. Das schließt sowohl die Entwicklung von \gls{fas} als auch die dazu benötigten Testszenarien ein \cite{pfeffer2016continuous}.
 
-In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderungen begegnet wird. In Abschnitt \ref{grundlagen_fahren_entwicklung} wird ein allgemeiner Überblick über die aktuellen Entwicklungsmethodiken in der Automobilindustrie gegeben. Dabei wird besonders auf das Konzept \gls{vil} eingegangen. Danach werden in Abschnitt \ref{grundlagen_fahren_szenarien} bisherige Ansätze für die Klassifizierung von Fahrszenarien vorgestellt.
+In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderungen begegnet wird. In Abschnitt \ref{grundlagen_fahren_entwicklung} wird ein allgemeiner Überblick über die aktuellen Entwicklungsmethodiken für \gls{fas} gegeben. Dabei wird besonders auf das Konzept \gls{vil} eingegangen. Danach werden in Abschnitt \ref{grundlagen_fahren_szenarien} bisherige Ansätze für die Klassifizierung von Fahrszenarien vorgestellt.
 
 \begin{figure}[h]
 \centering
@@ -25,11 +25,44 @@ In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderunge
 
 
 % ===========================
-\subsection{Entwicklung von automatisierten Fahrerassistenzfunktionen}
+\subsection{Entwicklung von Fahrerassistenzfunktionen}
 \label{grundlagen_fahren_entwicklung}
 % ===========================
 
-\gls{hil} und \gls{vil} und \gls{hil}
+\gls{fas} sind Funktionen im Kraftfahrzeug, die den Fahrer unterstützen. Diese Systeme nutzen Sensordaten, wie Radar-, Ultraschall-, oder Kameradaten, aus dem Fahrzeug um den Fahrer dann auf Basis der abgeleiteten Informationen zu unterstützen. Beispielsweise erkennt ein Spurhalteassistent wenn das Fahrzeug die Spur verlässt und kann die Fahrspur korrigieren. 
+
+\gls{fas} werden in der Automobilindustrie mit dem V-Modell entwickelt. Das V-Modell ist ein chronologischer Entwicklungsprozess und aus der Softwareentwicklung adaptiert \cite{vmodell2005}. Das V-Modell kann in einen linken absteigenden und einen rechten aufsteigenden Ast unterteilt werden. Der linke Ast enthält die Funktionsanforderungen, die nach unten weiter detailliert und aufgeschlüsselt werden. Der rechte Ast umfasst aufsteigend Funktionstests auf dem jeweiligen Detaillierungsgrad \cite{hakuli2015virtuelle}. Das V-Modell ist schematisch in Abbildung \ref{fig_v_modell} dargestellt.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{v_modell.pdf}
+\caption{V-Modell, adaptiert aus \cite{hakuli2015virtuelle}}
+\label{fig_v_modell}
+\end{figure}
+
+Durch die steigende Komplexität werden für die Validierung und Verifikation von \gls{fas} neue Testmethoden benötigt \cite{tellmann2011hardware}. 
+
+Diese  werden 
+
+
+
+--- V Modell --- \cite{hakuli2015virtuelle}
+
+
+
+Fahrerassistenzfunktionen werden funktional wei- testgehend in Software abgebildet. Daher ist es sinn- voll, das aus dem Software Engineering bekannte V-Modell[3]oderseineWeiterentwicklung„V-Mo- dell XT“ [4] als Entwicklungsprozess für Fahreras- sistenzfunktionen zu verwenden. Das V-Modell stellt grundsätzlich einen chronologischen Entwick- lungsprozess dar. Der Ablauf ist dabei nicht linear über der Zeitachse aufgetragen, sondern über die Form des Buchstabens V. Es wird dabei von einem absteigenden und einem aufsteigenden Ast gespro- chen. Der absteigende Ast enthält die Arbeitsschritte der Analyse der Aufgabenstellung. Aus der Analyse resultieren schrittweise Spezifikationen für die zu entwickelnden Komponenten. Dabei ist wesentlich, dass zunächst die Gesamtproduktanforderungen (oft auch Kundenanforderungen genannt) analysiert und danach in eine logische Architektur überführt wer- den. Im Anschluss daran folgt die Entwicklung einer technischen Architektur, die im weiteren Verlauf in Systeme und in Komponenten zerlegt und spezifi- ziert wird. Parallel zu jedem dieser Schritte entste- hen Testfallspezifikationen, die später zur Überprü- fung der Entwicklung verwendet werden. Der letzte Schritt des absteigenden Astes markiert gleichzeitig den ersten Schritt im aufsteigenden Ast. Auf ihm er- folgt die eigentliche Implementierung beziehungs- weise Entwicklung der spezifizierten Komponen- ten. Der aufsteigende Ast beinhaltet alle Test- und Integrationsschritte von der einzelnen Komponente über das Gesamtsystem bis hin zum Akzeptanztest beim Kunden. Er stellt also das Integrieren und Tes- ten im Entwicklungsprozess dar. Jeder Schritt auf dem absteigenden Ast hat eine Beziehung zu einem Schritt im aufsteigenden Ast. Dabei entspricht die Beziehung dem Verifizieren des im entsprechenden Prozessschritt erstellten Teilsystems gegenüber der zugehörigen Spezifikation. Die jeweils verwendeten Testfälle sind diejenigen, die während der Spezifikati- onsphase im absteigenden Ast entwickelt wurden. Im letzten Schritt erfolgt die Validierung, d. h. die Über- prüfung der Erfüllung aller Kundenanforderungen sowie der Akzeptanztest. . Abbildung 8.1 zeigt den generellen Entwicklungsprozess nach dem V-Modell.
+
+-----------------------------------
+
+Die Leitidee des virtuellen Fahrversuchs ist die möglichst realitätsgetreue Übertragung des realen Fahrversuchs in die virtuelle Welt mit dem Ziel, von den charakteristischen Stärken der Simulation in Sachen Reproduzierbarkeit, Flexibilität und Auf- wandsreduktion zu profitieren und früh im Fahrzeugentwicklungsprozess eine Test- und Bewer- tungsmöglichkeit für Spezifikationen und daraus abgeleitete Lösungen herzustellen. Die Nutzung geeigneter Simulationsverfahren ermöglicht eine effizientere Konzeption, Entwicklung und Applika- tion von Fahrzeugen und Fahrzeugkomponenten. Sie überbrücken und verkürzen die Zeit bis zur Ver- fügbarkeit von realen Fahrzeugprototypen. 
+
+Der virtuelle Fahrversuch besteht wie sein re- ales Gegenstück aus mehreren Komponenten. Die zentrale Rolle spielt ein virtueller Fahrzeugpro- totyp, dessen Bestandteile je nach Fortschritt im Entwicklungsprozess als Modelle, Software-Code oder als Hardware integriert sind.
+
+Während in der frühen Konzeptphase noch alle Bestandteile des Fahrversuchs virtuell sind, erfolgt im Laufe der Entwicklung durch die verschiedenen Integrationsstadien, ein schrittweiser Austausch von virtuellen gegen die zugehörigen realen Versuchsbestandteile, bis im vollständig realen Fahrversuch auf der Straße mit realem Fahrer und echten Verkehrsteilnehmern die Simulationsanteile komplett der Realität gewichen sind.
+
+Ziel muss daher sein, entwicklungsbegleitend Teillösungen sowohl gegen die zugehörigen Spezi- fikationen zu testen als auch im gleichen Kontext im Gesamtfahrzeugkonzept auf die Erfüllung der gewünschten Eigenschaften für die Gesamtlösung überprüfen zu können. Der wirkliche Mehrwert des virtuellen Fahrversuchs besteht deshalb darin, die im realen Fahrzeug bei der Freigabe gefahrenen Manöver und die zugehörigen Bewertungskriterien durchgängig durch die in ▶ Abschn. 8.3 am Beispiel des V-Modells diskutierten Integrationsschritte bis zum Beginn der Konzeptphase zu überführen und schon dort verfügbar zu machen.
+
+-----
 
 For early assessment, a common approach is to set up vehicles with additional prototyping hardware and per- form real world testing. While this approach is essential to assess the look-and-feel of newly developed concepts, its drawbacks are re- duced reproducibility and high expenses to achieve a sufficient and balanced sample. To overcome these drawbacks, new flexible, realis- tic and preferably automated virtual test methods to complement real world verification and validation are especially required during early development phases \cite{bach2017reactive}.
 
@@ -63,13 +96,12 @@ Weitere Anwendungsfelder für ViL sind unter anderem das Testen von Spur- wechs
 
 
 
-
 % ===========================
 \subsection{Klassifizierung von Fahrszenarien}
 \label{grundlagen_fahren_szenarien}
 % ===========================
 
-- Terminologie
+- Terminologie, Unterschiedung Szene, Szenario, ...
 - Tabelle + Erklärung
 
 Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   
