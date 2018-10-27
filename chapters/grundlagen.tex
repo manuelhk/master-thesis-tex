@@ -14,7 +14,7 @@ In diesem Kapitel werden die zum Verständnis nötigen Grundlagen für diese Arb
 
 Hochautomatisiertes Fahren wird in den vergangenen Jahren zunehmend von der Automobilindustrie vorangetrieben. Aktuelle \gls{fas} wie der Spurhalteassistant oder die Abstandsregelung sind nach der Norm SAE J3016 (Abbildung \ref{fig_level_autonomes_fahren}) bei Level 2 des autonomen Fahrens eingeordnet. Mit neuen Technologien werden immer mehr Funktionen für automatisiertes Fahren entwickelt und verknüpft. Es entstehen zunehmend komplexe Fahrfunktionen mit einer steigenden Anzahl möglicher Fahrsituationen und Szenarien \cite{king2017identification}. Das stellt Automobilhersteller und Automobilzulieferer vor eine große Herausforderung, da die Systemkomplexität wächst. Das schließt sowohl die Entwicklung von \gls{fas} als auch die dazu benötigten Testszenarien ein \cite{pfeffer2016continuous}.
 
-In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderungen begegnet wird. In Abschnitt \ref{grundlagen_fahren_entwicklung} wird ein allgemeiner Überblick über die aktuellen Entwicklungsmethodiken für \gls{fas} gegeben. Dabei wird besonders auf das Konzept \gls{vil} eingegangen. Danach werden in Abschnitt \ref{grundlagen_fahren_szenarien} bisherige Ansätze für die Klassifizierung von Fahrszenarien vorgestellt.
+In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderungen begegnet wird. In Abschnitt \ref{grundlagen_fahren_entwicklung} wird ein allgemeiner Überblick über die aktuellen Entwicklungsmethodiken für \gls{fas} gegeben. Danach werden in Abschnitt \ref{grundlagen_fahren_szenarien} bisherige Ansätze für die Klassifizierung von Fahrszenarien vorgestellt.
 
 \begin{figure}[h]
 \centering
@@ -51,61 +51,25 @@ Die Validierung und Verifikation von \gls{fas} folgt dem Testkonzept. Ein Testko
 \label{fig_testfallerstellung}
 \end{figure}
 
-Testfälle werden bereits möglichst früh im Entwicklungsprozess erstellt um die Qualität von \gls{fas} und einzelnen Komponenten möglichst hoch zu halten \cite{wachenfeld2015freigabe}. Hierfür werden in der Praxis virtuelle Fahrversuche eingesetzt. Die Idee ist eine stufenweise Digitalisierung von Komponenten aus dem realen Fahrversuch mit den Zielen die Reproduzierbarkeit zu steigern, den Aufwand zu reduzieren und insgesamt flexibler zu werden. Im virtuellen Fahrversuch werden in der frühen Konzeptphase alle Komponenten virtuell getestet und dann schrittweise durch Hardwarekomponenten ersetzt. Schließlich werden alle Komponenten im realen Fahrversuch auf der Straße mit realem Fahrer und anderen Verkehrsteilnehmern getestet \cite{hakuli2015virtuelle}. In diesem Zusammenhang spielen die Konzepte \gls{mil}, \gls{sil}, \gls{hil} und \gls{vil} eine wichtige Rolle. Mit \gls{mil} und \gls{sil} werden Funktionen auf Basis von Simulationsmodellen getestet. Dabei werden Hardwarekomponenten simuliert. Mit fortschreitender Entwicklung werden immer mehr Simulationskomponenten durch die entsprechende Hardware ersetzt und mit \gls{hil} und \gls{vil} werden diese getestet \cite{hakuli2015virtuelle}.
+Testfälle werden bereits möglichst früh im Entwicklungsprozess erstellt um die Qualität von \gls{fas} und einzelnen Komponenten möglichst hoch zu halten \cite{wachenfeld2015freigabe}. Hierfür werden in der Praxis virtuelle Fahrversuche eingesetzt. Die Idee ist eine stufenweise Digitalisierung von Komponenten aus dem realen Fahrversuch mit den Zielen die Reproduzierbarkeit zu steigern, den Aufwand zu reduzieren und insgesamt flexibler zu werden. Im virtuellen Fahrversuch werden in der frühen Konzeptphase alle Komponenten virtuell getestet und dann schrittweise durch Hardwarekomponenten ersetzt. Schließlich werden alle Komponenten im realen Fahrversuch auf der Straße mit realem Fahrer und anderen Verkehrsteilnehmern getestet \cite{hakuli2015virtuelle}.
 
----
+Beim virtuellen Fahrversuch spielen die Konzepte \gls{mil}, \gls{sil}, \gls{hil} und \gls{vil} eine wichtige Rolle. Mit \gls{mil} und \gls{sil} werden Funktionen auf Basis von Simulationsmodellen getestet \cite{berg2015vehicle}. Dabei werden Hardwarekomponenten simuliert. Mit fortschreitender Entwicklung werden immer mehr Simulationskomponenten durch die entsprechende Hardware ersetzt und mit \gls{hil} getestet \cite{hakuli2015virtuelle}. \gls{vil} schließt schließlich die Lücke zwischen virtuellem Fahrversuch und realem Fahrversuch. Dieses Testkonzept macht die Komplexität bei der Entwicklung von \gls{fas} beherrschbar und reduziert den Testaufwand \cite{schwab2014durchgangige}. Für die Freigabe von \gls{fas} ist die Realfahrt aber die wichtigste Methode, da sie aktuell die beste Validierung bei annehmbaren ökonomischen Aufwand ist \cite{wachenfeld2015freigabe}.
 
-Mit steigender Komplexität in der Entwicklung, bedingt durch hochautomatisierte Funktionen, werden für die Validierung und Verifikation von \gls{fas} neue Testmethoden benötigt \cite{bach2017reactive}. Besonders \gls{fas} die kritische Situationen unterstützen, wie zum Beispiel eine automatische Notbremsung, können nicht mehr mit lange etablierten Methoden getestet werden \cite{bock2008vehicle}. 
-
-
+Mit steigender Automatisierung von \gls{fas} steigt auch die Anzahl möglicher Situationen und damit die Anzahl der benötigten Testfälle. Testfälle müssen alle potentiell möglichen Situationen, in denen das \gls{fas} zum Einsatz kommen kann, abdecken. Dadurch steigt mit hochautomatisierten Funktionen der Aufwand für Testfallgenerierung und -durchführung ins Unüberschaubare. Eine Möglichkeit für die Reduzierung von Testfällen ist es kritische Situationen zu finden und Testfälle mit weniger kritischen Situationen zu entfernen \cite{wachenfeld2015freigabe}.
 
 
 
 
 
-Nach den Grundsätzen des Projektmanagements erfolgt die Freigabe erst dann, wenn die zuvor definierten Anforderungen von diesem technischen System erfüllt werden. Diese Anforderungen haben unterschiedlichste Ursprünge, wie beispielsweise Kunden, Normen oder Gesetze. Verschiedene Bereiche werden durch die Anforderungen adressiert: Darunter fallen nicht zuletzt aus Gründen der Typgenehmigung1 als auch der Produkthaftung2 Anforderungen an die Sicherheit des technischen Systems. \cite{wachenfeld2015freigabe}
-
-
------------------------------------
-
-
-\cite{berg2015vehicle}:
-Für die effiziente und kostengünstige Entwicklung sowie Absicherung hat sich, über die Entwicklung von realen Funktionen im Fahrzeug hinaus, ein zweiter Entwicklungsast mit einer vir- tuellen Entwicklung etabliert. So werden bereits in einer frühen Phase neue Algorithmen mithilfe von Software-in-the-Loop prototypisch entwickelt und getestet (vgl. ▶ Kap. 8) oder neue Sensoren sowie Aktoren mithilfe von Hardware-in-the-Loop-Test- ständen evaluiert, ohne dass hierfür ein Fahrzeug aufgebaut werden muss. Gleichzeitig erfolgt mit- hilfe von Fahrsimulatoren (Driver-in-the-Loop, vgl. ▶ Kap. 9) eine Überprüfung des Fahrerverhaltens sowie der Beherrschbarkeit.
-
-Das Vehicle in the Loop (VIL) schließt die Lü- cke zwischen Fahrsimulation und Realversuchen.
-
-
--- Einsatz MiL, SiL, HiL
-Um die funktionale Sicherheit neuer Fah- rerassistenzsysteme (FAS) abzusichern, kommen bei OEMs und Zulieferern je nach Entwicklungsphase unterschiedliche Test- und Bewertungsverfahren zum Ein- satz. Simulationsmethoden wie Model-in- the-Loop (MiL) und Software-in-the-Loop (SiL) werden vor allem in einer frühen, Hardware-in-the-Loop (HiL) in einer spä- teren Entwicklungsphase eingesetzt. \cite{schwab2014durchgangige}
-
--- Aufwand test FAS
-Die Systeme werden in ein virtuelles Fahr- zeug integriert und im virtuellen Fahrver- such geprüft. Auf diese Weise können in sehr kurzer Zeit zahlreiche Tests unter beliebig konfigurierbaren und reprodu- zierbaren Bedingungen durchgeführt werden [1]. Diese simulativen Methoden sind allerdings kein Ersatz für den realen Fahrversuch. Auch wenn die aktuellen Modelle sehr gut sind, besteht die Unsi- cherheit, dass die Ergebnisse nicht exakt auf das reale Fahrzeugverhalten übertrag- bar sind. Darüber hinaus ist eine subjek- tive Bewertung im Fahrversuch unerläss- lich, um die Akzeptanz des Fahrers zu gewährleisten. Das Testen von FAS im klassischen Fahrversuch auf Straßen wird jedoch mit zunehmender Komplexität der Systeme immer aufwendiger. Während bei Ein- parkassistenten hauptsächlich nur ste- hende Objekte variiert werden müssen, um verschiedene Parkszenarien darzu- stellen, wird bei Systemen zur Unfall- vermeidung wie dem Notbremsassisten- ten mindestens ein potenzieller Unfall- gegner benötigt. In derzeit eingesetzten Verfahren werden hierfür sogenannte Dummy-Targets eingesetzt (zum Beispiel in [2]). Diese Ziele sind hauptsächlich für Auffahrszenarien im Längsverkehr aus- gelegt. Weitere relevante Verkehrssitua- tionen, wie etwa Querverkehr an einer Kreuzung, plötzlich einscherende Fahr- zeuge oder die Kollisionsgefahr mit Fußgängern oder Radfahrern können nur eingeschränkt beziehungsweise mit erheblichem Aufwand untersucht werden. \cite{schwab2014durchgangige}
-
--- ViL als Lösung mit vielen Vorteilen
-Die neue Vehicle-in-the-Loop-Simulation (ViL) ist nach HiL und SiL eine innovative Methode, um die Komplexität bei der funktionalen Absicherung von Fahrerassistenzsystemen beherrschbar zu machen und gleichzeitig den Testaufwand zu reduzieren. Diese Methode kombiniert die Vorteile des Fahrversuchs und der Simulation, indem ein reales Fahrzeug in eine virtuelle Verkehrsumgebung eingebunden wird. \cite{schwab2014durchgangige}
-
-Dieses Testkonzept bietet folgende Vorteile:
-: reale Fahrdynamik
-: weniger materieller Aufwand als im rein realen Fahrversuch
-: reproduzierbare Testbedingungen
-: beliebig konfigurierbare Szenarien. 
-
-Weitere Anwendungsfelder für ViL sind unter anderem das Testen von Spur- wechselassistenten, Notbremsassistenten mit und ohne Fußgänger- beziehungs- weise Radfahrererkennung, Ausweich- assistenten sowie die Untersuchung kom- plexer, autonomer Fahrfunktionen im virtuell fließenden Verkehr. \cite{schwab2014durchgangige}
+heute schon mehrere Millionen Testkilometer für die 
+Bei der Validierung und Verifikation von aktuellen \gls{fas} werden heute schon mehrere Millionen Testkilometer benötigt \cite{wachenfeld2015freigabe}. 
 
 
 
 
 
--- XiL
-While real world validation is indispensable, it hampers reproducibil- ity. The preliminary development phase is characterized by tight re- sources, frequent changes in design and an iterative modus operandi. Scant experience with the system properties leads to regular realign- ments and refactorings. To achieve satisfying results within an appro- priate time span, besides the RP approach further stimuli for iterative test of control systems are required. These range from test vectors modelling certain interesting waveforms and replay of recorded data to more sophisticated approaches such as Time Partition Testing (TPT) [2], which facilitates systematic testing of embedded systems with continuous behavior, or X-in-the-loop (XiL) simulation [3-5]. XiL represents a simulation based methodology for the test of embed- ded systems over all development stages of the automotive industry. The selection of the appropriate stimuli depends on the specific char- acteristics of the System under Test (SuT). As shown in Figure 1, closed-loop control systems require stimulation by methods such as XiL, RP or TPT, which offer a sufficient degree of reactiveness. Un- fortunately, these elaborate methods require significant resources for deployment and maintenance. \cite{bach2017reactive}
+Therefore, approaches for the evaluation of the entire test drive are required. Additionally, the recognition of driving scenarios and maneuvers of the vehicle is highly important for the activation of appropriate assessments within a test drive. \cite{otten2018automated}
 
-
-
--- Innovative Funktionen nicht losgelöst von Umwelt
-Insbesondere die Fahrzeugentwicklung ist von vielen Innovatio- nen geprägt, die den Komfort, die Effizienz sowie die Sicherheit verbessern und optimieren sollen. Um ein globales Optimum zu erreichen, darf das System Fahrzeug nicht losgelöst von den Sys- temen Umwelt und Fahrer betrachtet werden. \cite{albers2010x}
-
--- für C2X gibt es nur beschränkt testmöglichkeiten
-Car-to-X-(beziehungsweise Car2X)-Technologien sorgen für die notwendige Vernetzung. Reale Fahrversuche sind aber mit einem enormen Kosten- und Zeitaufwand verbunden. Um diese durch- zuführen und Szenarien abzubilden, müssen geeignete Testgelän- de sowie eine ausreichende Anzahl an Fahrzeugen mit prototypi- schen Car2X-Systemen vorhanden sein. Zudem bieten Tests in der realen Welt oft ein geringes Maß an Reproduzierbarkeit [2]. Ak- tuell beschränken sich Simulationen im Bereich Car2X auf Appli- kations- und Protokolltests [2].\cite{albers2010x}
 
 
 % ===========================
