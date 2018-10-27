@@ -29,24 +29,41 @@ In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderunge
 \label{grundlagen_fahren_entwicklung}
 % ===========================
 
-\gls{fas} sind Funktionen im Kraftfahrzeug, die den Fahrer unterstützen. Diese Systeme nutzen Sensordaten, wie Radar-, Ultraschall-, oder Kameradaten, aus dem Fahrzeug um den Fahrer dann auf Basis der abgeleiteten Informationen zu unterstützen. Beispielsweise erkennt ein Spurhalteassistent wenn das Fahrzeug die Spur verlässt und kann die Fahrspur korrigieren. 
+\gls{fas} sind Funktionen im Kraftfahrzeug, die den Fahrer unterstützen. Diese Systeme nutzen Sensordaten, wie Radar-, Ultraschall-, oder Kameradaten, aus dem Fahrzeug um den Fahrer dann auf Basis der abgeleiteten Informationen zu unterstützen. Beispielsweise erkennt ein Spurhalteassistent wenn das Fahrzeug die Spur verlässt und kann die Fahrlinie korrigieren. 
 
 \gls{fas} werden in der Automobilindustrie mit dem V-Modell entwickelt. Das V-Modell ist ein chronologischer Entwicklungsprozess und aus der Softwareentwicklung adaptiert \cite{vmodell2005}. Das V-Modell kann in einen linken absteigenden und einen rechten aufsteigenden Ast unterteilt werden. Der linke Ast enthält die Funktionsanforderungen, die nach unten weiter detailliert und aufgeschlüsselt werden. Der rechte Ast umfasst aufsteigend Funktionstests auf dem jeweiligen Detaillierungsgrad \cite{hakuli2015virtuelle}. Das V-Modell ist schematisch in Abbildung \ref{fig_v_modell} dargestellt.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{v_modell.pdf}
-\caption{V-Modell, adaptiert aus \cite{hakuli2015virtuelle}}
+\caption{V-Modell, adaptiert von \cite{hakuli2015virtuelle}}
 \label{fig_v_modell}
 \end{figure}
 
 Die Schritte auf dem absteigenden und aufsteigenden Ast haben jeweils eine Beziehung. Jeder Test auf dem aufsteigenden Ast verifiziert bzw. validiert den dazugehörigen Entwicklungsschritt auf dem absteigenden Ast. Demenstsprechend werden oben im V-Modell die Kundenanforderungen auf dem absteigenden Ast erfasst und auf dem aufsteigenden Ast validiert. Unten im V-Modell werden einzelne Hardware- oder Softwarekomponenten entwickelt, die die entsprechenden Kundenanforderungen von oben lösen sollen, und auf dem aufsteigenden Ast verifiziert \cite{hakuli2015virtuelle}.
 
-Mit steigender Komplexität in der Entwicklung, bedingt durch hochautomatisierte Funktionen, werden für die Validierung und Verifikation von \gls{fas} neue Testmethoden benötigt \cite{bach2017reactive}. Besonders \gls{fas} die kritische Situationen unterstützen, wie zum Beispiel eine automatische Notbremsung, können nicht mehr mit lange etablierten Methoden getestet werden \cite{bock2008vehicle}. Die Lösung hierfür, die sich in den vergangenen Jahren in der Praxis durchgesetzt hat, ist der virtuelle Fahrversuch. Die Idee ist eine stufenweise Digitalisierung von Komponenten aus dem realen Fahrversuch mit den Zielen die Reproduzierbarkeit zu steigern, den Aufwand zu reduzieren und insgesamt flexibler zu werden. Im virtuellen Fahrversuch werden in der frühen Konzeptphase alle Komponenten virtuell getestet, dann schrittweise durch Hardwarekomponenten ersetzt. Schließlich werden alle Komponenten im realen Fahrversuch auf der Straße mit realem Fahrer und anderen Verkehrsteilnehmern getestet \cite{hakuli2015virtuelle}.
+Die Validierung und Verifikation von \gls{fas} folgt dem Testkonzept. Ein Testkonzept umfasst die Analyse des Testobjektes, die Generierung von Testfällen, die Durchführung von Tests und schließlich die Testauswertung \cite{schuldt2013effiziente}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{testfallerstellung.pdf}
+\caption{Testfallerstellung, von \cite{schuldt2013effiziente}}
+\label{fig_testfallerstellung}
+\end{figure}
+
+Testfälle werden bereits möglichst früh im Entwicklungsprozess erstellt um die Qualität von \gls{fas} und einzelnen Komponenten möglichst hoch zu halten \cite{wachenfeld2015freigabe}. Hierfür werden in der Praxis virtuelle Fahrversuche eingesetzt. Die Idee ist eine stufenweise Digitalisierung von Komponenten aus dem realen Fahrversuch mit den Zielen die Reproduzierbarkeit zu steigern, den Aufwand zu reduzieren und insgesamt flexibler zu werden. Im virtuellen Fahrversuch werden in der frühen Konzeptphase alle Komponenten virtuell getestet und dann schrittweise durch Hardwarekomponenten ersetzt. Schließlich werden alle Komponenten im realen Fahrversuch auf der Straße mit realem Fahrer und anderen Verkehrsteilnehmern getestet \cite{hakuli2015virtuelle}. In diesem Zusammenhang spielen die Konzepte \gls{mil}, \gls{sil}, \gls{hil} und \gls{vil} eine wichtige Rolle. Mit \gls{mil} und \gls{sil} werden Funktionen auf Basis von Simulationsmodellen getestet. Dabei werden Hardwarekomponenten simuliert. Mit fortschreitender Entwicklung werden immer mehr Simulationskomponenten durch die entsprechende Hardware ersetzt und mit \gls{hil} und \gls{vil} werden diese getestet \cite{hakuli2015virtuelle}.
+
+---
+
+Mit steigender Komplexität in der Entwicklung, bedingt durch hochautomatisierte Funktionen, werden für die Validierung und Verifikation von \gls{fas} neue Testmethoden benötigt \cite{bach2017reactive}. Besonders \gls{fas} die kritische Situationen unterstützen, wie zum Beispiel eine automatische Notbremsung, können nicht mehr mit lange etablierten Methoden getestet werden \cite{bock2008vehicle}. 
 
 
 
-HiL, SiL, ViL
+
+
+
+
+Nach den Grundsätzen des Projektmanagements erfolgt die Freigabe erst dann, wenn die zuvor definierten Anforderungen von diesem technischen System erfüllt werden. Diese Anforderungen haben unterschiedlichste Ursprünge, wie beispielsweise Kunden, Normen oder Gesetze. Verschiedene Bereiche werden durch die Anforderungen adressiert: Darunter fallen nicht zuletzt aus Gründen der Typgenehmigung1 als auch der Produkthaftung2 Anforderungen an die Sicherheit des technischen Systems. \cite{wachenfeld2015freigabe}
 
 
 -----------------------------------
