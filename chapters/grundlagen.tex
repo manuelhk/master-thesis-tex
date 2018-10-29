@@ -19,7 +19,7 @@ In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderunge
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{level_autonomes_fahren.jpg}
-\caption{Norm SAE J3016 für die Level des autonomen Fahrens, entnommen aus \cite{sae2014taxonomy}}
+\caption{Norm SAE J3016 für die Level des autonomen Fahrens \cite{sae2014taxonomy}}
 \label{fig_level_autonomes_fahren}
 \end{figure}
 
@@ -31,45 +31,35 @@ In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderunge
 
 \gls{fas} sind Funktionen im Kraftfahrzeug, die den Fahrer unterstützen. Diese Systeme nutzen Sensordaten, wie Radar-, Ultraschall-, oder Kameradaten, aus dem Fahrzeug um den Fahrer dann auf Basis der abgeleiteten Informationen zu unterstützen. Beispielsweise erkennt ein Spurhalteassistent wenn das Fahrzeug die Spur verlässt und kann die Fahrlinie korrigieren. 
 
-\gls{fas} werden in der Automobilindustrie mit dem V-Modell entwickelt. Das V-Modell ist ein chronologischer Entwicklungsprozess und aus der Softwareentwicklung adaptiert \cite{vmodell2005}. Das V-Modell kann in einen linken absteigenden und einen rechten aufsteigenden Ast unterteilt werden. Der linke Ast enthält die Funktionsanforderungen, die nach unten weiter detailliert und aufgeschlüsselt werden. Der rechte Ast umfasst aufsteigend Funktionstests auf dem jeweiligen Detaillierungsgrad \cite{hakuli2015virtuelle}. Das V-Modell ist schematisch in Abbildung \ref{fig_v_modell} dargestellt.
+\gls{fas} werden in der Automobilindustrie mit dem V-Modell entwickelt. Das V-Modell ist ein chronologischer Entwicklungsprozess und aus der Softwareentwicklung adaptiert \cite{vmodell2005}. Das V-Modell kann in einen linken absteigenden und einen rechten aufsteigenden Ast unterteilt werden. Der linke Ast enthält die Funktionsanforderungen, die nach unten weiter detailliert und aufgeschlüsselt werden. Der rechte Ast umfasst aufsteigend Funktionstests auf dem jeweiligen Detaillierungsgrad \cite{hakuli2015virtuelle}. Das V-Modell ist in einer einfachen Version in Abbildung \ref{fig_v_modell} dargestellt.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{v_modell.pdf}
-\caption{V-Modell, adaptiert von \cite{hakuli2015virtuelle}}
+\caption{V-Modell \cite{hakuli2015virtuelle}}
 \label{fig_v_modell}
 \end{figure}
 
 Die Schritte auf dem absteigenden und aufsteigenden Ast haben jeweils eine Beziehung. Jeder Test auf dem aufsteigenden Ast verifiziert bzw. validiert den dazugehörigen Entwicklungsschritt auf dem absteigenden Ast. Demenstsprechend werden oben im V-Modell die Kundenanforderungen auf dem absteigenden Ast erfasst und auf dem aufsteigenden Ast validiert. Unten im V-Modell werden einzelne Hardware- oder Softwarekomponenten entwickelt, die die entsprechenden Kundenanforderungen von oben lösen sollen, und auf dem aufsteigenden Ast verifiziert \cite{hakuli2015virtuelle}.
 
-Die Validierung und Verifikation von \gls{fas} folgt dem Testkonzept. Ein Testkonzept umfasst die Analyse des Testobjektes, die Generierung von Testfällen, die Durchführung von Tests und schließlich die Testauswertung \cite{schuldt2013effiziente}.
+Die Validierung und Verifikation von \gls{fas} folgt dem Testkonzept. Ein Testkonzept umfasst die Analyse des Testobjektes, die Generierung von Testfällen, die Durchführung von Tests und schließlich die Testauswertung \cite{schuldt2013effiziente}. Diese Schritte sind der Abbildung \ref{fig_testfallerstellung} abgebildet.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{testfallerstellung.pdf}
-\caption{Testfallerstellung, von \cite{schuldt2013effiziente}}
+\includegraphics[scale=0.7]{testfallerstellung.pdf}
+\caption{Schritte zur Testfallerstellung \cite{schuldt2013effiziente}}
 \label{fig_testfallerstellung}
 \end{figure}
 
-Testfälle werden bereits möglichst früh im Entwicklungsprozess erstellt um die Qualität von \gls{fas} und einzelnen Komponenten möglichst hoch zu halten \cite{wachenfeld2015freigabe}. Hierfür werden in der Praxis virtuelle Fahrversuche eingesetzt. Die Idee ist eine stufenweise Digitalisierung von Komponenten aus dem realen Fahrversuch mit den Zielen die Reproduzierbarkeit zu steigern, den Aufwand zu reduzieren und insgesamt flexibler zu werden. Im virtuellen Fahrversuch werden in der frühen Konzeptphase alle Komponenten virtuell getestet und dann schrittweise durch Hardwarekomponenten ersetzt. Schließlich werden alle Komponenten im realen Fahrversuch auf der Straße mit realem Fahrer und anderen Verkehrsteilnehmern getestet \cite{hakuli2015virtuelle}.
+Testfälle werden bereits möglichst früh im Entwicklungsprozess erstellt um die Qualität von \gls{fas} und einzelnen Komponenten möglichst hoch zu halten \cite{wachenfeld2015freigabe}. Hierfür werden in der Praxis virtuelle Fahrversuche eingesetzt. Die Idee ist eine stufenweise Digitalisierung von Komponenten aus dem realen Fahrversuch mit den Zielen die Reproduzierbarkeit zu steigern, den Aufwand zu reduzieren und insgesamt flexibler zu werden. Im virtuellen Fahrversuch werden in der frühen Konzeptphase alle Komponenten virtuell getestet und dann schrittweise durch Hardwarekomponenten ersetzt. Schließlich werden alle Komponenten im realen Fahrversuch auf der Straße mit einem realem Fahrer und anderen Verkehrsteilnehmern getestet \cite{hakuli2015virtuelle}.
 
-Beim virtuellen Fahrversuch spielen die Konzepte \gls{mil}, \gls{sil}, \gls{hil} und \gls{vil} eine wichtige Rolle. Mit \gls{mil} und \gls{sil} werden Funktionen auf Basis von Simulationsmodellen getestet \cite{berg2015vehicle}. Dabei werden Hardwarekomponenten simuliert. Mit fortschreitender Entwicklung werden immer mehr Simulationskomponenten durch die entsprechende Hardware ersetzt und mit \gls{hil} getestet \cite{hakuli2015virtuelle}. \gls{vil} schließt schließlich die Lücke zwischen virtuellem Fahrversuch und realem Fahrversuch. Dieses Testkonzept macht die Komplexität bei der Entwicklung von \gls{fas} beherrschbar und reduziert den Testaufwand \cite{schwab2014durchgangige}. Für die Freigabe von \gls{fas} ist die Realfahrt aber die wichtigste Methode, da sie aktuell die beste Validierung bei annehmbaren ökonomischen Aufwand ist \cite{wachenfeld2015freigabe}.
+Beim virtuellen Fahrversuch spielen die Konzepte \gls{mil}, \gls{sil}, \gls{hil} und \gls{vil} eine wichtige Rolle. Mit \gls{mil} und \gls{sil} werden Funktionen auf Basis von Simulationsmodellen getestet \cite{berg2015vehicle}, indem Hardwarekomponenten simuliert werden. Mit fortschreitender Entwicklung werden immer mehr Simulationskomponenten durch die entsprechende Hardware ersetzt und mit \gls{hil} getestet \cite{hakuli2015virtuelle}. \gls{vil} schließt schließlich die Lücke zwischen virtuellem Fahrversuch und realem Fahrversuch. Dieses Testkonzept macht die Komplexität bei der Entwicklung von \gls{fas} beherrschbar und reduziert den Testaufwand \cite{schwab2014durchgangige}. Für die Freigabe von \gls{fas} ist die Realfahrt die wichtigste Methode, da sie aktuell die beste Validierung bei annehmbaren ökonomischen Aufwand ist \cite{wachenfeld2015freigabe}.
 
-Mit steigender Automatisierung von \gls{fas} steigt auch die Anzahl möglicher Situationen und damit die Anzahl der benötigten Testfälle. Testfälle müssen alle potentiell möglichen Situationen, in denen das \gls{fas} zum Einsatz kommen kann, abdecken. Dadurch steigt mit hochautomatisierten Funktionen der Aufwand für Testfallgenerierung und -durchführung ins Unüberschaubare. Eine Möglichkeit für die Reduzierung von Testfällen ist es kritische Situationen zu finden und Testfälle mit weniger kritischen Situationen zu entfernen \cite{wachenfeld2015freigabe}.
+Mit steigender Automatisierung von \gls{fas} steigt auch die Anzahl möglicher Situationen in denen die Funktionen ohne Fahrer ablaufen müssen. Um alle Funktionen ausreichend testen zu können, steigt die Anzahl der benötigten Testfälle. Testfälle müssen alle potentiell möglichen Situationen, in denen das \gls{fas} zum Einsatz kommen kann, abdecken. Dadurch steigt mit hochautomatisierten Funktionen der Aufwand für die Testfallgenerierung und -durchführung ins Unüberschaubare. Eine Möglichkeit für die Reduzierung von Testfällen ist es kritische Situationen zu finden und Testfälle mit weniger kritischen Situationen zu entfernen \cite{wachenfeld2015freigabe}.
 
+Heute werden alle Situationen auf der Basis von Szenarienkatalogen abgeleitet. Diese Kataloge enthalten alle bekannten Szenarien in denen sich ein Fahrzeug befinden kann. Diese Kataloge sind jedoch vor dem Hintergrund erstellt worden, dass zu jeder Zeit ein Fahrer das Kraftfahrzeug überwacht und steuert \cite{wachenfeld2015freigabe}. Bei neuen hochautomatisierten \gls{fas} ist dies nicht mehr garantiert und es muss eine Sicherheit über die Vollständigkeit der Szenarien geben. Wenn auf Basis einer unvollständigen Anzahl Szenarien, Situationen und Testfälle abgeleitet werden, können \gls{fas} nicht mit einer ausreichenden Sicherheit getestet werden.
 
-
-
-
-heute schon mehrere Millionen Testkilometer für die 
-Bei der Validierung und Verifikation von aktuellen \gls{fas} werden heute schon mehrere Millionen Testkilometer benötigt \cite{wachenfeld2015freigabe}. 
-
-
-
-
-
-Therefore, approaches for the evaluation of the entire test drive are required. Additionally, the recognition of driving scenarios and maneuvers of the vehicle is highly important for the activation of appropriate assessments within a test drive. \cite{otten2018automated}
-
+Aus diesem Grund ist die Erkennung von Szenarien wichtig für die Ableitung von angemessenen Testfällen \cite{otten2018automated}. Im nächsten Abschnitt wird daher der Stand der Technik von Erkennung und Klassifizierung von Szenarien erläutert.
 
 
 % ===========================
@@ -77,10 +67,62 @@ Therefore, approaches for the evaluation of the entire test drive are required. 
 \label{grundlagen_fahren_szenarien}
 % ===========================
 
-- Terminologie, Unterschiedung Szene, Szenario, ...
-- Tabelle + Erklärung
+In diesem Abschnitt werden zu Beginn die Terminologien von Szene, Situation und Szenario unterschieden und definiert. Im Anschluss wird auf bisherige Arbeiten zur Szenarienerkennung eingegangen.
 
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   
+In dieser Arbeit werden Szene, Situation und Szenario nach Ulbrich et al. \cite{ulbrich2015defining} definiert. In Abbildung \ref{fig_relation_sc_sc} wird die Beziehung zwischen Szene und Szenario dargestellt.
+
+\noindent\textbf{Szene}\\
+Eine Szene ist eine Momentaufnahme von der Umgebung einschließlich der räumlichen Szenerie,  allen dynamischen Elementen, der Selbstdarstellung aller Akteure und Beobachter, sowie die Beziehung zwischen diesen Entitäten. Nur in einer Simulation kann eine Szene vollständig und allumfassend beobachtet und erfasst werden (Ground Truth). In der realen Welt dagegen, ist die Beschreibung einer Szene immer unvollständig, fehlerhaft, unsicher und subjektiv von einem oder mehreren Beobachtern.
+
+\noindent\textbf{Situation}\\
+Eine Situation ist die Gesamtheit aller Umstände, die für die Auswahl einer angemessenen Entscheidung zu einem bestimmten Zeitpunkt berücksichtigt werden müssen. Sie umfasst alle relevanten Zustände, Möglichkeiten und Einflussgrößen für ein Verhalten. Eine Situation wird abgeleitet von einer Szene durch die Auswahl von Informationen basierend auf kurzzeitigen sowie langfristigen Zielen und Werten. Eine Situation ist daher per Definition immer subjektiv von einem Beobachter.
+
+\noindent\textbf{Szenario}\\
+Ein Szenario besteht aus mehrerer aufeinander folgenden Szenen und beschreibt diese zeitliche Entwicklung. Handlungen, Ereignisse, Ziele und Werte können für eine Charakterisierung der zeitlichen Entwicklung eines Szenarios spezifiziert werden. Anders als eine Szene, umfasst ein Szenario einen definierten Zeitraum.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.7]{relation_sc_sc.pdf}
+\caption{Zusammenhang zwischen Szene und Szenario \cite{ulbrich2015defining}}
+\label{fig_relation_sc_sc}
+\end{figure}
+
+Da sich diese Arbeit größtenteils auf die Klassifizierung von Szenarien fokussiert, wird in den nächsten Abschnitten eine erweiterte Definition von Szenarien von Bagschik et al. \cite{bagschik2017szenarien} gegeben. Diese Definition unterteilt den Begriff in drei weitere Abstraktionsebenen: Funktionale, logische und konkrete Szenarien.
+
+Funktionale Szenarien sind auf der semantischen Ebene formuliert. Entitäten und Beziehungen werden widerspruchsfrei in sprachlichen Texten beschrieben. Dabei ist das Vokabular klar definiert und wird eindeutig für alle zu beschreibenden Szenarien verwendet. Je nachdem wie detailliert ein Szenario beschrieben werden soll, muss ein geeignetes Vokabular definiert werden. Funktionale Szenarien können in einzelne oder mehrere logische Szenarien überführt werden.
+
+Logische Szenarien sind detaillierter als funktionale Szenarien, indem  Entitäten und Beziehung in quantitive Parameterbereiche übersetzt werden. Parameterbereiche können dabei mit statistischen Verteilungen (Normalverteilung, Gleichverteilung etc.) modelliert werden. Zusätzlich können Beziehungen zwischen Entitäten mit numerischen Bedingungen (e.g. Fahrzeug A muss auf derselben Spur fahren wie Fahrzeug B) oder Korrelationsfunktionen (e.g. Abstand zwischen Fahrzeug A und Fahrzeug B in Abhängigkeit der Geschwindigkeit) ausgedrückt werden.
+
+Konkrete Szenarien haben den höchsten Detailgrad und entitäten und Beziehungen werden mit festen Parametern definiert. Logische Szenarien können in einzelne oder mehrere konkrete Szenarien überführt werden.
+
+Ein Beispiel zu jeder Abstraktionsebene (funktional, logisch, konkret) ist in Abbildung \ref{} gegeben.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{funktional_logisch_konrekt.pdf}
+\caption{Beispiel für ein funktionales, logisches und konkretes Szenario \cite{bagschik2017szenarien}}
+\label{fig_funktional_logisch_konrekt}
+\end{figure}
+
+
+
+
+
+
+- Tabelle Szenarienerkennung/ -klassifizierung + Erklärung
+
+\begin{table}[h]
+\centering
+\begin{tabular}{p{4.5cm} p{4.5cm} p{4.5cm}}
+A & B & C \\
+\hline
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+\hline
+\end{tabular}
+\caption{Arbeiten zur Szenarienerkennung}
+\label{tab_szenarienerkennung}
+\end{table} 
 
 
 % ===========================
@@ -104,18 +146,7 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
 \label{grundlagen_nn_cnn}
 % ===========================
 
-
-\begin{table}[h]
-\centering
-\begin{tabular}{l | l | l}
-A & B & C \\
-\hline
-1 & 2 & 3 \\
-4 & 5 & 6
-\end{tabular}
-\caption{very basic table}
-\label{tab:abc}
-\end{table}
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. 
 
 
 % ===========================
