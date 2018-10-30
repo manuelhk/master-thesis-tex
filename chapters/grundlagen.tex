@@ -93,7 +93,7 @@ Funktionale Szenarien sind auf der semantischen Ebene formuliert. Entitäten und
 
 Logische Szenarien sind detaillierter als funktionale Szenarien, indem  Entitäten und Beziehung in quantitive Parameterbereiche übersetzt werden. Parameterbereiche können dabei mit statistischen Verteilungen (Normalverteilung, Gleichverteilung etc.) modelliert werden. Zusätzlich können Beziehungen zwischen Entitäten mit numerischen Bedingungen (e.g. Fahrzeug A muss auf derselben Spur fahren wie Fahrzeug B) oder Korrelationsfunktionen (e.g. Abstand zwischen Fahrzeug A und Fahrzeug B in Abhängigkeit der Geschwindigkeit) ausgedrückt werden.
 
-Konkrete Szenarien haben den höchsten Detailgrad und entitäten und Beziehungen werden mit festen Parametern definiert. Logische Szenarien können in einzelne oder mehrere konkrete Szenarien überführt werden.
+Konkrete Szenarien haben den höchsten Detailgrad und Entitäten und Beziehungen werden mit festen Parametern definiert. Logische Szenarien können in einzelne oder mehrere konkrete Szenarien überführt werden.
 
 Ein Beispiel zu jeder Abstraktionsebene (funktional, logisch, konkret) ist in Abbildung \ref{fig_funktional_logisch_konrekt} gegeben.
 
@@ -111,30 +111,54 @@ Ein Beispiel zu jeder Abstraktionsebene (funktional, logisch, konkret) ist in Ab
 
 - Tabelle Szenarienerkennung/ -klassifizierung + Erklärung
 
-\begin{table}[h]
-\centering
-\begin{tabular}{p{1.5cm} p{3.5cm} p{3.5cm} p{3.5cm}}
-Quelle & Daten & Methode & Szenarien \\
+\small
+\begin{longtable}[c]{p{1,5cm} p{3,5cm} p{3,5cm} p{3,5cm}}
+\textbf{Quelle} & \textbf{Sensordaten} & \textbf{Methode} & \textbf{Szenarien} \\
 \hline
-\cite{xie2018driving} & 2 & 3 & 4 \\
-\cite{zheng2017lane} & 2 & 3 & 4 \\
-\cite{sun2017robust} & 2 & 3 & 4 \\
-\cite{gruner2017spatiotemporal} & 2 & 3 & 4 \\
-\cite{cervantes2016vehicle} & 2 & 3 & 4 \\
-\cite{woo2016manoeuvre} & 2 & 3 & 4 \\
-\cite{camlica2016feature} & 2 & 3 & 4 \\
-\cite{zheng2016drivers} & 2 & 3 & 4 \\
-\cite{arroyo2016adaptive} & 2 & 3 & 4 \\
-\cite{zheng2015non} & 2 & 3 & 4 \\
-\cite{li2015lane} & 2 & 3 & 4 \\
-\cite{nilsson2015rule} & 2 & 3 & 4 \\
-\cite{zheng2014threshold} & 2 & 3 & 4 \\
-\hline
-\end{tabular}
-\caption{Arbeiten zur Szenarienerkennung}
-\label{tab_szenarienerkennung}
-\end{table} 
+\endhead
 
+\cite{xie2018driving} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & Extraktion von Merkmalen mit \gls{pca}, Autoencoder und statistischen Verfahren, Klassifizierung mit \gls{rf} & Abbiegen, links abbiegen, rechts abbiegen, beschleunigen, bremsen, stoppen, Spurwechsel nach links, Spurwechsel nach rechts \\
+\hline
+
+\cite{zheng2017lane} & Lenkwinkel und Fahrzeuggeschwindwigkeit aus dem CAN-Bus & \gls{knn}, \gls{hmm} & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
+\hline
+
+\cite{sun2017robust} & Lateraler Abstand zwischen Fahrzeug und Fahrbahnmarkierung von einem Fahrsimulator & SVM, Multiklassen-Wahrscheinlichkeits-schätzung und Bayesian Inference Model & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
+\hline
+
+\cite{gruner2017spatiotemporal} & Ort, Ausrichtung und Geschwindigkeit des Ego-Fahrzeugs und benachbarten Objekten von realen Testfahrten & \gls{cnn} auf Basis von gestapelten Positionsgittern der Objekte & Frei fahren, anderes Fahrzeug voraus, anderes Fahrzeug überholt Ego-Fahrzeug, Querverkehr vor Ego-Fahrzeug \\
+\hline
+
+\cite{cervantes2016vehicle} & Beschleunigung von einem Smartphone das im Fahrzeug platziert ist & \gls{rf}, \gls{svm}, \gls{frc} & Einparken, geparkt, frei fahren, stoppen \\
+\hline
+
+\cite{woo2016manoeuvre} & Beschleunigung, Gyroskop, GPS und Magnetometer von einem Smartphone das im Fahrzeug platziert ist & Extraktion von Merkmalen mit \gls{pca}, Klassifizierung mit \gls{svm} & Stoppen, beschleunigen, bremsen, links abbiegen, rechts abbiegen \\
+\hline
+
+\cite{camlica2016feature} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & Extraktion von Merkmalen mit \gls{pca} und Autoencoder, Klassifizierung mit \gls{svm}, \gls{knn} and Naive-Bayes & Stoppen, beschleunigen, frei fahren, bremsen, Spurwechsel nach links, Spurwechsel nach rechts, links abbiegen, rechts abbiegen, in Kreisverkehr eintreten, aus Kreisverkehr austreten \\
+\hline
+
+\cite{zheng2016drivers} & Spurabfahrtsbetrag, Beschleunigung, Lenkwinkel, Lenkgeschwindigkeit und Lenkmoment von einem Fahrsimulator & \gls{svm}, \gls{knn}, \gls{rf} & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
+\hline
+
+\cite{arroyo2016adaptive} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & \gls{frc} & Lenken, beschleunigen, bremsen, Bodenwelle \\
+\hline
+
+\cite{zheng2015non} & Fahrzeuggeschwindigkeit und Lenkwinkel aus dem CAN-Bus & \gls{svm} & links abbiegen, rechts abbiegen, Spurwechsel nach links, Spurwechsel nach rechts, Kurve nach links, Kurve nach rechts, geradeaus fahren, stoppen \\
+\hline
+
+\cite{li2015lane} & Fahrzeuggeschwindigkeit, Position des Gas- und Bremspedals, Lenkwinkel, Laterale Beschleunigung und Giergeschwindigkeit aus dem CAN-Bus & \gls{hmm} & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
+\hline
+
+\cite{zheng2014threshold} & Fahrzeuggeschwindigkeit, Lenkwinkel, Drehzahl, Position des Gas- und Bremspedals & Decision Tree auf Basis von Schwellenwerten & links abbiegen, rechts abbiegen, Spurwechsel nach links, Spurwechsel nach rechts, Kurve nach links, Kurve nach rechts, geradeaus fahren, stoppen \\
+
+\hline
+\caption{Bisherige Arbeiten zur Szenarienerkennung}
+\label{tab_szenarienerkennung}
+\end{longtable}
+\normalsize
+
+Future work for the classifier will cover more advanced network structures, such as Recurrent Neural Networks, like Long-Short Term Memory Networks [24], which may be ca- pable of grasping the development of highly time dependent scenarios even better. \cite{gruner2017spatiotemporal}
 
 % ===========================
 \section{Künstliche Neuronale Netze}
