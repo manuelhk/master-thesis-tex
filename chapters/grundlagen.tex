@@ -114,20 +114,13 @@ Wie in Abschnitt \ref{grundlagen_fahren_entwicklung} beschrieben ist die Klassif
 
 Für die Klassifizierung wurden verschiedene Sensordaten aus dem Fahrzeug verwendet. Die Autoren von fünf Arbeiten haben ein Smartphone im Fahrzeug platziert und Beschleunigungs-, Gyroskop-, GPS- und Magnetometer-Daten für die Klassifizierung ausgelesen und verwendet \cite{xie2018driving, cervantes2016vehicle, woo2016manoeuvre, camlica2016feature, arroyo2016adaptive}. Die Verwendung von Smartphone-Daten wurde mit der einfachen und kostengünstigen Umsetzung begründet. Vier andere Arbeiten verwendeten Sensordaten wie \textit{Lenkwinkel}, \textit{Fahrzeuggeschwindigkeit}, \textit{laterale Geschwindigkeit}, \textit{Giergeschwindigkeit} und die \textit{Position des Gas- und Bremspedals}, die sie aus dem CAN-Bus des Fahrzeugs ausgelesen haben \cite{zheng2017lane, zheng2015non, li2015lane, zheng2014threshold}. Drei weitere Arbeiten basierten ihre Experimente auf Daten aus einem Fahrsimulator \cite{sun2017robust, zheng2016drivers} und realen Testfahrten \cite{gruner2017spatiotemporal}. Die verwendeten Daten waren der \textit{laterale Abstand zwischen Fahrzeug und Fahrbahnmarkierung}, \textit{Spurabfahrtsbetrag}, \textit{Beschleunigung}, \textit{Lenkwinkel}, \textit{Lenkgeschwindigkeit}, \textit{Lenkmoment} und \textit{Ort}, \textit{Ausrichtung}, und \textit{Geschwindigkeit} des Ego-Fahrzeugs und benachbarten Objekten. Dabei wurde nicht weiter spezifiziert wie die Daten ausgelesen wurden.
 
+Auf Basis der Sensordaten wurden verschiedene Klassifikatoren erstellt. Es wurden die Methoden \gls{svm} \cite{sun2017robust, cervantes2016vehicle, woo2016manoeuvre, camlica2016feature, zheng2016drivers, zheng2015non}, \gls{rf} \cite{xie2018driving, cervantes2016vehicle, zheng2016drivers}, \gls{knn} \cite{zheng2017lane, camlica2016feature, zheng2016drivers}, \gls{hmm} \cite{zheng2017lane, li2015lane}, \gls{frc} \cite{cervantes2016vehicle, arroyo2016adaptive}, Bayesian Inference Model \cite{sun2017robust}, \gls{cnn} \cite{gruner2017spatiotemporal}, Decision Tree \cite{zheng2014threshold} und Naive Bayes \cite{camlica2016feature} verwendet. Da es für diese Arbeit nicht relevant ist, werden die Methoden an dieser Stelle nicht im Detail erläutert, es wird lediglich auf die jeweiligen Quellen verwiesen.
 
-Sensordaten über die \textit{Beschleunigung}, \textit{}, \textit{} und \textit{}
-
-
-
-
-
-
-In Tabelle \ref{tab_szenarienerkennung} sind alle Arbeiten zusammengefasst. Neben den verwendeten Methoden zur Klassifizierung sind auch die jeweils verwendeten Sensordaten und die klassifizierten Szenarien aufgeführt.
-
+In Tabelle \ref{tab_szenarienerkennung} sind alle Arbeiten zusammengefasst. Neben den verwendeten Methoden zur Klassifizierung sind die jeweils verwendeten Sensordaten und die klassifizierten Szenarien aufgeführt.
 
 \small
 \begin{longtable}[c]{p{1,5cm} p{4cm} p{2,5cm} p{4cm}}
-\textbf{Quelle} & \textbf{Sensordaten} & \textbf{Methode} & \textbf{Szenarien} \\
+\textbf{Quelle} & \textbf{Sensordaten} & \textbf{Klassifikator} & \textbf{Szenarien} \\
 \hline
 \endhead
 
@@ -172,7 +165,11 @@ In Tabelle \ref{tab_szenarienerkennung} sind alle Arbeiten zusammengefasst. Neb
 \end{longtable}
 \normalsize
 
-Future work for the classifier will cover more advanced network structures, such as Recurrent Neural Networks, like Long-Short Term Memory Networks [24], which may be ca- pable of grasping the development of highly time dependent scenarios even better. \cite{gruner2017spatiotemporal}
+Die Datenerhebungen in den vergangenen Arbeiten wurde vor dem Hintergrund durchgeführt vordefinierte Szenarien zu erkennen. Von diesen Szenarien wurden die benötigten Sensordaten abgeleitet und dann mit bestimmten Methoden verschiedene Klassifikatoren erstellt. Bis auf in der Arbeit von Gruner \cite{gruner2017spatiotemporal} werden für die Klassifizierung von Fahrszenarien bisher keine \glspl{dnn} verwendet. Und in seiner Arbeit verwendet er keine Kamerabildern, sondern mit gespapelten Matritzen, auf denen jeweils die Positionen aller Verkehrsteilnehmer markiert sind. Nach Grunder \cite{gruner2017spatiotemporal} wird sich die zukünftige Forschung mit tieferen Netzstrukturen wie \glspl{rnn} beschäftigen, um zeitabhängige Szenarien noch besser zu verstehen.
+
+ Mit den bisherigen Ansätzen können bekannte Szenarien gut klassifiziert werden. Unbekannte bzw. neue Szenarien werden allerdings nur sehr bedingt erkannt, weil die Datengrundlage für die bekannten Szenarien optimiert ist. Das bedeutet, dass Daten, die für die Erkennung von bisher unbekannten Szenarien möglicherweise relevant sind, nicht erfasst und daher nicht für die Erstellung des Klassifikators verwendet werden. 
+
+Im Gegensatz zu den vergangenen Arbeiten, soll in dieser Arbeit die Verwendung von Kameradaten für die Klassifizierung von Szenarien untersucht werden. Als Klassifikator soll ein bild- und zeitsensitives \gls{dnn} verwendet werden. Damit sollen auch bisher unbekannte Einflüsse, die auf den Bildern zu sehen sind, für die Klassifizierung berücksichtigt werden. Der Ansatz wird im Detail in Kapitel \ref{konzept} erklärt.
 
 % ===========================
 \section{Künstliche Neuronale Netze}
@@ -183,15 +180,23 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
 
 
 % ===========================
-\subsection{Maschinelles Lernen}
+\subsection{Einordnung im maschinellen Lernen}
 \label{grundlagen_nn_ml}
+% ===========================
+
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+
+
+% ===========================
+\subsection{Entwicklung von künstlichen neuronalen Netzen}
+\label{grundlagen_nn_entwicklung}
 % ===========================
 
 Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. 
 
 
 % ===========================
-\subsection{Convolutional Neural Network}
+\subsection{Convolutional Neural Networks}
 \label{grundlagen_nn_cnn}
 % ===========================
 
@@ -199,11 +204,11 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
 
 
 % ===========================
-\subsection{Recurrent Neural Network}
+\subsection{Recurrent Neural Networks}
 \label{grundlagen_nn_rnn}
 % ===========================
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat \cite{latexcompanion}. 
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
 
 
 % ===========================
@@ -211,6 +216,14 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh 
 \label{grundlagen_nn_synthetisch}
 % ===========================
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat \cite{latexcompanion}. 
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
+
+
+% ===========================
+\subsection{Klassifizierung von Videos}
+\label{grundlagen_nn_video}
+% ===========================
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
 
 
