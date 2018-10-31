@@ -12,6 +12,7 @@
 \usepackage{titlesec}
 \usepackage{todonotes}
 \usepackage{longtable}
+\usepackage{listings}
 \usepackage{hyperref}
 
 
@@ -20,6 +21,15 @@
 
 % path to images
 \graphicspath{{images/}}
+
+%Set code-snippet settings
+\lstset{
+language=Python,
+basicstyle=\small, % alle listings winzig drucken (meine Standardeinstellung)
+keywordstyle=\color{red} % Schlüsselwörter fett und schwarz drucken
+commentstyle=\color{blue} % Kommentare blau drucken
+stringstyle=\ttfamily, % Strings im Code Schreibmaschinenähnlich - setzt sich etwas vom Code ab
+showstringspaces=false} % Strings im Code ohne Kenntlichmachung von Leerzeichen - finde ich angebracht und empfehlenswert
 
 
 % design header and footer of all pages
@@ -78,7 +88,7 @@
 \input{chapters/abstract}
 %\addcontentsline{toc}{chapter}{Abstract}
 
-t\input{chapters/erklaerung}
+\input{chapters/erklaerung}
 %\addcontentsline{toc}{chapter}{Eidesstattliche Erklärung}
 
 \tableofcontents
