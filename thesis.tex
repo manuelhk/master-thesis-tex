@@ -7,12 +7,11 @@
 \usepackage{emptypage}
 \usepackage[style=alphabetic]{biblatex}
 \usepackage[ngerman]{babel}
-\usepackage[acronym]{glossaries}
+\usepackage[printonlyused]{acronym}
 \usepackage[onehalfspacing]{setspace}
 \usepackage{titlesec}
 \usepackage{todonotes}
 \usepackage{longtable}
-\usepackage{amsmath}
 \usepackage{hyperref}
 
 
@@ -21,10 +20,6 @@
 
 % path to images
 \graphicspath{{images/}}
-
-% path to glossaries (Abkürzungsverzeichnis)
-\makeglossaries
-\loadglsentries[main]{chapters/glossaries}
 
 
 % design header and footer of all pages
@@ -109,7 +104,7 @@ t\input{chapters/erklaerung}
 \printbibliography
 \addcontentsline{toc}{chapter}{Literaturverzeichnis}
 
-\printglossary[type=\acronymtype, title={Abkürzungsverzeichnis}]
+\input{chapters/abkuerzungsverzeichnis}
 \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
 
 \listoftables
@@ -119,7 +114,6 @@ t\input{chapters/erklaerung}
 \addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
 
 \appendix
-
 \input{chapters/appendix}
 
 \end{document}
