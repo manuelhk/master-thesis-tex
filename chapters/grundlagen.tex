@@ -57,13 +57,15 @@ Beim virtuellen Fahrversuch spielen die Konzepte \gls{mil}, \gls{sil}, \gls{hil}
 
 Mit steigender Automatisierung von \gls{fas} steigt auch die Anzahl möglicher Situationen in denen die Funktionen ohne Fahrer ablaufen müssen. Um alle Funktionen ausreichend testen zu können, steigt die Anzahl der benötigten Testfälle. Testfälle müssen alle potentiell möglichen Situationen, in denen das \gls{fas} zum Einsatz kommen kann, abdecken. Dadurch steigt mit hochautomatisierten Funktionen der Aufwand für die Testfallgenerierung und -durchführung ins Unüberschaubare. Eine Möglichkeit für die Reduzierung von Testfällen ist es kritische Situationen zu finden und Testfälle mit weniger kritischen Situationen zu entfernen \cite{wachenfeld2015freigabe}.
 
-Heute werden alle Situationen auf der Basis von Szenarienkatalogen abgeleitet. Diese Kataloge enthalten alle bekannten Szenarien in denen sich ein Fahrzeug befinden kann. Diese Kataloge sind jedoch vor dem Hintergrund erstellt worden, dass zu jeder Zeit ein Fahrer das Kraftfahrzeug überwacht und steuert \cite{wachenfeld2015freigabe}. Bei neuen hochautomatisierten \gls{fas} ist dies nicht mehr garantiert und es muss eine Sicherheit über die Vollständigkeit der Szenarien geben. Wenn auf Basis einer unvollständigen Anzahl Szenarien, Situationen und Testfälle abgeleitet werden, können \gls{fas} nicht mit einer ausreichenden Sicherheit getestet werden.
+Heute werden Testfälle auf der Basis von Szenarienkatalogen abgeleitet \cite{putz2017system}. Diese Kataloge enthalten alle bekannten Szenarien in denen sich ein Fahrzeug befinden kann. Sie sind jedoch vor dem Hintergrund erstellt worden, dass zu jeder Zeit ein Fahrer das Kraftfahrzeug überwacht und steuert \cite{wachenfeld2015freigabe}. Bei neuen hochautomatisierten \gls{fas} für Stufe 3 und 4 des autonomen Fahrens, ist dies nicht mehr gegeben. Die Sicherheit des Gesamtsystems muss in breiterem Spektrum mit einer Vielzahl hochkomplexer Szenarien ohne Eingriff des Fahrers garantiert werden können.
 
-Aus diesem Grund ist die Erkennung von Szenarien wichtig für die Ableitung von angemessenen Testfällen \cite{otten2018automated}. Im nächsten Abschnitt wird daher der Stand der Technik von Erkennung und Klassifizierung von Szenarien erläutert.
+Für die Erstellung von Testfällen müssen daher alle potentiell möglichen kritischen Szenarien bekannt sein. Der Ansatz in dieser Arbeit ist es bekannte Szenarien zu klassifizieren und auf diese Weise bisher unbekannte und möglicherweise kritische Szenarien zu finden. Dies soll mit Hilfe von simulierten Daten geschehen, um die Skalierbarkeit mit angemessenem Aufwand garantieren zu können. Das Konzept hierzu wird im Detail in Kapitel \ref{konzept} vorgestellt.
+
+ Im nächsten Abschnitt werden andere Arbeiten, die die Klassifizierung von Szenarien untersucht haben, vorgestellt und wichtige Grundbegriffe definiert.
 
 
 % ===========================
-\subsection{Klassifizierung von Fahrszenarien}
+\subsection{Klassifizierung von Szenarien}
 \label{grundlagen_fahren_szenarien}
 % ===========================
 
@@ -87,7 +89,11 @@ Ein Szenario besteht aus mehrerer aufeinander folgenden Szenen und beschreibt di
 \label{fig_relation_sc_sc}
 \end{figure}
 
-Da sich diese Arbeit größtenteils auf die Klassifizierung von Szenarien fokussiert, wird in den nächsten Abschnitten eine erweiterte Definition von Szenarien von Bagschik et al. \cite{bagschik2017szenarien} gegeben. Diese Definition unterteilt den Begriff in drei weitere Abstraktionsebenen: Funktionale, logische und konkrete Szenarien.
+Neben den Begriffen Szene, Situation und Szenario wird auch oft der Begriff Manöver verwendet. Bach et al. \cite{bach2016model} definieren ein Manöver als einen Status innerhalb eines Szenarios. Dabei sind Situation jeweils Übergangsbedingungen zwischen einzelnen Manövern. So setzt sich beispielsweise das Szenario \textit{Überholen} aus den Manövern \textit{Spurwechsel nach links}, \textit{Beschleunigung}, \textit{Spurwechsel nach rechts} und \textit{Bremsvorgang} zusammen. Zwischen den einzelnen Manövern gibt es Situation wie \textit{langsameres Auto voraus} oder \textit{langsameres Auto links überholt}, die jeweils ein neues Manöver einleiten.
+
+Je nachdem wie granular Szenarien bzw. wie grob Manöver definiert werden, können Szenarien und Manöver nicht klar voneinander abgegrenzt werden. So kann ein einzelnes Manöver auch bereits ein gesamtes Szenario darstellen. Zum Beispiel kann das Manöver \textit{Spurwechsel} bereits als Szenario definiert werden. Aus diesem Grund wird in dieser Arbeit im Folgenden ausschließlich von Szenarios gesprochen.
+
+Da sich diese Arbeit größtenteils auf die Klassifizierung von Szenarien fokussiert, wird in den folgenden Absätzen eine erweiterte Definition von Szenarien nach Bagschik et al. \cite{bagschik2017szenarien} gegeben. Diese Definition unterteilt den Begriff in drei weitere Abstraktionsebenen: Funktionale, logische und konkrete Szenarien.
 
 Funktionale Szenarien sind auf der semantischen Ebene formuliert. Entitäten und Beziehungen werden widerspruchsfrei in sprachlichen Texten beschrieben. Dabei ist das Vokabular klar definiert und wird eindeutig für alle zu beschreibenden Szenarien verwendet. Je nachdem wie detailliert ein Szenario beschrieben werden soll, muss ein geeignetes Vokabular definiert werden. Funktionale Szenarien können in einzelne oder mehrere logische Szenarien überführt werden.
 
@@ -104,7 +110,7 @@ Ein Beispiel zu jeder Abstraktionsebene (funktional, logisch, konkret) ist in Ab
 \label{fig_funktional_logisch_konrekt}
 \end{figure}
 
-\todo{andere Publikationen "Terminologie" einbinden, v.a. Definition Manöver}
+Wie im Abschnitt \ref{grundlagen_fahren_entwicklung} beschrieben ist die Klassifizierung von Szenarien ein wichtiges Element in der 
 
 
 
@@ -112,18 +118,18 @@ Ein Beispiel zu jeder Abstraktionsebene (funktional, logisch, konkret) ist in Ab
 - Tabelle Szenarienerkennung/ -klassifizierung + Erklärung
 
 \small
-\begin{longtable}[c]{p{1,5cm} p{3,5cm} p{3,5cm} p{3,5cm}}
+\begin{longtable}[c]{p{1,5cm} p{4cm} p{2,5cm} p{4cm}}
 \textbf{Quelle} & \textbf{Sensordaten} & \textbf{Methode} & \textbf{Szenarien} \\
 \hline
 \endhead
 
-\cite{xie2018driving} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & Extraktion von Merkmalen mit \gls{pca}, Autoencoder und statistischen Verfahren, Klassifizierung mit \gls{rf} & Abbiegen, links abbiegen, rechts abbiegen, beschleunigen, bremsen, stoppen, Spurwechsel nach links, Spurwechsel nach rechts \\
+\cite{xie2018driving} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & \gls{rf} & Abbiegen, links abbiegen, rechts abbiegen, beschleunigen, bremsen, stoppen, Spurwechsel nach links, Spurwechsel nach rechts \\
 \hline
 
 \cite{zheng2017lane} & Lenkwinkel und Fahrzeuggeschwindwigkeit aus dem CAN-Bus & \gls{knn}, \gls{hmm} & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
 \hline
 
-\cite{sun2017robust} & Lateraler Abstand zwischen Fahrzeug und Fahrbahnmarkierung von einem Fahrsimulator & SVM, Multiklassen-Wahrscheinlichkeits-schätzung und Bayesian Inference Model & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
+\cite{sun2017robust} & Lateraler Abstand zwischen Fahrzeug und Fahrbahnmarkierung von einem Fahrsimulator & SVM, Bayesian Inference Model & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
 \hline
 
 \cite{gruner2017spatiotemporal} & Ort, Ausrichtung und Geschwindigkeit des Ego-Fahrzeugs und benachbarten Objekten von realen Testfahrten & \gls{cnn} auf Basis von gestapelten Positionsgittern der Objekte & Frei fahren, anderes Fahrzeug voraus, anderes Fahrzeug überholt Ego-Fahrzeug, Querverkehr vor Ego-Fahrzeug \\
@@ -132,10 +138,10 @@ Ein Beispiel zu jeder Abstraktionsebene (funktional, logisch, konkret) ist in Ab
 \cite{cervantes2016vehicle} & Beschleunigung von einem Smartphone das im Fahrzeug platziert ist & \gls{rf}, \gls{svm}, \gls{frc} & Einparken, geparkt, frei fahren, stoppen \\
 \hline
 
-\cite{woo2016manoeuvre} & Beschleunigung, Gyroskop, GPS und Magnetometer von einem Smartphone das im Fahrzeug platziert ist & Extraktion von Merkmalen mit \gls{pca}, Klassifizierung mit \gls{svm} & Stoppen, beschleunigen, bremsen, links abbiegen, rechts abbiegen \\
+\cite{woo2016manoeuvre} & Beschleunigung, Gyroskop, GPS und Magnetometer von einem Smartphone das im Fahrzeug platziert ist & \gls{svm} & Stoppen, beschleunigen, bremsen, links abbiegen, rechts abbiegen \\
 \hline
 
-\cite{camlica2016feature} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & Extraktion von Merkmalen mit \gls{pca} und Autoencoder, Klassifizierung mit \gls{svm}, \gls{knn} and Naive-Bayes & Stoppen, beschleunigen, frei fahren, bremsen, Spurwechsel nach links, Spurwechsel nach rechts, links abbiegen, rechts abbiegen, in Kreisverkehr eintreten, aus Kreisverkehr austreten \\
+\cite{camlica2016feature} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & \gls{svm}, \gls{knn}, Naive-Bayes & Stoppen, beschleunigen, frei fahren, bremsen, Spurwechsel nach links, Spurwechsel nach rechts, links abbiegen, rechts abbiegen, in Kreisverkehr eintreten, aus Kreisverkehr austreten \\
 \hline
 
 \cite{zheng2016drivers} & Spurabfahrtsbetrag, Beschleunigung, Lenkwinkel, Lenkgeschwindigkeit und Lenkmoment von einem Fahrsimulator & \gls{svm}, \gls{knn}, \gls{rf} & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
