@@ -4,7 +4,7 @@
 \label{grundlagen}
 % ===========================
 
-In diesem Kapitel werden die zum Verständnis nötigen Grundlagen für diese Arbeit erklärt. Dabei wird im Abschnitt \ref{grundlagen_fahren} der Stand der Technik von automatisierten Fahrfunktionen und deren Entwicklung beschrieben. Im Abschnitt \ref{grundlagen_nn} wird maschinelles Lernen im Allgemeinen und im Speziellen künstliche neuronale Netze, die für die Umsetzung dieser Arbeit nötig sind, beschrieben.
+In diesem Kapitel werden die zum Verständnis nötigen Grundlagen für diese Arbeit erklärt. Dabei wird im Abschnitt \ref{grundlagen_fahren} der Stand der Technik von automatisierten Fahrfunktionen und deren Entwicklung beschrieben. Im Abschnitt \ref{grundlagen_nn} wird maschinelles Lernen im Allgemeinen und im Speziellen \acp{KNN}, die für die Umsetzung dieser Arbeit nötig sind, beschrieben.
 
 
 % ===========================
@@ -186,14 +186,14 @@ Im Gegensatz zu den bisherigen Arbeiten, soll in dieser Arbeit die Verwendung vo
 \label{grundlagen_nn}
 % ===========================
 
-Dieses Kapitel gibt einen Überblick zu künstlichen neuronalen Netzen (nachfolgend neuronale Netze genannt) mit einem Schwerpunkt auf Bilderkennung mit \acp{CNN} und Sequenzerkennung mit \acp{LSTM}. Im folgenden Abschnitt \ref{grundlagen_nn_ml} werden neuronale Netze in den Gesamtkontext von maschinellem Lernen gestellt. Im Anschluss werden in Abschnitt \ref{grundlagen_nn_entwicklung} die Grundlagen zu neuronalen Netzen erläutert. Dann werden komplexe Architekturen von neuronalen Netzen zur Bilderkennung in Abschnitt \ref{grundlagen_nn_cnn} und zur Szequenzerkennung in Abschnitt \ref{grundlagen_nn_rnn} erklärt. In Abschnitt \ref{grundlagen_nn_synthetisch} wird auf das Training mit synthetischen Daten eingegangen und im letzten Abschnitt \ref{grundlagen_nn_video} wird die aktuelle Forschung zu Videoklassifizierung vorgestellt.
+In diesem Kapitel werden \acp{KNN} mit mit einem Schwerpunkt auf Bilderkennung mit \acp{CNN} und Sequenzerkennung mit \acp{LSTM} eingeführt. Im folgenden Abschnitt \ref{grundlagen_nn_ml} werden \acp{KNN} in den Gesamtkontext von maschinellem Lernen gestellt. Im Anschluss werden in Abschnitt \ref{grundlagen_nn_entwicklung} die Grundlagen zu \acp{KNN} erläutert. Dann werden komplexe Architekturen von \acp{KNN} zur Bilderkennung in Abschnitt \ref{grundlagen_nn_cnn} und zur Sequenzerkennung in Abschnitt \ref{grundlagen_nn_rnn} erklärt. In Abschnitt \ref{grundlagen_nn_synthetisch} wird auf das Training mit synthetischen Daten eingegangen und im letzten Abschnitt \ref{grundlagen_nn_video} wird die aktuelle Forschung zu Videoklassifizierung vorgestellt.
 
 % ===========================
 \subsection{Einordnung im maschinellen Lernen}
 \label{grundlagen_nn_ml}
 % ===========================
 
-Maschinelles Lernen wird oft als ein Teil des Bereichs künstliche Intelligenz beschrieben. Dabei wird maschninelles Lernen nach Mitchell \cite{mitchell1997machine} wie folgt definiert:
+Maschinelles Lernen wird oft als ein Teil des Bereichs künstliche Intelligenz beschrieben. Dabei wird maschinelles Lernen nach Mitchell \cite{mitchell1997machine} wie folgt definiert:
 
 \begin{quote}
 \textit{\glqq Ein Computerprogramm lernt aus der Erfahrung E in Bezug auf eine Klasse von Aufgaben T und dem Leistungsmaß P, wenn seine Leistung, gemessen mit P, bei Aufgaben aus T sich mit Erfahrung E verbessert.\grqq}
@@ -203,16 +203,16 @@ Da maschinelles Lernen sehr viele Bereiche umfasst, wird hier nur auf die releva
 
 Überwachtes Lernen (engl. supervised learning) beschreibt einen Lernprozess in dem die Trainingsdaten sowohl Inputvektoren als auch die zugehörigen Zielvektoren enthalten \cite{bishop2006pattern}. Ein Beispiel dafür ist ein Klassifizierungsproblem von Buchstaben bei dem sowohl die Bilder der einzelnen Buchststaben als auch deren zugehörige Klasse (abgebildeter Buchstabe) einem Trainingsalgorithmus übergeben werden. Neben Klassifizierungsproblemen fallen auch Regressionsprobleme in diese Kategorie.
 
-Beim unüberwachten Lernen (engl. unsupervised learning) enhalten die Trainingsdaten ausschließlich die Inputvektoren, ohne die dazugehörigen Zielvektoren. Das Ziel dabei ist es Muster in den gegebenen Daten zu erkennen um beispielsweise Cluster zu bilden \cite{bishop2006pattern}. Das Clustering von Kundengruppen, die bisher unbekannt waren, fällt in diese Kategorie des maschinellen Lernens.
+Beim unüberwachten Lernen (engl. unsupervised learning) enthalten die Trainingsdaten ausschließlich die Inputvektoren, ohne die dazugehörigen Zielvektoren. Das Ziel dabei ist es Muster in den gegebenen Daten zu erkennen um beispielsweise Cluster zu bilden \cite{bishop2006pattern}. Das Clustering von Kundengruppen, die bisher unbekannt waren, fällt in diese Kategorie des maschinellen Lernens.
 
-Das verstärkende Lernen (engl. reinforcement learning) ist eine Methodik in der der Trainingsalgorithmus mit Situationen konfrontiert wird und jeweils aus einer Reihe von gegebenen Handlungen wählen kann. Das Ziel dabei ist es das Endergebnis, das auf der Wahl aller Handlungen basiert, zu maximieren \cite{sutton1998introduction}. Ein Beispiel hierfür ist selbstständige Erlenen des Brettspiels Schach.
+Das verstärkende Lernen (engl. reinforcement learning) ist eine Methodik in der der Trainingsalgorithmus mit Situationen konfrontiert wird und jeweils aus einer Reihe von gegebenen Handlungen wählen kann. Das Ziel dabei ist es das Endergebnis, das auf der Wahl aller Handlungen basiert, zu maximieren \cite{sutton1998introduction}. Ein Beispiel hierfür ist selbstständige Erlernen des Brettspiels Schach.
 
 
 % ===========================
 \subsubsection{Klassifizierung}
 % ===========================
 
-In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien - damit in der Kategorie überwachtes Lernen - entwickelt und umgesetzt. Das Ziel von Klassifizierungsalgorithmen ist es gegebene Objekte auf Basis ihrer Eigenschaften einer Klasse zuzuordnen. Dabei sollen die Objekte innerhalb einer Klasse eine möglicht geringe Varianz und zwischen verschiedenen Klassen eine möglichst hohe Varianz besitzen. Klassifizierungsalgorithmen arbeiten dafür mit Trainingsdaten, die aus Inputvektoren und Zielvektoren bestehen. Ein Inputvektor enthällt alle Eigenschaften und der Zielvektor die jeweilige Klasse des Objektes. In Abbildung \ref{fig_klassifizierung} ist beispielhaft ein Datensatz mit zwei Klassen dargestellt. Die Objekte im Datensatz haben jeweils die Eigenschaften $x_1$ und $x_2$.
+In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien - damit in der Kategorie überwachtes Lernen - entwickelt und umgesetzt. Das Ziel von Klassifizierungsalgorithmen ist es gegebene Objekte auf Basis ihrer Eigenschaften einer Klasse zuzuordnen. Dabei sollen die Objekte innerhalb einer Klasse eine möglichst geringe Varianz und zwischen verschiedenen Klassen eine möglichst hohe Varianz besitzen. Klassifizierungsalgorithmen arbeiten dafür mit Trainingsdaten, die aus Inputvektoren und Zielvektoren bestehen. Ein Inputvektor enthält alle Eigenschaften und der Zielvektor die jeweilige Klasse des Objekts. In Abbildung \ref{fig_klassifizierung} ist beispielhaft ein Datensatz mit zwei Klassen dargestellt. Die Objekte im Datensatz haben jeweils die Eigenschaften $x_1$ und $x_2$.
 
 \begin{figure}[h]
 \centering
@@ -220,6 +220,48 @@ In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien - d
 \caption{Beispiel einer Klassifizierung mit zwei Klassen}
 \label{fig_klassifizierung}
 \end{figure}
+
+In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingeführt mit denen in dieser Arbeit ein Klassifikator für die Erkennung von Fahrszenarien entwickelt und trainiert wird.
+
+
+% ===========================
+\subsection{Entwicklung von künstlichen neuronalen Netzen}
+\label{grundlagen_nn_entwicklung}
+% ===========================
+
+\acp{KNN} wurden ursprünglich als ein Modell der Informationsverarbeitung von biologischen Gehirnen entwickelt \cite{mcculloch1943logical}. Dabei ist die kleinste Einheit in einem \ac{KNN} ein einzelnes Neuron. Rosenblatt \cite{rosenblatt1958perceptron} entwickelte das erste Modell eines Neurons als binären Klassifikator. Dieses sogenannte Perceptron setzt sich aus aus einem Eingangsvektor $x_1, x_2, ..., x_n$, einem Vektor mit Gewichten $w_1, w_2, ..., w_n$, einer Summenfunktion $\sum$, einer Aktivierungsfunktion $\varphi$ und einem Aktivierungswert $y$ zusammen. Abbildung \ref{fig_perceptron} zeigt das Schema eines Perceptron.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.7]{perceptron.pdf}
+\caption{Das Perceptron \cite{rosenblatt1958perceptron}}
+\label{fig_perceptron}
+\end{figure}
+
+
+
+nicht XOR \cite{minski1969perceptrons}
+
+
+-> Möglichkeit zur backpropagation
+
+
+
+
+
+
+
+
+Artificial neural networks (ANNs) were originally developed as mathematical models of the information processing capabilities of biological brains (McCulloch and Pitts, 1988; Rosenblatt, 1963; Rumelhart et al., 1986). Although it is now clear that ANNs bear little resemblance to real biological neurons, they enjoy continuing popularity as pattern classifiers.
+The basic structure of an ANN is a network of small processing units, or nodes, joined to each other by weighted connections. In terms of the origi- nal biological model, the nodes represent neurons, and the connection weights represent the strength of the synapses between the neurons. The network is activated by providing an input to some or all of the nodes, and this activation then spreads throughout the network along the weighted connections. The elec- trical activity of biological neurons typically follows a series of sharp ‘spikes’, and the activation of an ANN node was originally intended to model the average firing rate of these spikes.
+Many varieties of ANNs have appeared over the years, with widely varying properties. One important distinction is between ANNs whose connections form cycles, and those whose connections are acyclic. ANNs with cycles are referred to as feedback, recursive, or recurrent, neural networks, and are dealt with in Section 3.2. ANNs without cycles are referred to as feedforward neural networks (FNNs). Well known examples of FNNs include perceptrons (Rosenblatt, 1958), radial basis function networks (Broomhead and Lowe, 1988), Kohonen maps (Kohonen, 1989) and Hopfield nets (Hopfield, 1982). The most widely used form of FNN, and the one we focus on in this section, is the multilayer perceptron (MLP; Rumelhart et al., 1986; Werbos, 1988; Bishop, 1995).
+
+
+\begin{equation}
+a=b
+\end{equation}
+
+Definition DNNs
 
 
 Overfitting
@@ -230,25 +272,6 @@ Overfitting
 \caption{Beispiel einer Unter- und Überanpassung bei einer Klassifizierung}
 \label{fig_overfitting}
 \end{figure}
-
-
-
-
-
-
-% ===========================
-\subsection{Entwicklung von künstlichen neuronalen Netzen}
-\label{grundlagen_nn_entwicklung}
-% ===========================
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-
-
-\begin{equation}
-a=b
-\end{equation}
-
-Definition DNNs
 
 
 % ===========================
