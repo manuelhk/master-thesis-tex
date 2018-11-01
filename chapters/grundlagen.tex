@@ -229,7 +229,7 @@ In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingef
 \label{grundlagen_nn_entwicklung}
 % ===========================
 
-\acp{KNN} wurden ursprünglich als ein Modell der Informationsverarbeitung von biologischen Gehirnen entwickelt \cite{mcculloch1943logical}. Dabei ist die kleinste Einheit in einem \ac{KNN} ein einzelnes Neuron. Rosenblatt \cite{rosenblatt1958perceptron} entwickelte das erste Modell eines Neurons als binären Klassifikator. Dieses sogenannte Perceptron setzt sich aus aus einem Eingangsvektor $x_1, x_2, ..., x_n$, einem Vektor mit Gewichten $w_1, w_2, ..., w_n$, einer Summenfunktion $\sum$, einer Aktivierungsfunktion $\varphi$ und einem Aktivierungswert $y$ zusammen. Abbildung \ref{fig_perceptron} zeigt das Schema eines Perceptron.
+\acp{KNN} wurden ursprünglich als ein Modell der Informationsverarbeitung von biologischen Gehirnen entwickelt \cite{mcculloch1943logical}. Dabei ist die kleinste Einheit in einem \ac{KNN} ein einzelnes Neuron. Rosenblatt \cite{rosenblatt1958perceptron} entwickelte ein Modell eines Neurons als binären Klassifikator. Dieses sogenannte Perzeptron setzt sich aus einem Eingangsvektor $x_1, ..., x_n$, einem Vektor mit Gewichten $w_1, ..., w_n$, einer Summenfunktion $\sum$, einer Aktivierungsfunktion $\varphi$ mit einem SChwellwert $\theta$ und einem Aktivierungswert $o$ zusammen. Abbildung \ref{fig_perceptron} zeigt das Schema eines Perzeptron.
 
 \begin{figure}[h]
 \centering
@@ -238,28 +238,47 @@ In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingef
 \label{fig_perceptron}
 \end{figure}
 
+Um den Aktivierungswert $o$ zu berechnen wird zunächst die gewichtete Summe mit dem Eingangsvektor $x_1, ..., x_n$ und den Gewichten $w_1, ..., w_n$ gebildet. Dann wird mit der Aktivierungsfunktion $\varphi$ eine Klasse bestimmt. Beim ursprünglichen Perzeptron handelt es sich dabei um eine Treppenfunktion, die die zwei Werte $-1$ und $1$ annehmen kann. Damit ist das Perzeptron ein binärer Klassifikator und kann die logischen Operationen \textit{AND}, \textit{OR} und \textit{NOT} ausführen.
 
+\begin{equation}
+\varphi(\vec{x}, \vec{w}) = \begin{cases} 1 \qquad \text{wenn} \quad \vec{x}*\vec{w} \geq \theta \\ 0 \qquad \text{sonst} \end{cases}
+\end{equation}
+
+Die Klassifizierung eines Objekts aus der Klasse $t$ mit den Eigenschaften $\vec{x}$ ist richtig, wenn das Ergebnis $o$ der Aktivierungsfunktion $\varphi(\vec{x},\vec{w})$ der tatsächlichen Klasse des Objekts $t$ entspricht. Wenn die Klasse nicht richtig erkannt wurde $o \neq t$, werden die Gewichte $\vec{w}$ entsprechend der Perzeptron-Lernregel angepasst. Diese Lernregel ist ein entscheidender Vorteil von Rosenblatts Perzeptron \cite{rosenblatt1958perceptron} gegenüber des Neurons von McCulloch und Pitts \cite{mcculloch1943logical}, weil die Gewichte erlernt werden können.
+
+Vor dem Training werden die Gewichte $\vec{w}$ zufällig bestimmt und initialisiert. In jedem Trainingsschritt wird überprüft ob die berechnete Klasse $o$ der tatsächlichen Klasse $t$ entspricht. Wenn $o = t$ werden die Gewichte nicht verändert und der nächste Trainingsschritt wird ausgeführt. Wenn $o \neq t$ werden die Gewichte nach folgender Regel aktualisiert:
+
+\begin{equation}
+w^{neu}_i = w^{alt}_i + \Delta w_i
+\end{equation}
+\begin{equation}
+\Delta w_i = \eta*(t-o)*x_i
+\end{equation}
+
+Die Lernrate $\eta$ kann angepasst werden und bestimmt wie stark die Gewichte in jedem Trainingsschritt verändert werden. Üblicherweise werden Lernraten zwischen $1e-2$ und $1e-4$ gewählt.
+
+Neben der Treppenfunktion werden heute für die Aktivierung von einzelnen Neuronen verschiedene Aktivierungsfunktionen verwendet. 
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{cc}
+\subfloat[Sigmoid]{\includegraphics[scale=0.3]{act_sigmoid.png}} &
+\subfloat[ReLU]{\includegraphics[scale=0.3]{act_relu.png}}
+\end{tabular}
+\caption{Aktivierungsfunktionen für Neuronen}
+\label{fig_aktivierungsfunktionen}
+\end{figure}
+
+
+
+
+Das Besondere am Perzeptron war, dass es erstmal bei einem Neuronen-Modell die Möglichkeit gab 
+
+
+Mit einem einfachen Neuron wie dem Perzeptron ist es bereits möglich d
 
 nicht XOR \cite{minski1969perceptrons}
 
-
--> Möglichkeit zur backpropagation
-
-
-
-
-
-
-
-
-Artificial neural networks (ANNs) were originally developed as mathematical models of the information processing capabilities of biological brains (McCulloch and Pitts, 1988; Rosenblatt, 1963; Rumelhart et al., 1986). Although it is now clear that ANNs bear little resemblance to real biological neurons, they enjoy continuing popularity as pattern classifiers.
-The basic structure of an ANN is a network of small processing units, or nodes, joined to each other by weighted connections. In terms of the origi- nal biological model, the nodes represent neurons, and the connection weights represent the strength of the synapses between the neurons. The network is activated by providing an input to some or all of the nodes, and this activation then spreads throughout the network along the weighted connections. The elec- trical activity of biological neurons typically follows a series of sharp ‘spikes’, and the activation of an ANN node was originally intended to model the average firing rate of these spikes.
-Many varieties of ANNs have appeared over the years, with widely varying properties. One important distinction is between ANNs whose connections form cycles, and those whose connections are acyclic. ANNs with cycles are referred to as feedback, recursive, or recurrent, neural networks, and are dealt with in Section 3.2. ANNs without cycles are referred to as feedforward neural networks (FNNs). Well known examples of FNNs include perceptrons (Rosenblatt, 1958), radial basis function networks (Broomhead and Lowe, 1988), Kohonen maps (Kohonen, 1989) and Hopfield nets (Hopfield, 1982). The most widely used form of FNN, and the one we focus on in this section, is the multilayer perceptron (MLP; Rumelhart et al., 1986; Werbos, 1988; Bishop, 1995).
-
-
-\begin{equation}
-a=b
-\end{equation}
 
 Definition DNNs
 
