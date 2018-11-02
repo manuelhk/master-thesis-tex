@@ -229,7 +229,7 @@ In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingef
 \label{grundlagen_nn_entwicklung}
 % ===========================
 
-\acp{KNN} wurden ursprünglich als ein Modell der Informationsverarbeitung von biologischen Gehirnen entwickelt \cite{mcculloch1943logical}. Dabei ist die kleinste Einheit in einem \ac{KNN} ein einzelnes Neuron. Rosenblatt \cite{rosenblatt1958perceptron} entwickelte ein Modell eines Neurons als binären Klassifikator. Dieses sogenannte Perzeptron setzt sich aus einem Eingangsvektor $x_1, ..., x_n$, einem Vektor mit Gewichten $w_1, ..., w_n$, einer Summenfunktion $\sum$, einer Aktivierungsfunktion $\varphi$ mit einem SChwellwert $\theta$ und einem Aktivierungswert $o$ zusammen. Abbildung \ref{fig_perceptron} zeigt das Schema eines Perzeptron.
+\acp{KNN} wurden ursprünglich als ein Modell der Informationsverarbeitung von biologischen Gehirnen entwickelt \cite{mcculloch1943logical}. Dabei ist die kleinste Einheit in einem \ac{KNN} ein einzelnes Neuron. Rosenblatt \cite{rosenblatt1958perceptron} entwickelte ein Modell eines Neurons als binären Klassifikator. Dieses sogenannte Perzeptron setzt sich aus einem Eingangsvektor $x_1, ..., x_n$, einem Vektor mit Gewichten $w_1, ..., w_n$, einer Summenfunktion $\sum$, einer Aktivierungsfunktion $\varphi$ mit einem Schwellenwert $\theta$ und einem Aktivierungswert $o(\vec{x})$ zusammen. Abbildung \ref{fig_perceptron} zeigt das Schema eines Perzeptron.
 
 \begin{figure}[h]
 \centering
@@ -238,15 +238,15 @@ In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingef
 \label{fig_perceptron}
 \end{figure}
 
-Um den Aktivierungswert $o$ zu berechnen wird zunächst die gewichtete Summe mit dem Eingangsvektor $x_1, ..., x_n$ und den Gewichten $w_1, ..., w_n$ gebildet. Dann wird mit der Aktivierungsfunktion $\varphi$ eine Klasse bestimmt. Beim ursprünglichen Perzeptron handelt es sich dabei um eine Treppenfunktion, die die zwei Werte $-1$ und $1$ annehmen kann. Damit ist das Perzeptron ein binärer Klassifikator und kann die logischen Operationen \textit{AND}, \textit{OR} und \textit{NOT} ausführen.
+Um den Aktivierungswert $o(\vec{x})$ zu berechnen wird zunächst die gewichtete Summe mit dem Eingangsvektor $\vec{x}$ und den Gewichten $\vec{w}$ gebildet. Dann wird mit der Aktivierungsfunktion $\varphi$ eine Klasse bestimmt. Beim ursprünglichen Perzeptron handelt es sich dabei um eine Treppenfunktion, die die zwei Werte $-1$ und $1$ annehmen kann. Damit ist das Perzeptron ein binärer Klassifikator und kann die logischen Operationen \textit{AND}, \textit{OR} und \textit{NOT} ausführen. Die logische Operation \textit{XOR} kann mit mit einem einzelnen Perzeptron nicht abgebildet werden \cite{minski1969perceptrons}.
 
 \begin{equation}
 \varphi(\vec{x}, \vec{w}) = \begin{cases} 1 \qquad \text{wenn} \quad \vec{x}*\vec{w} \geq \theta \\ 0 \qquad \text{sonst} \end{cases}
 \end{equation}
 
-Die Klassifizierung eines Objekts aus der Klasse $t$ mit den Eigenschaften $\vec{x}$ ist richtig, wenn das Ergebnis $o$ der Aktivierungsfunktion $\varphi(\vec{x},\vec{w})$ der tatsächlichen Klasse des Objekts $t$ entspricht. Wenn die Klasse nicht richtig erkannt wurde $o \neq t$, werden die Gewichte $\vec{w}$ entsprechend der Perzeptron-Lernregel angepasst. Diese Lernregel ist ein entscheidender Vorteil von Rosenblatts Perzeptron \cite{rosenblatt1958perceptron} gegenüber des Neurons von McCulloch und Pitts \cite{mcculloch1943logical}, weil die Gewichte erlernt werden können.
+Die Klassifizierung eines Objekts aus der Klasse $t$ mit den Eigenschaften $\vec{x}$ ist richtig, wenn das Ergebnis $o$ der Aktivierungsfunktion $\varphi(\vec{x},\vec{w})$ der tatsächlichen Klasse des Objekts $t$ entspricht. Wenn die Klasse nicht richtig erkannt wurde $o(\vec{x}) \neq t$, werden die Gewichte $\vec{w}$ entsprechend der Perzeptron-Lernregel angepasst. Diese Lernregel ist ein entscheidender Vorteil von Rosenblatts Perzeptron \cite{rosenblatt1958perceptron} gegenüber des Neurons von McCulloch und Pitts \cite{mcculloch1943logical}, weil die Gewichte erlernt werden können.
 
-Vor dem Training werden die Gewichte $\vec{w}$ zufällig bestimmt und initialisiert. In jedem Trainingsschritt wird überprüft ob die berechnete Klasse $o$ der tatsächlichen Klasse $t$ entspricht. Wenn $o = t$ werden die Gewichte nicht verändert und der nächste Trainingsschritt wird ausgeführt. Wenn $o \neq t$ werden die Gewichte nach folgender Regel aktualisiert:
+Vor dem Training werden die Gewichte $\vec{w}$ zufällig bestimmt und initialisiert. In jedem Trainingsschritt wird überprüft ob die berechnete Klasse $o(\vec{x})$ der tatsächlichen Klasse $t$ entspricht. Wenn $o(\vec{x}) = t$ werden die Gewichte nicht verändert und der nächste Trainingsschritt wird ausgeführt. Wenn $o(\vec{x}) \neq t$ werden die Gewichte nach folgender Regel aktualisiert:
 
 \begin{equation}
 w^{neu}_i = w^{alt}_i + \Delta w_i
@@ -257,30 +257,68 @@ w^{neu}_i = w^{alt}_i + \Delta w_i
 
 Die Lernrate $\eta$ kann angepasst werden und bestimmt wie stark die Gewichte in jedem Trainingsschritt verändert werden. Üblicherweise werden Lernraten zwischen $1e-2$ und $1e-4$ gewählt.
 
-Neben der Treppenfunktion werden für die Aktivierung von einzelnen Neuronen verschiedene Aktivierungsfunktionen verwendet. 
+Neben der Treppenfunktion werden für die Aktivierung von einzelnen Neuronen verschiedene Aktivierungsfunktionen verwendet. Die am meisten verwendeten Funktionen hierfür sind die \ac{tanh}-Funktion
+
+\begin{equation}
+\varphi(x) = \tanh(x) = \frac{e^{2x}-1}{e^{2x}+1} \text{,}
+\end{equation}
+
+\noindent die Sigmoid- oder S-Funktion
+
+\begin{equation}
+\varphi(x) = \frac{1}{1+e^{-x}}
+\end{equation}
+
+\noindent und die \ac{ReLU}-Funktion 
+
+\begin{equation}
+\varphi(x) = \max{(0, x)}
+\end{equation}
+
+\noindent für die Bilderkennung mit \acp{CNN}. Diese Funktionen sind, zusammen mit der zuvor vorgestellten Treppenfunktion, in Abbildung \ref{fig_aktivierungsfunktionen} dargestellt.
 
 \begin{figure}[h]
 \centering
 \begin{tabular}{cc}
-\subfloat[Sigmoid]{\includegraphics[scale=0.3]{act_sigmoid.png}} &
-\subfloat[ReLU]{\includegraphics[scale=0.3]{act_relu.png}}
+\subfloat[Sigmoid]{\includegraphics[scale=0.4]{act_sigmoid.png}} &
+\subfloat[\ac{tanh}]{\includegraphics[scale=0.4]{act_tanh.png}} \\
+\subfloat[\ac{ReLU}]{\includegraphics[scale=0.4]{act_relu.png}} &
+\subfloat[Treppenfunktion]{\includegraphics[scale=0.4]{act_step_fc.png}}
 \end{tabular}
 \caption{Aktivierungsfunktionen für Neuronen}
 \label{fig_aktivierungsfunktionen}
 \end{figure}
 
+Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptrons werden mehrschichtige \acp{KNN} modelliert. Dadurch können diese auf unterschiedliche Probleme angewendet werden und überwinden die Schwächen eines einzelnen Perzeptrons (ausschließlich binäre Klassifizierung, keine \textit{XOR}-Operation). Ein mehrschichtiges \ac{KNN} besteht aus mindestens zwei Schichten, einer Ergebnis-Schicht und mindestens einer verborgenen Schicht. Der Eingangsvektor $\vec{x}$ wird nicht als eine Schicht gezählt. Jede Schicht besteht aus $1, ..., n$ Neuronen (Perzeptronen), die im Modell als Knoten modelliert sind. Die Neuronen einer Schicht bestehen jeweils aus einer gewichteten Summe und einer Aktivierungsfunktion und sind jeweils mit dem Eingangsvektor, dem Ergebnisvektor oder den Neuronen der vorherigen und nachfolgenden Schichten verbunden. Diese Verbindungen werden als Kanten modelliert und repräsentieren die Gewichte mit denen die Neuronen verknüpft sind. Abbildung \ref{fig_knn} zeigt das Schema eines dreischichtigen \ac{KNN}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.7]{knn.pdf}
+\caption{Dreischichtiges \acl{KNN}}
+\label{fig_knn}
+\end{figure}
+
+Das Training eines mehrschichtigen \ac{KNN} ist analog zu dem Training eines einzelnen Perzeptrons. In jedem Trainingsschritt wird ein Ergebnis $o(\vec{x})$ berechnet und mit dem richtigen Ergebnis $t$ verglichen. Mit dem Eingangsvektor $\vec{x}$ wird der Vektor mit Aktivierungswerten $\vec{y}$ der ersten verborgenen Schicht wie folgt berechnet:
+
+\begin{equation}
+\vec{y_j} = \varphi(\sum{w_{ij}*x_i})
+\end{equation}
+
+Dabei ist $w_{ij}$ die Gewichtung der Kante zwischen dem Eingangswert $x_i$ und dem verborgenem Neuron $j$. Alle weiteren verborgenen Schicht und der Ergebnisvektor werden auf die gleiche Weise berechnet mit den Aktivierungswerten der vorherigen Schicht als Eingangsvektor. Für binäre Klassifizierungsprobleme kann beispielsweise die Sigmoid-Funktion als Aktivierungsfunktion für die Ergebnisschicht gewählt werden. Dann ist das Ergebnis $y$ eine Zahl zwischen $0$ und $1$ und beschreibt die Wahrscheinlichkeit, dass der Eingangsvektor $\vec{x}$ zur Klasse $c_1$ gehört. Dementsprechend beschreibt $1-y$ die Wahrscheinlichkeit der Klasse $c_2$. Bei Klassifizierungsproblemen mit mehreren Klassen wird häufig die Softmax-Funktion gewählt, um die Wahrscheinlichkeiten der Klassen zu bestimmen \cite{bridle1990probabilistic}:
+
+\begin{equation}
+p(c_k|\vec{x}) = y_k = 
+\end{equation}
 
 
 
-Das Besondere am Perzeptron war, dass es erstmal bei einem Neuronen-Modell die Möglichkeit gab 
 
+- Training Feed Forward
 
-Mit einem einfachen Neuron wie dem Perzeptron ist es bereits möglich d
+- Loss Function und Backpropagation
+- + Overfitting
 
-nicht XOR \cite{minski1969perceptrons}
-
-
-Definition DNNs
+- DNNs
 
 
 Overfitting
