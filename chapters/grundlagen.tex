@@ -298,18 +298,19 @@ Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptrons werden
 \label{fig_knn}
 \end{figure}
 
-Das Training eines mehrschichtigen \ac{KNN} ist analog zu dem Training eines einzelnen Perzeptrons. In jedem Trainingsschritt wird ein Ergebnis $o(\vec{x})$ berechnet und mit dem richtigen Ergebnis $t$ verglichen. Mit dem Eingangsvektor $\vec{x}$ wird der Vektor mit Aktivierungswerten $\vec{y}$ der ersten verborgenen Schicht wie folgt berechnet:
+Das Training eines mehrschichtigen \ac{KNN} ist analog zu dem Training eines einzelnen Perzeptrons. In jedem Trainingsschritt wird ein Ergebnis $o(\vec{x})$ berechnet und mit dem richtigen Ergebnis $t$ verglichen. Mit dem Eingangsvektor $\vec{x}$ werden die Aktivierungswerte $y_j$ des Vektors  $\vec{y}$ der ersten verborgenen Schicht wie folgt berechnet:
 
 \begin{equation}
-\vec{y_j} = \varphi(\sum{w_{ij}*x_i})
+y_j = \varphi(\sum_i{w_{ij}*x_i})
 \end{equation}
 
-Dabei ist $w_{ij}$ die Gewichtung der Kante zwischen dem Eingangswert $x_i$ und dem verborgenem Neuron $j$. Alle weiteren verborgenen Schicht und der Ergebnisvektor werden auf die gleiche Weise berechnet mit den Aktivierungswerten der vorherigen Schicht als Eingangsvektor. Für binäre Klassifizierungsprobleme kann beispielsweise die Sigmoid-Funktion als Aktivierungsfunktion für die Ergebnisschicht gewählt werden. Dann ist das Ergebnis $y$ eine Zahl zwischen $0$ und $1$ und beschreibt die Wahrscheinlichkeit, dass der Eingangsvektor $\vec{x}$ zur Klasse $c_1$ gehört. Dementsprechend beschreibt $1-y$ die Wahrscheinlichkeit der Klasse $c_2$. Bei Klassifizierungsproblemen mit mehreren Klassen wird häufig die Softmax-Funktion gewählt, um die Wahrscheinlichkeiten der Klassen zu bestimmen \cite{bridle1990probabilistic}:
+Dabei ist $w_{ij}$ die Gewichtung der Kante zwischen dem Eingangswert $x_i$ und dem verborgenem Neuron $j$. Alle weiteren verborgenen Schicht und der Ergebnisvektor werden auf die gleiche Weise berechnet mit den Aktivierungswerten der vorherigen Schicht als Eingangsvektor. Für binäre Klassifizierungsprobleme kann beispielsweise die Sigmoid-Funktion als Aktivierungsfunktion für die Ergebnisschicht gewählt werden. Dann ist das Ergebnis $o$ eine Zahl zwischen $0$ und $1$ und beschreibt die Wahrscheinlichkeit, dass der Eingangsvektor $\vec{x}$ zur Klasse $c_1$ gehört. Dementsprechend beschreibt $1-o$ die Wahrscheinlichkeit der Klasse $c_2$. Bei Klassifizierungsproblemen mit mehreren Klassen wird häufig die Softmax-Funktion als Aktivierungsfunktion $\varphi$ gewählt, um die Wahrscheinlichkeiten der einzelnen Klassen $c_k$ zu bestimmen \cite{bridle1990probabilistic}:
 
 \begin{equation}
-p(c_k|\vec{x}) = y_k = 
+o_k = p(c_k) = \frac{e^{y^Tw}}{\sum_j{}}
 \end{equation}
 
+Dabei beschreibt $\vec{y}$ einen Vektor mit den Aktivierungswerten aus des vorherigen Schicht
 
 
 
