@@ -12,7 +12,7 @@ In diesem Kapitel werden die zum Verständnis nötigen Grundlagen für diese Arb
 \label{grundlagen_fahren}
 % ===========================
 
-Hochautomatisiertes Fahren wird in den vergangenen Jahren zunehmend von der Automobilindustrie vorangetrieben. Aktuelle \ac{FAS} wie der Spurhalteassistant oder die Abstandsregelung sind nach der Norm SAE J3016 (Abbildung \ref{fig_level_autonomes_fahren}) bei Level 2 des autonomen Fahrens eingeordnet. Mit neuen Technologien werden immer mehr Funktionen für automatisiertes Fahren entwickelt und verknüpft. Es entstehen zunehmend komplexe Fahrfunktionen mit einer steigenden Anzahl möglicher Fahrsituationen und Szenarien \cite{king2017identification}. Das stellt Automobilhersteller und Automobilzulieferer vor eine große Herausforderung, da die Systemkomplexität wächst. Das schließt sowohl die Entwicklung von \ac{FAS} als auch die dazu benötigten Testszenarien ein \cite{pfeffer2016continuous}.
+Hochautomatisiertes Fahren wird in den vergangenen Jahren zunehmend von der Automobilindustrie vorangetrieben. Aktuelle \ac{FAS} wie der Spurhalteassistant oder die Abstandsregelung sind nach der Norm SAE J3016 (Abbildung \ref{fig_level_autonomes_fahren}) bei Level 2 des autonomen Fahrens eingeordnet. Mit neuen Technologien werden immer mehr Funktionen für automatisiertes Fahren entwickelt und verknüpft. Es entstehen zunehmend komplexe Fahrfunktionen mit einer steigenden Anzahl möglicher Fahrsituationen und Szenarien \cite{king2017identification}. \todo{Zahlen, Daten Fakten} Das stellt Automobilhersteller und Automobilzulieferer vor eine große Herausforderung, da die Systemkomplexität wächst. Das schließt sowohl die Entwicklung von \ac{FAS} als auch die dazu benötigten Testszenarien ein \cite{pfeffer2016continuous}.
 
 In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderungen begegnet wird. In Abschnitt \ref{grundlagen_fahren_entwicklung} wird ein allgemeiner Überblick über die aktuellen Entwicklungsmethodiken für \ac{FAS} gegeben. Danach werden in Abschnitt \ref{grundlagen_fahren_szenarien} bisherige Ansätze für die Klassifizierung von Fahrszenarien vorgestellt.
 
@@ -62,7 +62,7 @@ Beim virtuellen Fahrversuch spielen die Konzepte \ac{MiL}, \ac{SiL}, \ac{HiL} un
 
 Mit steigender Automatisierung von \ac{FAS} steigt auch die Anzahl möglicher Situationen in denen die Funktionen ohne Fahrer ablaufen müssen. Um alle Funktionen ausreichend testen zu können, steigt die Anzahl der benötigten Testfälle. Testfälle müssen alle potentiell möglichen Situationen, in denen das \ac{FAS} zum Einsatz kommen kann, abdecken. Dadurch steigt mit hochautomatisierten Funktionen der Aufwand für Validierung und Verifikation mit Testfällen \cite{bach2017reactive}. Eine Möglichkeit für die Reduzierung von Testfällen ist es kritische Situationen zu finden und Testfälle mit weniger kritischen Situationen zu entfernen \cite{wachenfeld2015freigabe}.
 
-Heute werden Testfälle auf der Basis von Szenarienkatalogen abgeleitet \cite{putz2017system}. Diese Kataloge enthalten alle bekannten Szenarien in denen sich ein Fahrzeug befinden kann. Sie sind jedoch vor dem Hintergrund erstellt worden, dass zu jeder Zeit ein Fahrer das Kraftfahrzeug überwacht und steuert \cite{wachenfeld2015freigabe}. Bei neuen hochautomatisierten \ac{FAS} für Stufe 3 und 4 des autonomen Fahrens, ist dies nicht mehr gegeben. Die Sicherheit des Gesamtsystems muss in breiterem Spektrum mit einer Vielzahl hochkomplexer Szenarien ohne Eingriff des Fahrers garantiert werden können.
+Heute werden Testfälle auf der Basis von Szenarienkatalogen abgeleitet \cite{putz2017system}. Diese Kataloge enthalten alle bekannten Szenarien in denen sich ein Fahrzeug befinden kann. Sie sind jedoch vor dem Hintergrund erstellt worden, dass zu jeder Zeit ein Fahrer das Kraftfahrzeug überwacht und steuert \cite{wachenfeld2015freigabe}. Bei neuen hochautomatisierten \ac{FAS} für Stufe 3 und 4 des autonomen Fahrens, ist dies nicht mehr gegeben. Die Sicherheit des Gesamtsystems muss in breiterem Spektrum mit einer Vielzahl hochkomplexer Szenarien ohne Eingriff des Fahrers garantiert werden können. Da bedeutet, dass die bisherigen Szenarienkataloge um neue Szenarien erweitert werden müssen \cite{surmund2018neue}.
 
 Für die Erstellung von Testfällen müssen daher alle potentiell möglichen kritischen Szenarien bekannt sein. Der Ansatz in dieser Arbeit ist es bekannte Szenarien zu klassifizieren und auf diese Weise bisher unbekannte und möglicherweise kritische Szenarien zu finden. Dies soll mit Hilfe von simulierten Daten geschehen, um die Skalierbarkeit mit angemessenem Aufwand garantieren zu können. Das Konzept hierzu wird im Detail in Kapitel \ref{konzept} vorgestellt.
 
@@ -229,12 +229,12 @@ In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingef
 \label{grundlagen_nn_entwicklung}
 % ===========================
 
-\acp{KNN} wurden ursprünglich als ein Modell der Informationsverarbeitung von biologischen Gehirnen entwickelt \cite{mcculloch1943logical}. Dabei ist die kleinste Einheit in einem \ac{KNN} ein einzelnes Neuron. Rosenblatt \cite{rosenblatt1958perceptron} entwickelte ein Modell eines Neurons als binären Klassifikator. Dieses sogenannte Perzeptron setzt sich aus einem Eingangsvektor $x_1, ..., x_n$, einem Vektor mit Gewichten $w_1, ..., w_n$, einer Summenfunktion $\sum$, einer Aktivierungsfunktion $\varphi$ mit einem Schwellenwert $\theta$ und einem Aktivierungswert $o(\vec{x})$ zusammen. Abbildung \ref{fig_perceptron} zeigt das Schema eines Perzeptron.
+\acp{KNN} wurden ursprünglich als ein Modell der Informationsverarbeitung von biologischen Gehirnen entwickelt \cite{mcculloch1943logical}. Dabei ist die kleinste Einheit in einem \ac{KNN} ein einzelnes Neuron. Rosenblatt \cite{rosenblatt1958perceptron} entwickelte ein Modell eines Neurons als binären Klassifikator. Dieses sogenannte Perzeptron setzt sich aus einem Eingangsvektor $x_1, ..., x_n$, einem Vektor mit Gewichten $w_1, ..., w_n$, einer Summenfunktion $\sum$, einer Aktivierungsfunktion $\varphi$ mit einem Schwellenwert $\theta$ und einem Aktivierungswert $o(\vec{x})$ zusammen. Abbildung \ref{fig_perceptron} zeigt das Modell eines Perzeptrons.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{perceptron.pdf}
-\caption{Das Perceptron \cite{rosenblatt1958perceptron}}
+\caption{Modell eines Perzeptrons \cite{rosenblatt1958perceptron}}
 \label{fig_perceptron}
 \end{figure}
 
@@ -327,7 +327,7 @@ Overfitting
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{overfitting.pdf}
-\caption{Beispiel einer Unter- und Überanpassung bei einer Klassifizierung}
+\caption{Beispiel einer Unter- und Überanpassung bei der Klassifizierung}
 \label{fig_overfitting}
 \end{figure}
 
