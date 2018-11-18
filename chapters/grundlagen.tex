@@ -221,6 +221,15 @@ In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien - d
 \label{fig_klassifizierung}
 \end{figure}
 
+Eine Herausforderung beim Klassifizieren mit neuronalen Netzen ist es, einen Klassifikator zu trainieren, der auch mit bisher unbekannten Daten gute Ergebnisse erzielt \cite{srivastava2014dropout}. Man spricht auch von der Generalisierbarkeit des Klassifikators. Wenn ein Modell nur mit den Trainingsdaten gute Ergebnisse erzielen kann, spricht man von Überanpassung (engl. Overfitting). Wenn im Gegensatz dazu ein Modell schon mit den Trainingsdaten sehr schlechte Klassifizierungsergebnisse erzielt, spricht man von Unteranpassung (engl. Underfitting). In Abbildung \ref{fig_overfitting} ist beispielhaft eine Unter- und Überanpassung eines binären Klassifikators dargestellt. \todo{relevant? raus oder erweitern}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{overfitting.pdf}
+\caption{Beispiel einer Unter- und Überanpassung eines Klassifikators}
+\label{fig_overfitting}
+\end{figure}
+
 In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingeführt mit denen in dieser Arbeit ein Klassifikator für die Erkennung von Fahrszenarien entwickelt und trainiert wird.
 
 
@@ -244,7 +253,7 @@ Um den Aktivierungswert $o(\vec{x})$ zu berechnen wird zunächst die gewichtete 
 \varphi(\vec{x}, \vec{w}) = \begin{cases} 1 \qquad \text{wenn} \quad \vec{x}*\vec{w} \geq \theta \\ 0 \qquad \text{sonst} \end{cases}
 \end{equation}
 
-Die Klassifizierung eines Objekts aus der Klasse $t$ mit den Eigenschaften $\vec{x}$ ist richtig, wenn das Ergebnis $o$ der Aktivierungsfunktion $\varphi(\vec{x},\vec{w})$ der tatsächlichen Klasse des Objekts $t$ entspricht. Wenn die Klasse nicht richtig erkannt wurde $o(\vec{x}) \neq t$, werden die Gewichte $\vec{w}$ entsprechend der Perzeptron-Lernregel angepasst. Diese Lernregel ist ein entscheidender Vorteil von Rosenblatts Perzeptron \cite{rosenblatt1958perceptron} gegenüber des Neurons von McCulloch und Pitts \cite{mcculloch1943logical}, weil die Gewichte erlernt werden können.
+Die Klassifizierung eines Objekts aus der Klasse $t$ mit den Eigenschaften $\vec{x}$ ist richtig, wenn das Ergebnis $o$ der Aktivierungsfunktion $\varphi(\vec{x},\vec{w})$ der tatsächlichen Klasse des Objekts $t$ entspricht. Wenn die Klasse nicht richtig erkannt wurde $o(\vec{x}) \neq t$, werden die Gewichte $\vec{w}$ entsprechend der Perzeptron-Lernregel angepasst. Diese Lernregel ist ein wichtiger Vorteil von Rosenblatts Perzeptron \cite{rosenblatt1958perceptron} gegenüber des Neurons von McCulloch und Pitts \cite{mcculloch1943logical}, weil die Gewichte erlernt werden können.
 
 Vor dem Training werden die Gewichte $\vec{w}$ zufällig bestimmt und initialisiert. In jedem Trainingsschritt wird überprüft ob die berechnete Klasse $o(\vec{x})$ der tatsächlichen Klasse $t$ entspricht. Wenn $o(\vec{x}) = t$ werden die Gewichte nicht verändert und der nächste Trainingsschritt wird ausgeführt. Wenn $o(\vec{x}) \neq t$ werden die Gewichte nach folgender Regel aktualisiert:
 
@@ -272,10 +281,10 @@ Neben der Treppenfunktion werden für die Aktivierung von einzelnen Neuronen ver
 \noindent und die \ac{ReLU}-Funktion 
 
 \begin{equation}
-\varphi(x) = \max{(0, x)}
+\varphi(x) = \max{(0, x)}.
 \end{equation}
 
-\noindent für die Bilderkennung mit \acp{CNN}. Diese Funktionen sind, zusammen mit der zuvor vorgestellten Treppenfunktion, in Abbildung \ref{fig_aktivierungsfunktionen} dargestellt.
+\noindent Diese Funktionen sind, zusammen mit der zuvor vorgestellten Treppenfunktion, in Abbildung \ref{fig_aktivierungsfunktionen} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -289,7 +298,7 @@ Neben der Treppenfunktion werden für die Aktivierung von einzelnen Neuronen ver
 \label{fig_aktivierungsfunktionen}
 \end{figure}
 
-Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptrons werden mehrschichtige \acp{KNN} modelliert. Dadurch können diese auf unterschiedliche Probleme angewendet werden und überwinden die Schwächen eines einzelnen Perzeptrons (ausschließlich binäre Klassifizierung, keine \textit{XOR}-Operation). Ein mehrschichtiges \ac{KNN} besteht aus mindestens zwei Schichten, einer Ergebnis-Schicht und mindestens einer verborgenen Schicht. Der Eingangsvektor $\vec{x}$ wird nicht als eine Schicht gezählt. Jede Schicht besteht aus $1, ..., n$ Neuronen (Perzeptronen), die im Modell als Knoten modelliert sind. Die Neuronen einer Schicht bestehen jeweils aus einer gewichteten Summe und einer Aktivierungsfunktion und sind jeweils mit dem Eingangsvektor, dem Ergebnisvektor oder den Neuronen der vorherigen und nachfolgenden Schichten verbunden. Diese Verbindungen werden als Kanten modelliert und repräsentieren die Gewichte mit denen die Neuronen verknüpft sind. Abbildung \ref{fig_knn} zeigt das Schema eines dreischichtigen \ac{KNN}.
+Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptronen werden mehrschichtige \acp{KNN} modelliert. Dadurch können diese auf unterschiedliche Probleme angewendet werden und überwinden die Schwächen eines einzelnen Perzeptrons (ausschließlich binäre Klassifizierung, keine \textit{XOR}-Operation). Ein mehrschichtiges \ac{KNN} besteht aus mindestens zwei Schichten, einer Ergebnis-Schicht und mindestens einer verborgenen Schicht. Der Eingangsvektor $\vec{x}$ wird nicht als eine Schicht gezählt. Jede Schicht besteht aus $1, ..., n$ Neuronen (Perzeptronen), die im Modell als Knoten modelliert sind. Die Neuronen einer Schicht bestehen jeweils aus einer gewichteten Summe und einer Aktivierungsfunktion und sind jeweils mit dem Eingangsvektor, dem Ergebnisvektor oder den Neuronen der vorherigen und nachfolgenden Schichten verbunden. Diese Verbindungen werden als Kanten modelliert und repräsentieren die Gewichte mit denen die Neuronen verknüpft sind. Abbildung \ref{fig_knn} zeigt das Schema eines dreischichtigen \ac{KNN}.
 
 \begin{figure}[h]
 \centering
@@ -298,7 +307,7 @@ Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptrons werden
 \label{fig_knn}
 \end{figure}
 
-Das Training eines mehrschichtigen \ac{KNN} ist analog zu dem Training eines einzelnen Perzeptrons. In jedem Trainingsschritt wird ein Ergebnis $o(\vec{x})$ berechnet und mit dem richtigen Ergebnis $t$ verglichen. Mit dem Eingangsvektor $\vec{x}$ werden die Aktivierungswerte $y_j$ des Vektors  $\vec{y}$ der ersten verborgenen Schicht wie folgt berechnet:
+Das Training eines mehrschichtigen \ac{KNN} funktioniert analog zu dem Training eines einzelnen Perzeptrons. In jedem Trainingsschritt wird ein Ergebnis $o(\vec{x})$ berechnet und mit dem richtigen Ergebnis $t$ verglichen. Mit dem Eingangsvektor $\vec{x}$ werden die Aktivierungswerte $y_j$ des Vektors  $\vec{y}$ der ersten verborgenen Schicht wie folgt berechnet:
 
 \begin{equation}
 y_j = \varphi(\sum_i{w_{ij}*x_i})
@@ -307,29 +316,15 @@ y_j = \varphi(\sum_i{w_{ij}*x_i})
 Dabei ist $w_{ij}$ die Gewichtung der Kante zwischen dem Eingangswert $x_i$ und dem verborgenem Neuron $j$. Alle weiteren verborgenen Schicht und der Ergebnisvektor werden auf die gleiche Weise berechnet mit den Aktivierungswerten der vorherigen Schicht als Eingangsvektor. Für binäre Klassifizierungsprobleme kann beispielsweise die Sigmoid-Funktion als Aktivierungsfunktion für die Ergebnisschicht gewählt werden. Dann ist das Ergebnis $o$ eine Zahl zwischen $0$ und $1$ und beschreibt die Wahrscheinlichkeit, dass der Eingangsvektor $\vec{x}$ zur Klasse $c_1$ gehört. Dementsprechend beschreibt $1-o$ die Wahrscheinlichkeit der Klasse $c_2$. Bei Klassifizierungsproblemen mit mehreren Klassen wird häufig die Softmax-Funktion als Aktivierungsfunktion $\varphi$ gewählt, um die Wahrscheinlichkeiten der einzelnen Klassen $c_k$ zu bestimmen \cite{bridle1990probabilistic}:
 
 \begin{equation}
-o_k = p(c_k) = \frac{e^{y^Tw}}{\sum_j{}}
+o_k = p(c_k|x) = \frac{e^{x^\top w}}{\sum_{j=1}^C{e^{x_j^\top w}}}
 \end{equation}
 
-Dabei beschreibt $\vec{y}$ einen Vektor mit den Aktivierungswerten aus des vorherigen Schicht
+Dabei beschreibt $x$ den Vektor mit Aktivierungswerten aus der vorherigen Schicht, $w$ den Gewichtsvektor und $C$ die Anzahl der Klassen $c_k$. Auf diese Weise können die Wahrscheinlichkeiten $p(c_k|x)$ für jede Klasse $c_k$, gegeben den Aktivierungswerten $x$, berechnet werden.
 
-
-
-- Training Feed Forward
 
 - Loss Function und Backpropagation
-- + Overfitting
-
 - DNNs
 
-
-Overfitting
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{overfitting.pdf}
-\caption{Beispiel einer Unter- und Überanpassung bei der Klassifizierung}
-\label{fig_overfitting}
-\end{figure}
 
 
 % ===========================
