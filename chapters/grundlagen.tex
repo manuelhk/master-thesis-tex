@@ -221,15 +221,6 @@ In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien - d
 \label{fig_klassifizierung}
 \end{figure}
 
-Eine Herausforderung beim Klassifizieren mit neuronalen Netzen ist es, einen Klassifikator zu trainieren, der auch mit bisher unbekannten Daten gute Ergebnisse erzielt \cite{srivastava2014dropout}. Man spricht auch von der Generalisierbarkeit des Klassifikators. Wenn ein Modell nur mit den Trainingsdaten gute Ergebnisse erzielen kann, spricht man von Überanpassung (engl. Overfitting). Wenn im Gegensatz dazu ein Modell schon mit den Trainingsdaten sehr schlechte Klassifizierungsergebnisse erzielt, spricht man von Unteranpassung (engl. Underfitting). In Abbildung \ref{fig_overfitting} ist beispielhaft eine Unter- und Überanpassung eines binären Klassifikators dargestellt. \todo{relevant? raus oder erweitern}
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{overfitting.pdf}
-\caption{Beispiel einer Unter- und Überanpassung eines Klassifikators}
-\label{fig_overfitting}
-\end{figure}
-
 In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingeführt mit denen in dieser Arbeit ein Klassifikator für die Erkennung von Fahrszenarien entwickelt und trainiert wird.
 
 
@@ -247,7 +238,7 @@ In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingef
 \label{fig_perceptron}
 \end{figure}
 
-Um den Aktivierungswert $o(\vec{x})$ zu berechnen wird zunächst die gewichtete Summe mit dem Eingangsvektor $\vec{x}$ und den Gewichten $\vec{w}$ gebildet. Dann wird mit der Aktivierungsfunktion $\varphi$ eine Klasse bestimmt. Beim ursprünglichen Perzeptron handelt es sich dabei um eine Treppenfunktion, die die zwei Werte $-1$ und $1$ annehmen kann. Damit ist das Perzeptron ein binärer Klassifikator und kann die logischen Operationen \textit{AND}, \textit{OR} und \textit{NOT} ausführen. Die logische Operation \textit{XOR} kann mit mit einem einzelnen Perzeptron nicht abgebildet werden \cite{minski1969perceptrons}.
+Um den Aktivierungswert $o(\vec{x})$ zu berechnen wird zunächst die gewichtete Summe mit dem Eingangsvektor $\vec{x}$ und den Gewichten $\vec{w}$ gebildet. Dann wird mit der Aktivierungsfunktion $\varphi$ eine Klasse bestimmt. Beim ursprünglichen Perzeptron handelt es sich dabei um eine Schwellenwertfunktion, die die zwei Werte $-1$ und $1$ annehmen kann. Damit ist das Perzeptron ein binärer Klassifikator und kann die logischen Operationen \textit{AND}, \textit{OR} und \textit{NOT} ausführen. Die logische Operation \textit{XOR} kann mit mit einem einzelnen Perzeptron nicht abgebildet werden \cite{minski1969perceptrons}.
 
 \begin{equation}
 \varphi(\vec{x}, \vec{w}) = \begin{cases} 1 \qquad \text{wenn} \quad \vec{x}*\vec{w} \geq \theta \\ 0 \qquad \text{sonst} \end{cases}
@@ -255,7 +246,7 @@ Um den Aktivierungswert $o(\vec{x})$ zu berechnen wird zunächst die gewichtete 
 
 Die Klassifizierung eines Objekts aus der Klasse $t$ mit den Eigenschaften $\vec{x}$ ist richtig, wenn das Ergebnis $o$ der Aktivierungsfunktion $\varphi(\vec{x},\vec{w})$ der tatsächlichen Klasse des Objekts $t$ entspricht. Wenn die Klasse nicht richtig erkannt wurde $o(\vec{x}) \neq t$, werden die Gewichte $\vec{w}$ entsprechend der Perzeptron-Lernregel angepasst. Diese Lernregel ist ein wichtiger Vorteil von Rosenblatts Perzeptron \cite{rosenblatt1958perceptron} gegenüber des Neurons von McCulloch und Pitts \cite{mcculloch1943logical}, weil die Gewichte erlernt werden können.
 
-Vor dem Training werden die Gewichte $\vec{w}$ zufällig bestimmt und initialisiert. In jedem Trainingsschritt wird überprüft ob die berechnete Klasse $o(\vec{x})$ der tatsächlichen Klasse $t$ entspricht. Wenn $o(\vec{x}) = t$ werden die Gewichte nicht verändert und der nächste Trainingsschritt wird ausgeführt. Wenn $o(\vec{x}) \neq t$ werden die Gewichte nach folgender Regel aktualisiert:
+Vor dem Training werden die Gewichte $\vec{w}$ zufällig bestimmt und initialisiert. In jedem Trainingsschritt wird überprüft ob die berechnete Klasse $o(\vec{x})$ der tatsächlichen Klasse $t$ entspricht. Wenn $o(\vec{x}) = t$ werden die Gewichte nicht verändert und der nächste Trainingsschritt wird ausgeführt. Wenn $o(\vec{x}) \neq t$ werden die Gewichte nach der Perzeptron-Lernregel aktualisiert:
 
 \begin{equation}
 w^{neu}_i = w^{alt}_i + \Delta w_i
@@ -266,7 +257,7 @@ w^{neu}_i = w^{alt}_i + \Delta w_i
 
 Die Lernrate $\eta$ kann angepasst werden und bestimmt wie stark die Gewichte in jedem Trainingsschritt verändert werden. Üblicherweise werden Lernraten zwischen $1e-2$ und $1e-4$ gewählt.
 
-Neben der Treppenfunktion werden für die Aktivierung von einzelnen Neuronen verschiedene Aktivierungsfunktionen verwendet. Die am meisten verwendeten Funktionen hierfür sind die \ac{tanh}-Funktion
+Neben der Schwellenwertfunktion werden für die Aktivierung von einzelnen Neuronen verschiedene Aktivierungsfunktionen verwendet. Die am meisten verwendeten Funktionen hierfür sind die \ac{tanh}-Funktion
 
 \begin{equation}
 \varphi(x) = \tanh(x) = \frac{e^{2x}-1}{e^{2x}+1} \text{,}
@@ -284,7 +275,7 @@ Neben der Treppenfunktion werden für die Aktivierung von einzelnen Neuronen ver
 \varphi(x) = \max{(0, x)}.
 \end{equation}
 
-\noindent Diese Funktionen sind, zusammen mit der zuvor vorgestellten Treppenfunktion, in Abbildung \ref{fig_aktivierungsfunktionen} dargestellt.
+\noindent Diese Funktionen sind, zusammen mit der zuvor vorgestellten Schwellenwertfunktion, in Abbildung \ref{fig_aktivierungsfunktionen} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -292,7 +283,7 @@ Neben der Treppenfunktion werden für die Aktivierung von einzelnen Neuronen ver
 \subfloat[Sigmoid]{\includegraphics[scale=0.4]{act_sigmoid.png}} &
 \subfloat[\ac{tanh}]{\includegraphics[scale=0.4]{act_tanh.png}} \\
 \subfloat[\ac{ReLU}]{\includegraphics[scale=0.4]{act_relu.png}} &
-\subfloat[Treppenfunktion]{\includegraphics[scale=0.4]{act_step_fc.png}}
+\subfloat[Schwellenwertfunktion]{\includegraphics[scale=0.4]{act_step_fc.png}}
 \end{tabular}
 \caption{Aktivierungsfunktionen für Neuronen}
 \label{fig_aktivierungsfunktionen}
@@ -316,15 +307,43 @@ y_j = \varphi(\sum_i{w_{ij}*x_i})
 Dabei ist $w_{ij}$ die Gewichtung der Kante zwischen dem Eingangswert $x_i$ und dem verborgenem Neuron $j$. Alle weiteren verborgenen Schicht und der Ergebnisvektor werden auf die gleiche Weise berechnet mit den Aktivierungswerten der vorherigen Schicht als Eingangsvektor. Für binäre Klassifizierungsprobleme kann beispielsweise die Sigmoid-Funktion als Aktivierungsfunktion für die Ergebnisschicht gewählt werden. Dann ist das Ergebnis $o$ eine Zahl zwischen $0$ und $1$ und beschreibt die Wahrscheinlichkeit, dass der Eingangsvektor $\vec{x}$ zur Klasse $c_1$ gehört. Dementsprechend beschreibt $1-o$ die Wahrscheinlichkeit der Klasse $c_2$. Bei Klassifizierungsproblemen mit mehreren Klassen wird häufig die Softmax-Funktion als Aktivierungsfunktion $\varphi$ gewählt, um die Wahrscheinlichkeiten der einzelnen Klassen $c_k$ zu bestimmen \cite{bridle1990probabilistic}:
 
 \begin{equation}
-o_k = p(c_k|x) = \frac{e^{x^\top w}}{\sum_{j=1}^C{e^{x_j^\top w}}}
+o_k = p(c_k|x) = \frac{e^{x^\top w}}{\sum_{j=1}^Ce^{x_j^\top w}}
 \end{equation}
 
 Dabei beschreibt $x$ den Vektor mit Aktivierungswerten aus der vorherigen Schicht, $w$ den Gewichtsvektor und $C$ die Anzahl der Klassen $c_k$. Auf diese Weise können die Wahrscheinlichkeiten $p(c_k|x)$ für jede Klasse $c_k$, gegeben den Aktivierungswerten $x$, berechnet werden.
 
+Für das Erlernen von Gewichten in mehrschichtigen \acp{KNN} wird die Fehlerrückführung (engl. Error Backpropagation) verwendet. Die Idee bei diesem Verfahren ist es eine Fehlerfunktion, die die Abweichung zwischen der berechneten und der tatsächlichen Klasse beschreibt, zu definieren und dann zu minimieren \cite{bishop2006pattern}. Dafür wird die Funktion
 
-- Loss Function und Backpropagation
-- DNNs
+\begin{equation}
+E = \frac{1}{2}\sum_{j=1}^n(t_j-o_j)^2
+\end{equation}
 
+verwendet. Dabei beschreiben $t_j$ die tatsächliche Klasse, $o_j$ die errechnete Klasse und $n$ die Anzahl der Klassen. Auf Basis dieser Fehlerfunktion läuft die Fehlerrückführung iterativ in den folgenden Schritten ab \cite{bishop2006pattern}:
+
+\begin{enumerate}
+\item Auf Basis eines Eingangsvektors $\vec{x}$ werden alle Aktivierungswerte $\vec{y_j}$ aller versteckter Schichten $j$ und der Ergebnisvektor $\vec{o}$ berechnet.
+\item Der errechnete Ergebniswert $o_j$ wird mit dem erwarteten Ergebnis $t_j$ verglichen und die Differenz wird berechnet.
+\item Auf Basis dieser Differenz werden die Gewichte zwischen allen Neuronen geändert, mit dem Ziel diese Differenz bei der nächsten Iteration zu verringern. Die Änderung wird wie folgt berechnet:
+\begin{equation}
+w^{neu}_{ij} = w^{alt}_{ij} + \Delta w_{ij}
+\end{equation}
+mit
+\begin{equation}
+\Delta w_{ij} = -\eta \frac{\partial E}{\partial w_{ij}}
+\end{equation}
+Dabei beschreibt $w_{ij}$ das Gewicht zwischen Neuron $i$ und Neuron $j$, $\eta$ eine feste Lernrate die beeinflusst wie stark Gewichte geändert werden und $E$ die oben definierte Fehlerfunktion.
+\end{enumerate}
+
+Mit diesem Algorithmus werden die Gewichte von mehrschichtigen \acp{KNN} bei jedem Trainingsschritt angepasst. Eine Herausforderung beim Training von \acp{KNN} ist es mit bisher unbekannten Daten gute Ergebnisse zu erzielen \cite{srivastava2014dropout}. Das bedeutet, dass im Laufe des Trainings die Gewichte so angepasst werden müssen, dass das Modell nach dem Training nicht nur mit den Trainingsdaten gute Ergebnisse erzielen kann. Dabei spricht man auch von Generalisierbarkeit. Wenn ein Modell dagegen nur mit den Trainingsdaten gute Ergebnisse erzielt, spricht man von Überanpassung (engl. Overfitting). Im Gegensatz dazu spricht man von Unteranpassung (engl. Underfitting), wenn ein Modell schon mit den Trainingsdaten sehr schlechte Ergebnisse erzielt. In Abbildung \ref{fig_overfitting} ist beispielhaft eine Unter- und Überanpassung eines binären Klassifikators dargestellt.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{overfitting.pdf}
+\caption{Beispiel einer Unter- und Überanpassung eines Klassifikators}
+\label{fig_overfitting}
+\end{figure}
+
+Heute werden in Anwendungen häufig tiefe neuronale Netze (engl. Deep Neural Networks) verwendet. Von einem tiefen neuronalen Netz spricht man, wenn es viele versteckte Schichten besitzt. Damit können Merkmale auf verschiedenen Abstraktionsebenen erkannt werden \cite{lecun2015deep}. In den folgenden Absätzen \ref{grundlagen_nn_cnn} und \ref{grundlagen_nn_rnn} werden zwei verschiedene Architekturen von tiefen neuronalen Netzen vorgestellt, die in Kapitel \ref{umsetzung} für das Klassifizierungsproblem dieser Arbeit angewendet werden.
 
 
 % ===========================
