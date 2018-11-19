@@ -351,49 +351,43 @@ Heute werden in Anwendungen häufig tiefe neuronale Netze (engl. Deep Neural Net
 \label{grundlagen_nn_cnn}
 % ===========================
 
-Ein \acf{CNN} ist eine Architektur von \acp{KNN} und gilt heute als Stand der Technik für Probleme in der Bilderkennung. Die Architektur eines \ac{CNN} besteht grundsätzlich aus einer oder mehreren Convolution-Schicht und einer Pooling-Schicht \cite{lecun2010convolutional}. Diese Abfolge kann sich beliebig oft wiederholen und wird am Ende mit einer oder mehreren Fully-Connected-Schicht für die Klassifizierung ergänzt. In den folgenden Absätzen werden die Funktionsweisen der Convolution- und der Pooling-Schicht erklärt. Eine Fully-Connected-Schicht entspricht einer Schicht wie sie im vorherigen Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben wurde. In Abbildung \ref{fig_cnn} ist ein gesamtes \ac{CNN} dargestellt.
+Ein \acf{CNN} ist eine Architektur eines \acp{KNN} und gilt heute als Stand der Technik für Probleme in der Bilderkennung \cite{krizhevsky2012imagenet}. Die Architektur eines \acp{CNN} besteht grundsätzlich aus einer oder mehreren Convolution-Schicht und einer Pooling-Schicht \cite{lecun2010convolutional}. Diese Abfolge kann sich beliebig oft wiederholen und wird am Ende mit einer oder mehreren Fully-Connected-Schicht für die Klassifizierung ergänzt. In den folgenden Absätzen werden die Funktionsweisen der Convolution- und der Pooling-Schicht erklärt. Eine Fully-Connected-Schicht entspricht einer Schicht wie sie im vorherigen Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben wurde. In Abbildung \ref{fig_cnn} ist ein gesamtes \ac{CNN} dargestellt.
 
 Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von einer Aktivierungsfunktion. Die Idee dieser Schicht ist es Merkmale aus einem Bild (oder anderen Inputdaten) zu extrahieren. Dabei werden in den ersten Schichten Merkmalen auf einer niedrigen Ebene und in späteren Schichten zunehmend abstraktere Merkmale extrahiert. Bei der Convolution-Operation (oder auch Faltung) wird ein ausgewählter Filter mit einer festgelegten Schrittgröße über das Bild bewegt und bei jedem Schritt der entsprechende Ausgabewert berechnet. Diese Operation ist in Abbildung \ref{fig_conv_operation} dargestellt.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{conv_operation.pdf}
+\includegraphics[scale=0.3]{conv_operation.pdf}
 \caption{Beispiel einer Convolution-Operation}
 \label{fig_conv_operation}
 \end{figure}
 
-In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 5x5x1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimension 3x3x1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
+In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 5x5x1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimensionen 3x3x1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
 
 \begin{equation}
 0*33+0*15+1*1+0*93+0*84+0*17+1*36+0*72+0*83=37
 \end{equation}
 
-Nach dieser Berechnung bewegt sich der Filter einen Schritt nach rechts und der nächste Wert wird berechnet. Dies wiederholt sich bis der Filter am rechten unteren Rand des Bildes angekommen ist. Bei einem dreidimensionalen Bild, mit den drei Farbkanälen als dritte Dimension, hat der Filter ebenfalls drei Dimensionen und die Berechnung wird analog durchgeführt. Bei dieser Operation kann die Größe des Filters und die Schrittgrüße variiert werden. Es können auch verschiedenen Filter eingesetzt werden um bestimmte Merkmale zu extrahieren. Außerdem können sogenannte Padding-Methoden eingesetzt werden um den Rand der Bilder künstlich zu erweitern. Somit kann sich ein Filter auch über die existierenden Ränder hinweg bewegen und Muster an den Rändern besser erkennen. Das Ergebnis einer Convolution Schicht ist eine sogenannte Feature Map, also eine Schicht die aus extrahierten Merkmalen besteht.
+Nach dieser Berechnung bewegt sich der Filter einen Schritt weiter nach rechts und der nächste Wert wird berechnet. Dies wiederholt sich bis der Filter am rechten unteren Rand des Bildes angekommen ist. Bei einem dreidimensionalen Bild, mit den drei Farbkanälen als dritte Dimension, hat der Filter ebenfalls drei Dimensionen und die Berechnung wird analog durchgeführt. Bei dieser Operation kann die Größe des Filters und die Schrittgrüße variiert werden. Es können auch verschiedenen Filter eingesetzt werden um unterschiedliche Merkmale zu extrahieren. Außerdem können sogenannte Padding-Methoden eingesetzt werden um den Rand der Bilder künstlich zu erweitern. Somit kann sich ein Filter auch über die existierenden Ränder hinweg bewegen und Muster an den Rändern besser erkennen. Das Ergebnis einer Convolution Schicht ist eine sogenannte Feature Map, also eine Schicht die aus extrahierten Merkmalen besteht \cite{lecun1997convolutional}.
 
-Das Ziel der Pooling-Schicht ist es, die Größe der Feature Map zu reduzieren und dabei die wichtigsten Merkmale beizubehalten. In Abbildung \ref{fig_pool_operation} ist die oft verwendete Max-Pooling-Operationen dargestellt.
+Das Ziel der Pooling-Schicht ist es, die Größe der Feature Map zu reduzieren und dabei die wichtigsten Merkmale beizubehalten \cite{scherer2010evaluation}. Wie bei der Convolution-Operation, gibt es auch beim Pooling verschiedene Operationen (e.g. Average-Pooling). Es können auch die Größe des Pooling-Fensters und die Schrittgröße variiert werden. In Abbildung \ref{fig_pool_operation} ist die oft verwendete Max-Pooling-Operation dargestellt.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{pool_operation.pdf}
+\includegraphics[scale=0.3]{pool_operation.pdf}
 \caption{Beispiel einer Max-Pooling-Operation}
 \label{fig_pool_operation}
 \end{figure}
-
-Wie bei der Convolution-Operation, gibt es auch beim Pooling verschiedene Operationen (e.g. Average-Pooling). Es können auch die Größe des Pooling-Fensters und die Schrittgröße variiert werden.
 
 Mit Convolution-, Pooling- und Fully-Connected-Schichten kann die Architektur eines \acp{CNN} zusammengesetzt werden. In Abbildung \ref{fig_cnn} ist beispielhaft die Architektur eines \ac{CNN} abgebildet.
 
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{overfitting.pdf}
-\caption{Beispiel eines \ac{CNN}}
+\includegraphics[scale=0.2]{cnn.pdf}
+\caption{Beispiel eines \acp{CNN}}
 \label{fig_cnn}
 \end{figure}
-
-\cite{krizhevsky2012imagenet}
-\cite{lecun1997convolutional}
-\cite{lecun2010convolutional}
 
 
 % ===========================
@@ -401,7 +395,7 @@ Mit Convolution-, Pooling- und Fully-Connected-Schichten kann die Architektur ei
 \label{grundlagen_nn_rnn}
 % ===========================
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
+ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
 
 % ===========================
@@ -409,7 +403,67 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh 
 \label{grundlagen_nn_synthetisch}
 % ===========================
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
+\cite{richter2016playing}
+
+Creating large datasets with pixelwise semantic labels is known to be very chal- lenging due to the amount of human effort required to trace accurate object boundaries.
+
+We extracted 24,966 frames from GTA5. Each frame has a resolution of 1914×1052 pixels. 19 semantic classes (e.g. road, sky, car) 
+
+The crop size is 628×628 and the receptive field is 373×373 pixels.
+
+The results show that when we train on 1/3 of the CamVid training set along
+ with the game data, we surpass the accuracy achieved when training on the full CamVid training set without game data. The table shows that using the synthetic data during training increases the mean IoU by 3.9 percentage points.
+ 
+ Our strongest baseline is the state-of-the-art system of Kundu et al. [25], which used a bigger ConvNet and analyzed whole video sequences. By using synthetic data during training, we outperform this baseline by 2.8 percentage points, while considering individual frames only.
+ 
+ KITTI: The model trained with game data outperforms the model trained without game data by 2.6 percentage points.
+ 
+
+
+\cite{ros2016synthia}
+
+SYNTHIA consists of photo-realistic frames rendered from a virtual city and comes with precise pixel-level se- mantic annotations for 13 classes, i.e., sky, building, road, sidewalk, fence, vegetation, lane-marking, pole, car, traffic signs, pedestrians, cyclists and miscellaneous
+
+SYNTHIA has been generated by rendering a virtual city created with the Unity development platform
+
+(SYNTHIA-Seqs simulates four video sequences of ap- proximately 50,000 frames each one up to a total of 200,000 frames, acquired from a virtual car across different seasons (one sequence per season).)
+
+SYNTHIA-Rand consists of 13,400 frames of the city taken from a virtual array of cameras moving randomly through the city, with its height limited to the range [1.5m, 2m] from the ground.
+
+Both sequences share standard properties as frame resolution of 960 × 720 pixels and horizontal field of view of 100 degrees.
+
+All images are resized to a common resolution of 180 × 120.
+
+Observe that, for all the datasets and architectures, the inclusion of synthetic data systematically helps to boost the average per- class accuracy.
+
+Test on CamVid, KITTI, U-LabelMe, CBCL
+
+
+\cite{johnson2017driving}
+
+Specifically, we leverage Grand Theft Auto V (GTA V).
+Sim 10k with 10,000 images, Sim 50k with 50, 000 images, and Sim 200k with 200, 000 images.
+
+The performance of each of the trained networks was evaluated using a standard intersection over union (IoU) criteria for produced bounding boxes [6]. 
+
+Networks trained using the simulated data were capable of achieving high levels of performance on real-world data without requiring any mixing with real-world training data set imagery. 
+
+depending on type of car (easy, meadium hard) bewtween 42 and 69 acc (IoT > IoU (Intersection over Union)
+
+Tested on KITTI
+
+
+\cite{tremblay2018training}
+
+We begin with 3D models of objects of interest (such as cars). A random number of these ob- jects are placed in a 3D scene at random positions and ori- entations.
+
+The approach is evaluated on bounding box detection of cars on the KITTI dataset.
+
+For our DR dataset, we generated 100K images contain- ing no more than 14 cars each. As described in the previous section, each car instance was randomly picked from a set of 36 models, and a random texture from 8K choices was applied. 
+
+For testing, we used 500 images taken at random from the KITTI dataset [8].
+
+With fine-tuning on all 6000 real images, our DR-based approach achieves an AP score of 98.5, which is better than VKITTI by 1.6\% and better than using only real data by 2.1\%.
 
 
 % ===========================
