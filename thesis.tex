@@ -14,6 +14,7 @@
 \usepackage{todonotes}
 \usepackage{longtable}
 \usepackage{listings}
+\usepackage{color}
 \usepackage{amsmath}
 \usepackage{hyperref}
 
@@ -23,15 +24,6 @@
 
 % path to images
 \graphicspath{{images/}}
-
-%Set code-snippet settings
-\lstset{
-language=Python,
-basicstyle=\small, % alle listings winzig drucken (meine Standardeinstellung)
-keywordstyle=\color{red} % Schlüsselwörter fett und schwarz drucken
-commentstyle=\color{blue} % Kommentare blau drucken
-stringstyle=\ttfamily, % Strings im Code Schreibmaschinenähnlich - setzt sich etwas vom Code ab
-showstringspaces=false} % Strings im Code ohne Kenntlichmachung von Leerzeichen - finde ich angebracht und empfehlenswert
 
 
 % design header and footer of all pages
@@ -77,6 +69,31 @@ showstringspaces=false} % Strings im Code ohne Kenntlichmachung von Leerzeichen 
 % definition of own variables
 \newcommand{\submissiondate}{23. Dezember 2018}
 \newcommand{\mytitle}{Künstliches Lernen: Trainingsdaten aus dem virtuellen \\ Fahrversuch für Deep Learning Algorithmen}
+
+% define style/settings of code
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeorange}{rgb}{0.99,0.4,0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95} 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeorange},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codegray},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
 
 
 
