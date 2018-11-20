@@ -9,7 +9,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 \todo{Code Darstellung}
 \begin{lstlisting}
 for x in xrange(a):
-   print(something.__len__())
+   print(len(something))
 \end{lstlisting}
 
 
@@ -21,24 +21,69 @@ Dropout - \cite{hinton2012improving}
 \label{umsetzung_definition}
 % ===========================
 
- Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+In diesem Abschnitt werden Szenarien, wie in Abschnitt \ref{grundlagen_fahren_szenarien} beschrieben, als \textit{logische Szenarien} für das weitere Vorgehen in dieser Arbeit definiert. In Anlehnung an bestehende Arbeiten zu Erkennung von Fahrszenarien und auf Basis von Machbarkeitsabschätzungen für die Umsetzung werden in dieser Arbeit die Szenarien \textit{free cruising}, \textit{following}, \textit{catching up}, \textit{lane change left} und \textit{lane change right} auf der Autobahn betrachtet. Die Autobahn wurde ausgewählt, weil es weniger Parameter zu betrachten gibt als auf anderen Straßen wie beispielsweise in der Stadt. In der folgenden Tabelle \ref{tab_definition_szenarios} werden diese Szenarien auf \textit{funktionaler} und \textit{logischer Ebene} definiert.
 
+Um die Darstellung in der Tabelle zu erleichtern werden folgende Abstände zwischen Ego-Fahrzeug und Fahrzeug 2 definiert. Dabei beschreibt $ego_v$ die Geschwindigkeit des Ego-Fahrzeugs in [km/h].
+
+\begin{equation}
+s_0 = ego_v * h \qquad [m]
+\end{equation}
+
+\begin{equation}
+s_1 = ego_v * h * \frac{2}{3} \qquad [m]
+\end{equation}
+
+\begin{equation}
+s_2 = ego_v * h * \frac{1}{3} \qquad [m]
+\end{equation}
+
+\small
+\begin{longtable}[c]{p{1.5cm} p{6cm} p{6cm}}
+\textbf{Szenario} & \textbf{Funktionale Definition} & \textbf{Logische Definition} \\
+\hline
+\endhead
+
+\textbf{Alle} & 2-spurige Autobahn geradeaus oder in einer Kurve, Geschwindigkeitsbegrenzung ist größer als 80 km/h & Breite Fahrstreifen [2,3..3,5] m \newline Geschwindigkeitsbegrenzung [80..keine] km/h \\
+\hline
+
+\textbf{Alle} & Tageslicht, keine Wolken bis leicht bewölkt, kein Niederschlag, gute Sichtbedingungen & Tageszeit [Sonnenaufgang..Sonnenuntergang] \newline Bewölkung [leicht bewölkt..wolkenlos]\\
+\hline \hline
+
+\textbf{Free Cruising} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt frei auf linker oder rechter Fahrspur, andere Fahrzeuge sind weit entfernt und haben keinen Einfluss auf die Manöver des Ego & Geschwindigkeit Ego [60..200] km/h \newline Abstand zu anderen Verkehrsteilnehmern [$>s_0$] m \\
+\hline
+
+\textbf{Following} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt auf linker oder rechter Fahrspur in sicherem Abstand hinter Fahrzeug 2 & Geschwindigkeit Ego [60..200] km/h \newline Geschwindigkeitsdifferenz zwischen Ego und Fahrzeug 2  [$<ego_v*0,05$] km/h \newline Abstand Ego zu Fahrzeug 2 [$s_2$..$s_1$] m \newline Ego befindet sich auf gleicher Fahrspur hinter Fahrzeug 2 \\
+\hline
+
+\textbf{Catching up} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt auf linker Fahrspur und verringert den vertikalen Abstand zu Fahrzeug 2 auf der rechten Spur (auf-/überholen) & Geschwindigkeit Ego [60..200] km/h \newline Geschwindigkeit Fahrzeug 2 [$<ego_v$] \newline Vertikaler Abstand Ego zu Fahrzeug 2 [0..$s_0$] m \newline Ego fährt auf linker Fahrspur hinter Fahrzeug 2 das auf rechter Fahrspur fährt \\
+\hline
+
+\textbf{Lane change left} & Ego, andere Verkehrsteilnehmer sind optional \newline \underline{Interaktion:} Ego fährt auf rechter Fahrspur und wechselt auf linke Fahrspur & Geschwindigkeit Ego [60..200] km/h \newline Ego befindet sich auf rechter Fahrspur und wechselt auf linke Fahrspur \\
+\hline
+
+\textbf{Lane change right} & Ego, andere Verkehrsteilnehmer sind optional \newline \underline{Interaktion:} Ego fährt auf linker Fahrspur und wechselt auf rechte Fahrspur & Geschwindigkeit Ego [60..200] km/h \newline Ego befindet sich auf linker Fahrspur und wechselt auf rechte Fahrspur \\
+\hline
+
+\caption{Definition der Szenarien \textit{free cruising}, \textit{following}, \textit{catching up}, \textit{lane change left} und \textit{lane change right}}
+\label{tab_definition_szenarios}
+\end{longtable}
+\normalsize
 
 % ===========================
-\section{Vorbereitung synthetischer Daten}
+\section{Generierung synthetischer Daten}
 \label{umsetzung_daten_synth}
 % ===========================
 
- At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
- 
+Auf Basis der Definitionen aus dem vorherigen Abschnitt \ref{umsetzung_definition} werden in diesem Abschnitt die benötigten Signal- und Bilddaten simuliert und entsprechend gelabelt. Dafür werden in Abschnitt \ref{umsetzung_daten_synth_simulation} die Signaldaten, die für die eindeutige Klassifizierung der Szenarien benötigt werden, simuliert. In Abschnitt \ref{umsetzung_daten_synth_labeling} werden diese Signaldaten verwendet um die parallel simulierten Bilddaten entsprechend zu labeln.
  
 % ===========================
 \subsection{Simulation mit CarMaker}
 \label{umsetzung_daten_synth_simulation}
 % ===========================
 
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+Für die Simulation der Signal- und Bilddaten wird die kommerzielle Software CarMaker von IPG Automotive \cite{ipg2018carmaker} verwendet. Diese Simulationssoftware wird für den virtuellen Fahrversuch und \ac{HiL} eingesetzt um Komponenten in unterschiedlichen Szenarien zu testen.
+
+In dieser Arbeit 
 
 
 % ===========================
@@ -50,7 +95,7 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
 
 
 % ===========================
-\section{Vorbereitung realer Daten}
+\section{Generierung realer Daten}
 \label{umsetzung_daten_real}
 % ===========================
 
