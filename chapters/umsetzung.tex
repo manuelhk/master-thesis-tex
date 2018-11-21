@@ -76,7 +76,7 @@ s_3 = ego_v * 3,6 * \frac{1}{3} \qquad \text{[m]} \\
 \normalsize
 
 % ===========================
-\section{Generierung synthetischer Daten}
+\section{Generierung synthetischer Trainingsdaten}
 \label{umsetzung_daten_synth}
 % ===========================
 
@@ -262,17 +262,56 @@ Es sind auch einige Szenarien als \textit{unknown} klassifiziert, da zwischen de
 \subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl13.jpg}} &
 \subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl14.jpg}} \\
 \end{tabular}
-\caption{Beispiel des Szenarios \textit{lane change left} \cite{ipg2018carmaker}}
+\caption{Beispiel eines simulierten Szenarios der Klasse \textit{lane change left} \cite{ipg2018carmaker}}
 \label{fig_beispiel_szenario_lcl}
 \end{figure}
 
 
 % ===========================
-\section{Generierung realer Daten}
+\section{Generierung realer Trainings- und Testdaten}
 \label{umsetzung_daten_real}
 % ===========================
 
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+Für den Proof-of-Concept dieser Arbeit, die Erkennung von realen Fahrszenarien, werden neben den synthetischen Trainingsdaten auch reale Daten für das Training und die anschließenden Tests benötigt. Dafür werden im ersten Schritt bestehen Datensätze nach ihrer Nutzbarkeit untersucht.
+
+Die bekanntesten Datensätze sind KITTI \cite{geiger2013vision}, BDD100K \cite{yu2018bdd100k}, Cityscapes \cite{cordts2016cityscapes} und Oxford RobotCar \cite{maddern20171}. Der Cityscapes und Oxford RobotCar Datensatz umfasst lediglich Bilder von Szenen in Städten und ist daher nicht nutzbar für diese Arbeit. Die Datensätze KITTI und BDD100K umfassen auch Videos von Autobahnfahrten, allerdings liegt der Fokus auf Objekterkennung in einzelnen Bildern oder semantischer Segmentation. Und es gibt jeweils nur sehr begrenzt Videos, die auf einer 2-spurigen Autobahn aufgenommen wurden. Daher können diese Datensätze in dieser Arbeit nicht verwendet werden.
+
+Als Alternative werden die Aufnahmen von zwei Fahrten auf der Autobahn und Bundesstraße verwendet. Die Strecken sind in der Abbildung \ref{fig_strecken_real} abgebildet. 
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c c}
+\subfloat[Route 1: Mannheim - Rostock]{\includegraphics[scale=0.7]{route_1.png}} &
+\subfloat[Route 2: Karlsruhe - Kandel]{\includegraphics[scale=0.7]{route_2.png}} \\
+\end{tabular}
+\caption{Routen für die Aufnahme der realen Bilddaten \cite{google2018route1, google2018route2}}
+\label{fig_strecken_real}
+\end{figure}
+
+Die Aufnahme der Route 1 umfasst über sechs Stunden Videomaterial mit über einer Stunde Fahrt auf einer 2-spurigen Autobahn \cite{youtube2018video}. Davon werden manuell zwischen 50 und 180 Szenarien aus jeder Klasse gelabelt. Da von den Szenarien \textit{lane change left} und \textit{lane change right} jeweils nur 50 Szenarien vorhanden sind, wird vom Autor eine Fahrt auf Route 2 mit einigen Spurwechseln aufgenommen. Das Ergebnis sind jeweils 17 weitere Szenarien in den Klassen \textit{lane change left} und \textit{lane change right}.Abbildung \ref{fig_beispiel_szenario_lcr_real} zeigt ein Beispiel des realen Szenarios \textit{lane change right} mit allen zugehörigen 15 Bildern.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c c c c c}
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame0.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame1.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame2.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame3.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame4.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame5.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame6.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame7.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame8.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame9.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame10.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame11.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame12.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame13.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame14.jpg}} \\
+\end{tabular}
+\caption{Beispiel eines realen Szenarios der Klasse \textit{lane change right}}
+\label{fig_beispiel_szenario_lcr_real}
+\end{figure}
 
 
 % ===========================
