@@ -26,18 +26,19 @@ Dropout - \cite{hinton2012improving}
 
 In diesem Abschnitt werden Szenarien, wie in Abschnitt \ref{grundlagen_fahren_szenarien} beschrieben, als \textit{logische Szenarien} für das weitere Vorgehen in dieser Arbeit definiert. In Anlehnung an bestehende Arbeiten zu Erkennung von Fahrszenarien und auf Basis von Machbarkeitsabschätzungen für die Umsetzung werden in dieser Arbeit die Szenarien \textit{free cruising}, \textit{approaching} \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right} auf der Autobahn betrachtet. Die Autobahn wurde ausgewählt, weil es weniger Parameter zu betrachten gibt als auf anderen Straßen wie beispielsweise in der Stadt. In der folgenden Tabelle \ref{tab_definition_szenarios} werden diese Szenarien auf \textit{funktionaler} und \textit{logischer Ebene} definiert.
 
-Um die Darstellung in der Tabelle zu erleichtern werden folgende Abstände zwischen Ego-Fahrzeug und Fahrzeug 2 definiert. Dabei beschreibt $ego_v$ die Geschwindigkeit des Ego-Fahrzeugs in [km/h].
+Um die Darstellung in der Tabelle zu erleichtern werden folgende Abstände zwischen Ego-Fahrzeug und Fahrzeug 2 definiert. Dabei beschreibt $ego_v$ die Geschwindigkeit des Ego-Fahrzeugs in [m/s].
 
 \begin{equation*}
 \begin{split}
-s_0 = ego_v * h \qquad \text{[m]} \\
-s_1 = ego_v * h * \frac{2}{3} \qquad \text{[m]} \\
-s_2 = ego_v * h * \frac{1}{3} \qquad \text{[m]} \\
+s_0 = ego_v * 3,6 \qquad \text{[m]} \\
+s_1 = ego_v * 3,6 * \frac{2}{3} \qquad \text{[m]} \\
+s_2 = ego_v * 3,6 * \frac{1}{2} \qquad \text{[m]} \\
+s_3 = ego_v * 3,6 * \frac{1}{3} \qquad \text{[m]} \\
 \end{split}
 \end{equation*}
 
 \small
-\begin{longtable}[c]{p{1.5cm} p{6cm} p{6cm}}
+\begin{longtable}[c]{p{2cm} p{5.5cm} p{6cm}}
 \textbf{Szenario} & \textbf{Funktionale Definition} & \textbf{Logische Definition} \\
 \hline
 \endhead
@@ -51,13 +52,13 @@ s_2 = ego_v * h * \frac{1}{3} \qquad \text{[m]} \\
 \textbf{Free cruising} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt frei auf linker oder rechter Fahrspur, andere Fahrzeuge sind weit entfernt und haben keinen Einfluss auf die Manöver des Ego & Geschwindigkeit Ego [60..200] km/h \newline Abstand zu anderen Verkehrsteilnehmern [$>s_0$] m \\
 \hline
 
-\textbf{Approaching} & & \\
+\textbf{Approaching} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego nähert sich auf linker oder rechter Fahrspur in mittlerem Abstand dem Fahrzeug 2 & Geschwindigkeit Ego abnehmend [60..200] km/h \newline Geschwindigkeit Ego < Geschwindigkeit Fahrzeug 2 \newline Abstand Ego zu Fahrzeug 2 [$s_2$..$s_0$] m \\
 \hline
 
-\textbf{Following} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt auf linker oder rechter Fahrspur in sicherem Abstand hinter Fahrzeug 2 & Geschwindigkeit Ego [60..200] km/h \newline Geschwindigkeitsdifferenz zwischen Ego und Fahrzeug 2  [$<ego_v*0,05$] km/h \newline Abstand Ego zu Fahrzeug 2 [$s_2$..$s_1$] m \newline Ego befindet sich auf gleicher Fahrspur hinter Fahrzeug 2 \\
+\textbf{Following} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt auf linker oder rechter Fahrspur in sicherem Abstand hinter Fahrzeug 2 & Geschwindigkeit Ego [60..200] km/h \newline Geschwindigkeitsdifferenz zwischen Ego und Fahrzeug 2 < Geschwindigkeit Ego $*0,05$ km/h \newline Abstand Ego zu Fahrzeug 2 [$s_3$..$s_1$] m \newline Ego befindet sich auf gleicher Fahrspur hinter Fahrzeug 2 \\
 \hline
 
-\textbf{Catching up} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt auf linker Fahrspur und verringert den vertikalen Abstand zu Fahrzeug 2 auf der rechten Fahrspur (auf-/überholen) & Geschwindigkeit Ego [60..200] km/h \newline Geschwindigkeit Fahrzeug 2 [$<ego_v$] \newline Vertikaler Abstand Ego zu Fahrzeug 2 [0..$s_0$] m \newline Ego fährt auf linker Fahrspur hinter Fahrzeug 2 das auf rechter Fahrspur fährt \\
+\textbf{Catching up} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt auf linker Fahrspur und verringert den vertikalen Abstand zu Fahrzeug 2 auf der rechten Fahrspur (auf-/überholen) & Geschwindigkeit Ego [60..200] km/h \newline Geschwindigkeit Fahrzeug 2 < Geschwindigkeit Ego \newline Vertikaler Abstand Ego zu Fahrzeug 2 [0..$s_0$] m \newline Ego fährt auf linker Fahrspur hinter Fahrzeug 2 das auf rechter Fahrspur fährt \\
 \hline
 
 \textbf{Overtaking} & & \\
@@ -69,7 +70,7 @@ s_2 = ego_v * h * \frac{1}{3} \qquad \text{[m]} \\
 \textbf{Lane change right} & Ego, andere Verkehrsteilnehmer sind optional \newline \underline{Interaktion:} Ego fährt auf linker Fahrspur und wechselt auf rechte Fahrspur & Geschwindigkeit Ego [60..200] km/h \newline Ego befindet sich auf linker Fahrspur und wechselt auf rechte Fahrspur \\
 \hline
 
-\caption{Definition der Szenarien \textit{free cruising}, \textit{following}, \textit{catching up}, \textit{lane change left} und \textit{lane change right}}
+\caption{Definition der Szenarien \textit{free cruising}, \textit{approaching}, \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right}}
 \label{tab_definition_szenarios}
 \end{longtable}
 \normalsize
@@ -86,7 +87,7 @@ Auf Basis der Definitionen aus dem vorherigen Abschnitt \ref{umsetzung_definitio
 \label{umsetzung_daten_synth_simulation}
 % ===========================
 
-Für die Simulation der Signal- und Bilddaten wird die kommerzielle Software CarMaker von IPG Automotive \cite{ipg2018carmaker} verwendet. Diese Simulationssoftware wird für den virtuellen Fahrversuch und \ac{HiL}-Tests eingesetzt um Komponenten in unterschiedlichen Szenarien zu testen. In dieser Arbeit wird CarMaker verwendet, um die Szenarien \textit{free cruising}, \textit{following}, \textit{catching up}, \textit{lane change left} und \textit{lane change right} zu simulieren. 
+Für die Simulation der Signal- und Bilddaten wird die kommerzielle Software CarMaker von IPG Automotive \cite{ipg2018carmaker} verwendet. Diese Simulationssoftware wird für den virtuellen Fahrversuch und \ac{HiL}-Tests eingesetzt um Komponenten in unterschiedlichen Szenarien zu testen. In dieser Arbeit wird CarMaker verwendet, um die Szenarien \textit{free cruising}, \textit{approaching}, \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right} zu simulieren.
 
 Für die Aufnahme der benötigten Bilddaten wird im simulierten Fahrzeug ein entsprechender Kamerasensor konfiguriert. Die Konfiguration des Sensors orientiert sich an der Konfiguration von realen Frontview-Kameras im Fahrzeug nach Punke \cite{punke2015kamera}. So ist der Kamerasensor an der Stelle des Rückfahrspiegels platziert und hat eine Auflösung von 640x480 Pixeln, ein vertikales Blickfeld von XX° und ein horizontales Blickfeld von XX° \todo{Konfiguration einfügen}. Die Konfiguration und Position des Sensors im Modul \textit{CarMaker - Vehicle Data Set} ist in Abbildung \ref{fig_car_camera_sensor} zu sehen.
 
@@ -165,7 +166,7 @@ Aggressivität beim Überholen & 0,2 & 0,6 & 1,0 & & \\
 
 Die ersten drei Variablen sind selbsterklärend und werden hier nicht weiter erläutert. Die Variable \textit{Aggressivität beim Überholen} (in CarMaker \textit{Overtaking Rate} ist eine Zahl zwischen 0 und 1. Dabei markiert die 0 ein Fahrstil, bei dem sich der Fahrer sehr risikoavers beim Überholen verhält, i.e. Überholen nur in sehr sicheren Situationen. Je größer die Zahl wird, desto aggressiver wird der Überholvorgang und dementsprechend sinkt die Risikoaversion beim Überholen und der Fahrer überholt auch bei kritischen oder schlecht einsehbaren Situationen.
 
-Mit diesen vier Variablen mit jeweils drei bzw. fünf Werten ergeben sich 135 verschiedene Kombinationsmöglichkeiten. Somit werden auf beiden Strecken in Summe 270 Fahrten mit 2.160 km simuliert. Signal- und Bilddaten werden mit einer Frequenz von 5 Hz aufgezeichnet, was in XXX.XXX \todo{Zahl eintragen} aufgezeichneten Szenen (Bilder und Signaldaten) resultiert. Diese Szenen werden im folgenden Abschnitt \ref{umsetzung_daten_synth_labeling} gelabelt.
+Mit diesen vier Variablen mit jeweils drei bzw. fünf Werten ergeben sich 135 verschiedene Kombinationsmöglichkeiten. Somit werden auf beiden Strecken in Summe 270 Fahrten mit 2.160 km simuliert. Signal- und Bilddaten werden mit einer Frequenz von 5 Hz aufgezeichnet, was in 326.108 aufgezeichneten Szenen (Bilder und Signaldaten) resultiert. Diese Szenen werden im folgenden Abschnitt \ref{umsetzung_daten_synth_labeling} gelabelt.
 
 
 % ===========================
@@ -173,14 +174,11 @@ Mit diesen vier Variablen mit jeweils drei bzw. fünf Werten ergeben sich 135 ve
 \label{umsetzung_daten_synth_labeling}
 % ===========================
 
-Für das Labeln der Szenarien wird jede Szene auf Basis der Definition aus Abschnitt \ref{umsetzung_definition} mithilfe der Signaldaten klassifiziert. Die logischen Bedingungen für jedes Szenario sind dafür in Tabelle \ref{tab_logisch_labeling} aufgelistet. Auf Basis der CarMaker-Variablen aus Tabelle \ref{tab_tm_variablen} werden folgende zusätzliche Variablen definiert, um nachfolgende Bedingungen übersichtlicher darzustellen. Dabei beschreibt $v2$ jeweils das Fahrzeug, auf Basis dessen das jeweilige Szenario klassifiziert wird.
+Für das Labeln der Szenarien wird jede Szene auf Basis der Definition aus Abschnitt \ref{umsetzung_definition} mithilfe der Signaldaten klassifiziert. Die logischen Bedingungen für jedes Szenario sind dafür in Tabelle \ref{tab_szenarien_labeling} aufgelistet. Auf Basis der CarMaker-Variablen aus Tabelle \ref{tab_tm_variablen} werden folgende zusätzliche Variablen definiert, um nachfolgende Bedingungen übersichtlicher darzustellen. Dabei beschreibt $v2$ jeweils das Fahrzeug, auf Basis dessen das jeweilige Szenario klassifiziert wird.
 
 \begin{equation*}
 \begin{split}
 ego_v = \text{Car.v} \qquad \text{[m/s]} \\
-s_0 = ego_v * h * 3,6 \qquad \text{[m]} \\
-s_1 = ego_v * h * 3,6 * \frac{2}{3} \qquad \text{[m]} \\
-s_2 = ego_v * h * 3,6 * \frac{1}{3} \qquad \text{[m]} \\
 ego_{sRoad} = \text{Car.Road.sRoad} \qquad \text{[m]} \\
 ego_{laneID} = \text{Car.Road.Lane.Act.LanId} \qquad \text{[1, 2]} \\
 v2_{dv} = \text{Sensor.Object.OB01.TX.NearPnt.dv\_p} \qquad \text{[m/s]} \\
@@ -191,28 +189,32 @@ v2_{laneID} = \text{Traffic.TX.Lane.Act.LaneId} \qquad \text{[1, 2]} \\
 \end{equation*}
 
 \small
-\begin{longtable}[c]{p{4cm} p{6cm}}
-\textbf{Szenario} & \textbf{Logische Bedingungen} \\
+\begin{longtable}[c]{p{3cm} p{8.5cm}}
+\textbf{Szenario} & \textbf{Bedingungen} \\
 \hline
 \endhead
 
 \textbf{Free cruising} & $ego_v > 17$ \newline $s_0 < v2_{ds}$ \\
 \hline
-\textbf{Following} & $v2_{dv} < ego_v * 0,05$ \newline $s_2 < s_1$ \newline $ego_{sRoad} < v2_{sRoad}$ \newline $ego_{laneID} == v2_{laneID}$ \\
+\textbf{Approaching} & $s_2 < v2_{ds} < s_0$ \newline $ego_{sRoad} < v2_{sRoad}$ \newline $ego_{laneID} == v2_{laneID}$ \newline $ego_v < \text{ Durchschnitt von } ego_v \text{ der letzten 3 Sekunden} $ \\
+\hline
+\textbf{Following} & $v2_{dv} < ego_v * 0,05$ \newline $s_3 < s_1$ \newline $ego_{sRoad} < v2_{sRoad}$ \newline $ego_{laneID} == v2_{laneID}$ \\
 \hline
 \textbf{Catching up} & $v2_{dv} < 0$ \newline $0 <= v2_{ds} < s_0$ \newline $ego_{sRoad} <= v2_{sRoad}$ \newline $ego_{laneID} == v2_{laneID} - 1$ \\
+\hline
+\textbf{Overtaking} & $0 <= v2_{ds} < s_0$ \newline $v2_{sRoad} < ego_{sRoad}$ \newline $ego_{laneID} == v2_{laneID} - 1$ \\
 \hline
 \textbf{Lane change left} & $ego_{laneID}^{before} == ego_{laneID}^{after} + 1$ \newline Als Spurwechsel wird ein Intervall von 4 Sekunden betrachtet in dessen Mitte die Variable ihren Wert wechseln muss\\
 \hline
 \textbf{Lane change right} & $ego_{laneID}^{before} == ego_{laneID}^{after} - 1$ \newline Als Spurwechsel wird ein Intervall von 4 Sekunden betrachtet in dessen Mitte die Variable ihren Wert wechseln muss \\
 
 \hline
-\caption{Definition der Szenarien \textit{free cruising}, \textit{following}, \textit{catching up}, \textit{lane change left} und \textit{lane change right}}
-\label{tab_logisch_labeling}
+\caption{Bedingungen der Szenarien \textit{free cruising}, \textit{approaching}, \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right}}
+\label{tab_szenarien_labeling}
 \end{longtable}
 \normalsize
 
-Im Anschluss an die Klassifizierung einzelner Zeitpunkte werden diese zu Szenarien zusammengefasst, wenn mindestens 15 Zeitpunkte (3 Sekunden) in Folge mit dem gleichen Label klassifiziert wurden. Insgesamt werden 326.108 Zeitpunkte und 23.972 Szenarien klassifiziert. Die Anzahl der simulierten Szenarien nach Klasse ist in der Tabelle \ref{tab_verteilung_szenarien} dargestellt. Es sind auch einige Szenarien als \textit{unknown} klassifiziert, da zwischen den definierten Szenarien andere Situationen auftreten können oder nicht die Mindestanzahl der konsekutiven Szenen erreicht wird. In einigen Zeitpunkten werden mehr als eine einzelne Szene klassifiziert. Beispielsweise kann sich das Ego-Fahrzeug gleichzeitig in der Szene \textit{catching up} und \textit{overtaking} befinden, wenn es auf der linken Fahrspur fährt und sich in vertikalem Abstand ein anderes Fahrzeug jeweils vor und hinter dem Ego-Fahrzeug befindet. 
+Im Anschluss an die Klassifizierung einzelner Zeitpunkte werden diese zu Szenarien zusammengefasst, wenn mindestens 15 Zeitpunkte (3 Sekunden) in Folge mit dem gleichen Label klassifiziert wurden. Drei Sekunden wird den folgenden zwei Gründen als Länge für Szenarien in dieser Arbeit gewählt. Erstens orientiert sich diese Zeitspanne an den vorherigen Arbeiten zur Szenarienerkennung. Zweitens haben die zwei Szenarien \textit{lane change left} und \textit{lane change right} jeweils eine natürliche Länge von 3-4 Sekunden. Alle anderen Szenarien können länger sein, lassen sich aber in Blöcke von jeweils 3 Sekunden einteilen. Insgesamt werden 326.108 Zeitpunkte und 23.972 Szenarien klassifiziert. Die Anzahl der simulierten Szenarien nach Klasse ist in der Tabelle \ref{tab_verteilung_szenarien} dargestellt.
 
 \begin{table}[h]
 \small
@@ -239,10 +241,30 @@ Summe & 23.972 \\
 \label{tab_verteilung_szenarien}
 \end{table}
 
+Es sind auch einige Szenarien als \textit{unknown} klassifiziert, da zwischen den definierten Szenarien andere Situationen auftreten können oder nicht die Mindestanzahl der konsekutiven Szenen erreicht wird. Zu manchen Zeitpunkten werden mehr als eine einzelne Szene klassifiziert. Beispielsweise kann sich das Ego-Fahrzeug gleichzeitig in der Szene \textit{catching up} und \textit{overtaking} befinden, wenn es auf der linken Fahrspur fährt und sich in vertikalem Abstand ein anderes Fahrzeug jeweils vor und hinter dem Ego-Fahrzeug befindet. Abbildung \ref{fig_beispiel_szenario_lcl} zeigt ein Beispiel des Szenarios \textit{lane change left} mit allen zugehörigen 15 Bildern.
 
-
-
-
+\begin{figure}[h]
+\centering
+\begin{tabular}{c c c c c}
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl0.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl1.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl2.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl3.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl4.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl5.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl6.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl7.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl8.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl9.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl10.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl11.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl12.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl13.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl14.jpg}} \\
+\end{tabular}
+\caption{Beispiel des Szenarios \textit{lane change left} \cite{ipg2018carmaker}}
+\label{fig_beispiel_szenario_lcl}
+\end{figure}
 
 
 % ===========================
