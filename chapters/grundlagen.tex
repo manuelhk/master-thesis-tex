@@ -289,12 +289,12 @@ Neben der Schwellenwertfunktion werden für die Aktivierung von einzelnen Neuron
 \label{fig_aktivierungsfunktionen}
 \end{figure}
 
-Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptronen werden mehrschichtige \acp{KNN} modelliert. Dadurch können diese auf unterschiedliche Probleme angewendet werden und überwinden die Schwächen eines einzelnen Perzeptrons (ausschließlich binäre Klassifizierung, keine \textit{XOR}-Operation). Ein mehrschichtiges \ac{KNN} besteht aus mindestens zwei Schichten, einer Ergebnis-Schicht und mindestens einer verborgenen Schicht. Der Eingangsvektor $\vec{x}$ wird nicht als eine Schicht gezählt. Jede Schicht besteht aus $1, ..., n$ Neuronen (Perzeptronen), die im Modell als Knoten modelliert sind. Die Neuronen einer Schicht bestehen jeweils aus einer gewichteten Summe und einer Aktivierungsfunktion und sind jeweils mit dem Eingangsvektor, dem Ergebnisvektor oder den Neuronen der vorherigen und nachfolgenden Schichten verbunden. Diese Verbindungen werden als Kanten modelliert und repräsentieren die Gewichte mit denen die Neuronen verknüpft sind. Abbildung \ref{fig_knn} zeigt das Schema eines dreischichtigen \ac{KNN}.
+Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptronen werden mehrschichtige \acp{KNN}, oder auch mehrlagiges Perzeptron (engl. multilayer perceptron), modelliert. Dadurch können diese auf unterschiedliche Probleme angewendet werden und überwinden die Schwächen eines einzelnen Perzeptrons (ausschließlich binäre Klassifizierung, keine \textit{XOR}-Operation). Ein mehrschichtiges \ac{KNN} besteht aus mindestens zwei Schichten, einer Ergebnis-Schicht und mindestens einer verborgenen Schicht. Der Eingangsvektor $\vec{x}$ wird nicht als eine Schicht gezählt. Jede Schicht besteht aus $1, ..., n$ Neuronen (Perzeptronen), die im Modell als Knoten modelliert sind. Die Neuronen einer Schicht bestehen jeweils aus einer gewichteten Summe und einer Aktivierungsfunktion und sind jeweils mit dem Eingangsvektor, dem Ergebnisvektor oder den Neuronen der vorherigen und nachfolgenden Schichten verbunden. Diese Verbindungen werden als Kanten modelliert und repräsentieren die Gewichte mit denen die Neuronen verknüpft sind. Abbildung \ref{fig_knn} zeigt das Schema eines dreischichtigen \ac{KNN}.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{knn.pdf}
-\caption{Dreischichtiges \acl{KNN}}
+\caption{Mehrlagiges Perzeptron mit zwei versteckten Schichten und einer Ausgangsschicht}
 \label{fig_knn}
 \end{figure}
 
@@ -312,7 +312,7 @@ o_k = p(c_k|x) = \frac{e^{x^\top w}}{\sum_{j=1}^Ce^{x_j^\top w}}
 
 Dabei beschreibt $x$ den Vektor mit Aktivierungswerten aus der vorherigen Schicht, $w$ den Gewichtsvektor und $C$ die Anzahl der Klassen $c_k$. Auf diese Weise können die Wahrscheinlichkeiten $p(c_k|x)$ für jede Klasse $c_k$, gegeben den Aktivierungswerten $x$, berechnet werden.
 
-Für das Erlernen von Gewichten in mehrschichtigen \acp{KNN} wird die Fehlerrückführung (engl. Error Backpropagation) verwendet. Die Idee bei diesem Verfahren ist es eine Fehlerfunktion, die die Abweichung zwischen der berechneten und der tatsächlichen Klasse beschreibt, zu definieren und dann zu minimieren \cite{bishop2006pattern}. Dafür wird die Funktion
+Für das Erlernen von Gewichten in mehrschichtigen \acp{KNN} wird die Fehlerrückführung (engl. error backpropagation) verwendet. Die Idee bei diesem Verfahren ist es eine Fehlerfunktion, die die Abweichung zwischen der berechneten und der tatsächlichen Klasse beschreibt, zu definieren und dann zu minimieren \cite{bishop2006pattern}. Dafür wird die Funktion
 
 \begin{equation}
 E = \frac{1}{2}\sum_{j=1}^n(t_j-o_j)^2
@@ -334,7 +334,7 @@ mit
 Dabei beschreibt $w_{ij}$ das Gewicht zwischen Neuron $i$ und Neuron $j$, $\eta$ eine feste Lernrate die beeinflusst wie stark Gewichte geändert werden und $E$ die oben definierte Fehlerfunktion.
 \end{enumerate}
 
-Mit diesem Algorithmus werden die Gewichte von mehrschichtigen \acp{KNN} bei jedem Trainingsschritt angepasst. Eine Herausforderung beim Training von \acp{KNN} ist es mit bisher unbekannten Daten gute Ergebnisse zu erzielen \cite{srivastava2014dropout}. Das bedeutet, dass im Laufe des Trainings die Gewichte so angepasst werden müssen, dass das Modell nach dem Training nicht nur mit den Trainingsdaten gute Ergebnisse erzielen kann. Dabei spricht man auch von Generalisierbarkeit. Wenn ein Modell dagegen nur mit den Trainingsdaten gute Ergebnisse erzielt, spricht man von Überanpassung (engl. Overfitting). Im Gegensatz dazu spricht man von Unteranpassung (engl. Underfitting), wenn ein Modell schon mit den Trainingsdaten sehr schlechte Ergebnisse erzielt. In Abbildung \ref{fig_overfitting} ist beispielhaft eine Unter- und Überanpassung eines binären Klassifikators dargestellt.
+Mit diesem Algorithmus werden die Gewichte von mehrschichtigen \acp{KNN} bei jedem Trainingsschritt angepasst. Eine Herausforderung beim Training von \acp{KNN} ist es mit bisher unbekannten Daten gute Ergebnisse zu erzielen \cite{srivastava2014dropout}. Das bedeutet, dass im Laufe des Trainings die Gewichte so angepasst werden müssen, dass das Modell nach dem Training nicht nur mit den Trainingsdaten gute Ergebnisse erzielen kann. Dabei spricht man auch von Generalisierbarkeit. Wenn ein Modell dagegen nur mit den Trainingsdaten gute Ergebnisse erzielt, spricht man von Überanpassung (engl. overfitting). Im Gegensatz dazu spricht man von Unteranpassung (engl. underfitting), wenn ein Modell schon mit den Trainingsdaten sehr schlechte Ergebnisse erzielt. In Abbildung \ref{fig_overfitting} ist beispielhaft eine Unter- und Überanpassung eines binären Klassifikators dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -343,7 +343,7 @@ Mit diesem Algorithmus werden die Gewichte von mehrschichtigen \acp{KNN} bei jed
 \label{fig_overfitting}
 \end{figure}
 
-Heute werden in Anwendungen häufig tiefe neuronale Netze (engl. Deep Neural Networks) verwendet. Von einem tiefen neuronalen Netz spricht man, wenn es viele versteckte Schichten besitzt. Damit können Merkmale auf verschiedenen Abstraktionsebenen erkannt werden \cite{lecun2015deep}. In den folgenden Absätzen \ref{grundlagen_nn_cnn} und \ref{grundlagen_nn_rnn} werden zwei verschiedene Architekturen von tiefen neuronalen Netzen vorgestellt, die in Kapitel \ref{umsetzung} für das Klassifizierungsproblem dieser Arbeit angewendet werden.
+Heute werden in Anwendungen häufig tiefe neuronale Netze (engl. deep neural networks) verwendet. Von einem tiefen neuronalen Netz spricht man, wenn es viele versteckte Schichten besitzt. Damit können Merkmale auf verschiedenen Abstraktionsebenen erkannt werden \cite{lecun2015deep}. In den folgenden Absätzen \ref{grundlagen_nn_cnn} und \ref{grundlagen_nn_rnn} werden zwei verschiedene Architekturen von tiefen neuronalen Netzen vorgestellt, die in Kapitel \ref{umsetzung} für das Klassifizierungsproblem dieser Arbeit angewendet werden.
 
 
 % ===========================
@@ -362,7 +362,7 @@ Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von eine
 \label{fig_conv_operation}
 \end{figure}
 
-In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 5x5x1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimensionen 3x3x1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
+In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 5 x 5 x 1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimensionen 3x3x1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
 
 \begin{equation}
 0*33+0*15+1*1+0*93+0*84+0*17+1*36+0*72+0*83=37
@@ -385,7 +385,7 @@ Mit Convolution-, Pooling- und Fully-Connected-Schichten kann die Architektur ei
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.2]{cnn.pdf}
-\caption{Beispiel eines \acp{CNN}}
+\caption{Beispiel eines \aclp{CNN}}
 \label{fig_cnn}
 \end{figure}
 
@@ -395,7 +395,50 @@ Mit Convolution-, Pooling- und Fully-Connected-Schichten kann die Architektur ei
 \label{grundlagen_nn_rnn}
 % ===========================
 
- Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+In diesem Abschnitt wird die Architektur von \acfp{RNN} und einer modifizierten Version davon, \acfp{LSTM}, vorgestellt. Ein \ac{RNN} ist ein \ac{KNN}, das besonders für sequentielle Daten geeignet ist. Der Unterschied zu der Architektur eines mehrlagigen Perzeptrons ist, dass die Neuronen einer versteckten Schicht bei einem \ac{RNN} miteinander und mit vorherigen Schichten verbunden sind \cite{graves2012rnn}. Damit entsteht nicht nur eine Abhängigkeit zu den Aktivierungswerten der vorherigen Schicht, sondern auch zu den Werten von anderen Neuronen derselben Schicht. Das bedeutet wiederum, dass das \ac{RNN} nicht von einem einzigen Eingangsvektor abhängig ist, sondern von einer Sequenz von Eingangsvektoren. Es gibt verschiedene Architekturen von \acp{RNN}, e.g. mit Ergebniswerten von jedem Input (engl. many to many) oder nur einem Ergebniswert am Ende einer Sequenz (engl. many to one). Diese beiden Varianten sind beispielhaft in Abbildung \ref{fig_rnn} dargestellt. In dieser Arbeit wird in Kapitel \ref{umsetzung} die Variante mit einem Ergebnis basierend auf einer Sequenz von Inputdaten verwendet, i.e. die Berechnung einer Klasse auf Basis einer Bildsequenz.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c@{\hskip 1.5cm}c}
+\subfloat[many to many]{\includegraphics[scale=0.6]{rnn_1.pdf}} &
+\subfloat[many to one]{\includegraphics[scale=0.6]{rnn_2.pdf}} \\
+\end{tabular}
+\caption{Beispiel von zwei verschiedenen \ac{RNN}-Architekturen}
+\label{fig_rnn}
+\end{figure}
+
+Wenn nun in einem \ac{RNN} die Fehlerrückführung (engl. error backpropagation) angewendet wird, kommt es schnell zu dem Problem des verschwindenden oder explodierenden Gradienten (engl. vanishing or exploding gradient). Das basiert auf der Multiplikation der Gradienten von mehreren Sequenzschritten. Wenn der Gradient größer als 1 ist, wächst er sehr schnell (explodiert), wenn er kleiner als 1 ist, geht er schnell gegen 0 (verschwindet). In beiden Fällen kann es zu sehr langen Trainingszeiten, in Extremfällen zu keinem Training, kommen \cite{graves2012rnn}. Die Lösung dieses Problems wurde von Hochreiter und Schmidhuber \cite{hochreiter1997long} in Form der \ac{LSTM}-Zelle vorgestellt.
+
+Eine \ac{LSTM}-Zelle ist mit drei Toren, dem Eingangstor (engl. input gate), dem Merk- und Vergesstor (engl. forget gate) und dem Ausgangstor (engl. output gate), und einem Zellenzustand aufgebaut. Die Idee ist, dass die \ac{LSTM}-Zelle ein Kurzzeitgedächtnis an frühere Werte hat, das lange hält (engl. \acl{LSTM}). Die Abbildung \ref{fig_lstm} zeigt eine solche \ac{LSTM}-Zelle.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{lstm.pdf}
+\caption{\acl{LSTM}-Zelle \cite{olah2015lstm}}
+\label{fig_lstm}
+\end{figure}
+
+Das Vergesstor $f_t$, das Eingangstor $i_t$ und das Ausgangstor $o_t$ ist jeweils mit einer Sigmoid-Funktion $\sigma$ modelliert und hat als Ergebnis einen Wert zwischen 0 und 1. Dieser Wert gibt an, wie durchlässig das jeweilige Tor ist. Der Zustand der Zelle $c_t$ zum Zeitpunkt $t$ wird von der Zelle verwendet um Werte zu speichern oder zu ändern. $x_t$ ist der Dateninput zum Zeitpunkt $t$. Die Tore $f_t$, $i_t$ und $o_t$, der Zustand der Zelle $c_t$ und der Ergebniswert $h_t$ der Zelle werden mit der jeweiligen Gewichtsmatrix $W$ und dem Bias $b$ wie folgt berechnet \cite{olah2015lstm}.
+
+\begin{equation}
+f_t = \sigma (W_f[h_{t-1}, x_t] + b_f)
+\end{equation}
+
+\begin{equation}
+i_t = \sigma (W_i[h_{t-1}, x_t] + b_i)
+\end{equation}
+
+\begin{equation}
+o_t = \sigma (W_o[h_{t-1}, x_t] + b_o)
+\end{equation}
+
+\begin{equation}
+c_t = f_t * c_{t-1} + i_t * \tanh((W_c[h_{t-1}, x_t]) + b_c)
+\end{equation}
+
+\begin{equation}
+h_t = o_t * \tanh(c_t)
+\end{equation}
 
 
 % ===========================
@@ -405,11 +448,11 @@ Mit Convolution-, Pooling- und Fully-Connected-Schichten kann die Architektur ei
 
 Ein großes Problem beim Training von neuronalen Netzen ist der Aufwand um die Trainings- und Validierungsdaten zu labeln \cite{richter2016playing}. Ein Ansatz dem entgegenzuwirken ist das Training mit synthetischen Daten oder einer Kombination aus synthetischen und realen Daten. In diesem Abschnitt werden vier Arbeiten aus den letzten Jahren vorgestellt, die diesen Ansatz untersuchen.
 
-Ros et al. \cite{ros2016synthia} haben für die Simulation einer virtuellen Stadt die Unity Development Platform verwendet. Mit virtuellen Fahrten wurden insgesamt circa 200.000 Bilder generiert und diese mit 11 Klassen (e.g. \textit{Sky, Buildings, Road}) auf Pixelebene annotiert. Für das Training wurden die Bilder auf eine Größe von 180x120 Pixel reduziert. Das kombinierte Training mit synthetischen und realen Daten auf den Datensätzen KITTI, CamVid, U-LabelMe und CBCL hat die Genauigkeit (engl. accuracy) auf den realen Testdaten, im Vergleich zum Training mit ausschließlich realen Daten, deutlich gesteigert
+Ros et al. \cite{ros2016synthia} haben für die Simulation einer virtuellen Stadt die Unity Development Platform verwendet. Mit virtuellen Fahrten wurden insgesamt circa 200.000 Bilder generiert und diese mit 11 Klassen (e.g. \textit{Sky, Buildings, Road}) auf Pixelebene annotiert. Für das Training wurden die Bilder auf eine Größe von 180 x 120 Pixeln reduziert. Das kombinierte Training mit synthetischen und realen Daten auf den Datensätzen KITTI, CamVid, U-LabelMe und CBCL hat die Genauigkeit (engl. accuracy) auf den realen Testdaten, im Vergleich zum Training mit ausschließlich realen Daten, deutlich gesteigert
 
-Johnson-Roberson et al. \cite{johnson2017driving} und Richter et al. \cite{richter2016playing} haben für die Generierung von Trainingsdaten das Computerspiel GTA5 verwendet. Die Grafikleistung dieses Spiels übertrifft kommerzielle und Open-Source Simulationssoftware und ist daher sehr gut für die Simulation von Bilddaten geeignet. Johnson-Roberson et al. \cite{johnson2017driving} generierten zwei Datensätze mit 50.000 und 200.000 Bildern mit Begrenzungsboxen (engl. Bounding Boxes) als Label für Fahrzeuge. Mit ihrem kombinierten Training zusammen mit dem KITTI Datensatz konnten sie die Genauigkeit auf den Testdaten, im Vergleich zum Training auf ausschließlich realen Daten, verbessern. Richter et al. \cite{richter2016playing} generierten 25.000 Bilder mit einer Annotation auf Pixelebene von 19 Klassen (e.g. \textit{Road, Sky, Car}). Mit diesen Bilder und einem kombinierten Training zusammen mit dem KITTI Datensatz konnte auch sie die Genauigkeit verbessern.
+Johnson-Roberson et al. \cite{johnson2017driving} und Richter et al. \cite{richter2016playing} haben für die Generierung von Trainingsdaten das Computerspiel GTA5 verwendet. Die Grafikleistung dieses Spiels übertrifft kommerzielle und Open-Source Simulationssoftware und ist daher sehr gut für die Simulation von Bilddaten geeignet. Johnson-Roberson et al. \cite{johnson2017driving} generierten zwei Datensätze mit 50.000 und 200.000 Bildern mit Begrenzungsboxen (engl. bounding boxes) als Label für Fahrzeuge. Mit ihrem kombinierten Training zusammen mit dem KITTI Datensatz konnten sie die Genauigkeit auf den Testdaten, im Vergleich zum Training auf ausschließlich realen Daten, verbessern. Richter et al. \cite{richter2016playing} generierten 25.000 Bilder mit einer Annotation auf Pixelebene von 19 Klassen (e.g. \textit{Road, Sky, Car}). Mit diesen Bilder und einem kombinierten Training zusammen mit dem KITTI Datensatz konnte auch sie die Genauigkeit verbessern.
 
-Tremblay et al. \cite{tremblay2018training} verfolgten bei der Generierung von Bilder einen etwas anderen Ansatz. Sie nutzen 3D Modelle von Fahrzeugen und platzierten diese mit zufällige Positionen und Ausrichtungen auf verschiedene reale Szenen. Die 100.000 Bilder wurde mit Begrenzungsboxen (engl. Bounding Boxes) um Fahrzeuge gelabelt. Beim Training wurden ausschließlich die synthetischen Daten verwendet und es wurde eine Genauigkeit von circa 80\% erreicht.
+Tremblay et al. \cite{tremblay2018training} verfolgten bei der Generierung von Bilder einen etwas anderen Ansatz. Sie nutzen 3D Modelle von Fahrzeugen und platzierten diese mit zufällige Positionen und Ausrichtungen auf verschiedene reale Szenen. Die 100.000 Bilder wurde mit Begrenzungsboxen (engl. bounding boxes) um Fahrzeuge gelabelt. Beim Training wurden ausschließlich die synthetischen Daten verwendet und es wurde eine Genauigkeit von circa 80\% erreicht.
 
 Insgesamt zeigt das Training von neuronalen Netzen mit einer Kombination von synthetischen und realen Daten bereits vielversprechende Ergebnisse, auf denen dieses Arbeit aufbauen will.
 

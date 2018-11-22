@@ -77,7 +77,7 @@ Auf Basis der Definitionen aus dem vorherigen Abschnitt \ref{umsetzung_definitio
 
 Für die Simulation der Signal- und Bilddaten wird die kommerzielle Software CarMaker von IPG Automotive \cite{ipg2018carmaker} verwendet. Diese Simulationssoftware wird für den virtuellen Fahrversuch und \ac{HiL}-Tests eingesetzt um Komponenten in unterschiedlichen Szenarien zu testen. In dieser Arbeit wird CarMaker verwendet, um die Szenarien \textit{free cruising}, \textit{approaching}, \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right} zu simulieren.
 
-Für die Aufnahme der benötigten Bilddaten wird im simulierten Fahrzeug ein entsprechender Kamerasensor konfiguriert. Die Konfiguration des Sensors orientiert sich an der Konfiguration von realen Frontview-Kameras im Fahrzeug nach Punke \cite{punke2015kamera}. So ist der Kamerasensor an der Stelle des Rückfahrspiegels platziert und hat eine Auflösung von 640x480 Pixeln, ein vertikales Blickfeld von XX° und ein horizontales Blickfeld von XX° \todo{Konfiguration einfügen}. Die Konfiguration und Position des Sensors im Modul \textit{CarMaker - Vehicle Data Set} ist in Abbildung \ref{fig_car_camera_sensor} zu sehen.
+Für die Aufnahme der benötigten Bilddaten wird im simulierten Fahrzeug ein entsprechender Kamerasensor konfiguriert. Die Konfiguration des Sensors orientiert sich an der Konfiguration von realen Frontview-Kameras im Fahrzeug nach Punke \cite{punke2015kamera}. So ist der Kamerasensor an der Stelle des Rückfahrspiegels platziert und hat eine Auflösung von 640 x 480 Pixeln, ein vertikales Blickfeld von XX° und ein horizontales Blickfeld von XX° \todo{Konfiguration einfügen}. Die Konfiguration und Position des Sensors im Modul \textit{CarMaker - Vehicle Data Set} ist in Abbildung \ref{fig_car_camera_sensor} zu sehen.
 
 \begin{figure}[h]
 \centering
@@ -317,7 +317,7 @@ In diesem Abschnitt wird zu Beginn das Format und der Import der Trainings- und 
 
 Die Generierung der synthetischen und realen Trainings- und Testdaten wurde bereits in den vorherigen Abschnitten beschrieben. In diesem Abschnitt soll kurz darauf eingegangen werden wie diese Daten in das jeweilige \ac{KNN} eingespeist werden.
 
-In dieser Arbeit werden \acp{CNN} für die Erkennung einzelner Bilder und Kombinationen aus \acp{CNN} und \ac{LSTM} für die Klassifizierung von Videos eingesetzt. Daher müssen sowohl einzelne Bilder, als auch Bildsequenzen in das jeweilige \ac{KNN} importiert werden. Da es sich um große Datenmengen von über 50GB handelt, müssen die Daten mit einem Datenstrom (engl. data stream) eingespeist werden, da nicht alle Daten zu Beginn in den Arbeitsspeicher geladen werden können.
+In dieser Arbeit werden \acp{CNN} für die Erkennung einzelner Bilder und Kombinationen aus \acp{CNN} und \ac{LSTM} für die Klassifizierung von Videos eingesetzt. Daher müssen sowohl einzelne Bilder, als auch Bildsequenzen in das jeweilige \ac{KNN} importiert werden. Da es sich um große Datenmengen von über 50GB handelt, müssen die Daten mit einem Datenstrom eingespeist werden, da nicht alle Daten zu Beginn in den Arbeitsspeicher geladen werden können.
 
 Die Deep-Learning-Bibliothek Keras hat bereits sogenannte \textit{DataGenerators} für der Import von einzelnen Bildern und für sequenzielle Daten mit zwei Dimensionen (e.g. CSV-Dateien). Es gibt allerdings keine bereits nutzbare Lösung für den Import von sequentiellen Bildern, was 4-dimensionalen Daten entspricht (Anzahl Bilder, Höhe, Breite, Farbkanal). Aus diesem Grund wird die Lösung von Amidi \ref{amidi2017datagenerator} adaptiert um höher-dimensionale Datensets importieren zu können.
 
@@ -335,7 +335,6 @@ Um das Ergebnis nicht zu verzerren, sollten für das Training mit neuronalen Net
 & Training & Validierung & Test & Training & Validierung & Test & \\
 Szenario & 85\% & 10\% & 5\% & 65\% & 10\% & 25\% & Summe \\
 \hline
-
 free cruising & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
 following & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
 catching up & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
@@ -350,6 +349,7 @@ lane change right & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
 \label{tab_daten_aufteilung}
 \end{table}
 
+Die Bilddaten werden für das Training außerdem in die Form 299 x 299 x 3 Pixel transformiert. Diese Bildgröße ist ein Kompromiss zwischen Detailgrad und Trainingszeit und wird in Keras, neben der Auflösung 244 x 244 x 3 Pixel, für \acp{CNN} als Standardkonfiguration vorgeschlagen \cite{chollet2015keras}.
 
 % ===========================
 \subsection{Architektur künstlicher neuronaler Netze}
@@ -367,6 +367,7 @@ Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lo
  Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
  
  Dropout - \cite{hinton2012improving}
+ \cite{srivastava2014dropout}
 
  
  
