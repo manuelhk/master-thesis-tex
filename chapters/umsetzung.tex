@@ -4,19 +4,7 @@
 \label{umsetzung}
 % ===========================
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-
-
-\begin{lstlisting}[language=Python]
-import numpy as np
-# This is a comment
-a = 5
-for x in range(a):
-   print("Hello")
-\end{lstlisting}
-
-
-Dropout - \cite{hinton2012improving}
+In diesem Kapitel wird die Umsetzung des Konzepts aus dem vorherigen Kapitel beschrieben. Zu Beginn werden die dafür notwendigen Fahrszenarien in Abschnitt \ref{umsetzung_definition} definiert. Danach wirda in den Abschnitten \ref{umsetzung_daten_synth} und \ref{umsetzung_daten_real} die Methodik für die Generierung von synthetische Trainingsdaten und reale Trainings- und Testdaten erläutert. Im Anschluss wird in Abschnitt \ref{umsetzung_training} die Architektur und die Experimente des Klassifikators für die Szenarienerkennung beschrieben.
 
 
 % ===========================
@@ -319,7 +307,7 @@ Die Aufnahme der Route 1 umfasst über sechs Stunden Videomaterial mit über ein
 \label{umsetzung_training}
 % ===========================
 
-Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+In diesem Abschnitt wird zu Beginn das Format und der Import der Trainings- und Testdaten in das \ac{KNN} erklärt. Danach werden verschiedene Architekturen von \acp{KNN}, die in dieser Arbeit zum Einsatz kommen, vorgestellt und schließlich werden die durchgeführten Experimente mit diesen Architekturen erläutert. Die Vorbereitung der Daten und das Training wird mit Python und der Deep-Learning-Bibliothek Keras \cite{chollet2015keras} implementiert.
 
 
 % ===========================
@@ -327,11 +315,44 @@ Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming 
 \label{umsetzung_training_input}
 % ===========================
 
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+Die Generierung der synthetischen und realen Trainings- und Testdaten wurde bereits in den vorherigen Abschnitten beschrieben. In diesem Abschnitt soll kurz darauf eingegangen werden wie diese Daten in das jeweilige \ac{KNN} eingespeist werden.
+
+In dieser Arbeit werden \acp{CNN} für die Erkennung einzelner Bilder und Kombinationen aus \acp{CNN} und \ac{LSTM} für die Klassifizierung von Videos eingesetzt. Daher müssen sowohl einzelne Bilder, als auch Bildsequenzen in das jeweilige \ac{KNN} importiert werden. Da es sich um große Datenmengen von über 50GB handelt, müssen die Daten mit einem Datenstrom (engl. data stream) eingespeist werden, da nicht alle Daten zu Beginn in den Arbeitsspeicher geladen werden können.
+
+Die Deep-Learning-Bibliothek Keras hat bereits sogenannte \textit{DataGenerators} für der Import von einzelnen Bildern und für sequenzielle Daten mit zwei Dimensionen (e.g. CSV-Dateien). Es gibt allerdings keine bereits nutzbare Lösung für den Import von sequentiellen Bildern, was 4-dimensionalen Daten entspricht (Anzahl Bilder, Höhe, Breite, Farbkanal). Aus diesem Grund wird die Lösung von Amidi \ref{amidi2017datagenerator} adaptiert um höher-dimensionale Datensets importieren zu können.
+
+Von den generierten synthetischen und realen Szenarien werden \textit{free cruising}, \textit{following}, \textit{catching up}, \textit{lane change left} und \textit{lane change right} für das Training ausgewählt. Das Szenario \textit{approaching} wurde für den Proof-of-Concept in dieser Arbeit bewusst entfernt, weil es oft Überscheidungen mit dem Szenario \textit{following} gibt. Diese Überschneidungen und Ähnlichkeiten zwischen Szenarien und ihren Einfluss auf das Training eines Klassifikators können in weiteren Arbeiten untersucht werden. Das Szenario \textit{overtaking} wurde entfernt, weil es mit der konfigurierten Frontkamera allein nicht erfasst werden kann. In folgenden Arbeiten kann dieses Szenario mithilfe weiterer Kameraperspektiven zusätzlich berücksichtigt werden.
+
+Um das Ergebnis nicht zu verzerren, sollten für das Training mit neuronalen Netzen in jeder Klasse jeweils die gleiche Anzahl an Trainings- und Testdaten vorhanden sein. Aus diesem Grund werden für das Training aus jeder Klasse nur die Anzahl der Szenarien verwendet, die mindestens in jeder Klasse verfügbar sind. Damit dieser Ansatz auch in der Praxis verwendet werden kann wird außerdem darauf geachtet, dass 95\% synthetische Daten und 5\% reale Daten für das Training verwendet werden. Mit dieser Verteilung bleibt der manuelle Aufwand für das Labeln der Trainingsdaten überschaubar. Die daraus resultierende Aufteilung von synthetischen und realen Szenarien auf Trainings-, Validierungs- und Testdaten ist in Tabelle \ref{tab_daten_aufteilung} aufgeschlüsselt. Beim Training mit einzelnen Bildern wird die gleiche Verteilung angewendet und da jedes Szenario aus 15 Bilder besteht, können die Zahlen aus Tabelle \ref{tab_daten_aufteilung} einfach mit 15 multipliziert werden.
+
+\begin{table}[h]
+\small
+\centering
+\def\arraystretch{1.4}
+\begin{tabular}{l | c c c c c c | c}
+
+& \multicolumn{3}{c}{\textbf{Synthetische Daten}} & \multicolumn{3}{c|}{\textbf{\textbf{Reale Daten}}} & \\
+& Training & Validierung & Test & Training & Validierung & Test & \\
+Szenario & 85\% & 10\% & 5\% & 65\% & 10\% & 25\% & Summe \\
+\hline
+
+free cruising & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
+following & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
+catching up & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
+lane change left & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
+lane change right & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
+\hline
+\textbf{Summe} & \textbf{4.035} & \textbf{475} & \textbf{240} & \textbf{215} & \textbf{35} & \textbf{85} & 5.085 \\
+\hline
+
+\end{tabular}
+\caption{Aufteilung von synthetischen und realen Szenarios auf Trainings-, Validierungs- und Testdaten}
+\label{tab_daten_aufteilung}
+\end{table}
 
 
 % ===========================
-\subsection{Architektur des neuronalen Netzes}
+\subsection{Architektur künstlicher neuronaler Netze}
 \label{umsetzung_training_architektur}
 % ===========================
 
@@ -344,6 +365,8 @@ Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lo
 % ===========================
 
  Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+ 
+ Dropout - \cite{hinton2012improving}
 
  
  
