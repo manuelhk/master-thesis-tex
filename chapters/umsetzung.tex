@@ -77,14 +77,7 @@ Auf Basis der Definitionen aus dem vorherigen Abschnitt \ref{umsetzung_definitio
 
 Für die Simulation der Signal- und Bilddaten wird die kommerzielle Software CarMaker von IPG Automotive \cite{ipg2018carmaker} verwendet. Diese Simulationssoftware wird für den virtuellen Fahrversuch und \ac{HiL}-Tests eingesetzt um Komponenten in unterschiedlichen Szenarien zu testen. In dieser Arbeit wird CarMaker verwendet, um die Szenarien \textit{free cruising}, \textit{approaching}, \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right} zu simulieren.
 
-Für die Aufnahme der benötigten Bilddaten wird im simulierten Fahrzeug ein entsprechender Kamerasensor konfiguriert. Die Konfiguration des Sensors orientiert sich an der Konfiguration von realen Frontview-Kameras im Fahrzeug nach Punke \cite{punke2015kamera}. So ist der Kamerasensor an der Stelle des Rückfahrspiegels platziert und hat eine Auflösung von 640 x 480 Pixeln, ein vertikales Blickfeld von XX° und ein horizontales Blickfeld von XX° \todo{Konfiguration einfügen}. Die Konfiguration und Position des Sensors im Modul \textit{CarMaker - Vehicle Data Set} ist in Abbildung \ref{fig_car_camera_sensor} zu sehen.
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{car_camera_sensor.png}
-\caption{Konfiguration des Kamerasensors im Modul \textit{CarMaker - Vehicle Data Set} \cite{ipg2018carmaker}}
-\label{fig_car_camera_sensor}
-\end{figure}
+Für die Aufnahme der benötigten Bilddaten wird im simulierten Fahrzeug ein entsprechender Kamerasensor konfiguriert. Die Konfiguration des Sensors orientiert sich an der Konfiguration von realen Frontview-Kameras im Fahrzeug nach Punke \cite{punke2015kamera}. So ist der Kamerasensor an der Stelle des Rückfahrspiegels platziert und hat eine Auflösung von 640 x 480 Pixeln und ein Sichtfeld von 20°.
 
 Die benötigten Signaldaten für das Labeln werden von den Definitionen aus Abschnitt \ref{umsetzung_definition} abgeleitet. Für die eindeutige Identifikation der logischen Szenarien werden die folgenden Werte benötigt: Geschwindigkeit des Ego-Fahrzeugs, Abstand und Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen, aktuelle Fahrspur des Ego-Fahrzeugs und allen anderen Fahrzeugen und die relative Position des Ego-Fahrzeugs, i.e. ob sich das Ego-Fahrzeug vor oder hinter einem anderen Fahrzeug befindet. Um den Abstand und die Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen aufzuzeichnen, wird ein Objektsensor im Ego-Fahrzeug konfiguriert. Mit diesem Sensor können im konfigurierten Radius alle Fahrzeuge und ihr Abstand und ihre relative Geschwindigkeit zum Ego-Fahrzeug erfasst und über die \textit{OutputQuantities} in CarMaker aufgezeichnet werden. Die Geschwindigkeit des Ego-Fahrzeugs und die Fahrspur-ID und Position aller Fahrzeuge können direkt, ohne zusätzlichen Sensor, über die \textit{OutputQuantities} aufgezeichnet werden. Die jeweiligen Variablen in CarMaker sind in der Tabelle \ref{tab_output_quantities} zusammengefasst.
 
@@ -112,11 +105,11 @@ Traffic.TX.Lane.Act.LaneId & Fahrspur-ID des Fahrzeugs TX \\
 \label{tab_output_quantities}
 \end{table}
 
-Für die Simulation werden zwei Strecken der Länge 6.000m und 10.000m mit dem \textit{CarMaker - Scenario Editor} erstellt. Bei beiden Strecken handelt es sich um eine 4-spurige Autobahn mit zwei Fahrspuren in jede Richtung. Die Fahrtrichtungen sind in der Mitte von einer Leitplanke getrennt und am Rand der Fahrbahn sind jeweils Standstreifen vorhanden. Abschnittsweise stehen neben der Fahrbahn auch einige Bäume, was in Abbildung \ref{fig_cm_road_strecke} mit grünen Streifen gekennzeichnet ist. Abbildung \ref{fig_cm_road_bild} zeigt die Konfiguration der simulierten Straße \todo{Bild einfügen}.
+Für die Simulation werden zwei Strecken der Länge 6.000m und 10.000m mit dem \textit{CarMaker - Scenario Editor} erstellt. Bei beiden Strecken handelt es sich um eine 4-spurige Autobahn mit zwei Fahrspuren in jede Richtung. Die Fahrtrichtungen sind in der Mitte von einer Leitplanke getrennt und am Rand der Fahrbahn sind jeweils Standstreifen vorhanden. Abschnittsweise stehen neben der Fahrbahn auch einige Bäume, was in Abbildung \ref{fig_cm_road_strecke} mit grünen Streifen gekennzeichnet ist. Abbildung \ref{fig_cm_road_bild} zeigt die Konfiguration der simulierten Straße.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{cm_road_bild.jpg}
+\includegraphics[scale=0.4]{cm_road_bild.png}
 \caption{Konfiguration der simulierten Straße \cite{ipg2018carmaker}}
 \label{fig_cm_road_bild}
 \end{figure}
@@ -352,11 +345,54 @@ lane change right & 807 & 95 & 48 & 43 & 7 & 17 & 1.017 \\
 Die Bilddaten werden für das Training außerdem in die Form 299 x 299 x 3 Pixel transformiert. Diese Bildgröße ist ein Kompromiss zwischen Detailgrad und Trainingszeit und wird in Keras, neben der Auflösung 244 x 244 x 3 Pixel, für \acp{CNN} als Standardkonfiguration vorgeschlagen \cite{chollet2015keras}.
 
 % ===========================
-\subsection{Architektur künstlicher neuronaler Netze}
+\subsection{Architektur der künstlichen neuronalen Netze}
 \label{umsetzung_training_architektur}
 % ===========================
 
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+In diesem Abschnitt werden verschiedene Architekturen von tiefen \acp{KNN} vorgestellt, die im nächsten Abschnitt \ref{umsetzung_training_experimente} für die Experimente in dieser Arbeit verwendet werden. Wie in Abschnitt \ref{grundlagen_nn_video} erläutert, gibt es verschiedenen Ansätze um Bildsequenzen mit \acp{KNN} zu klassifizieren. In dieser Arbeit werden zwei unterschiedliche Ansätze umgesetzt und miteinander verglichen. Im ersten Ansatz werden die Bilder in den Sequenzen einzeln klassifiziert. Anschließend wird den Sequenzen die Klasse zugeordnet, mit der die meisten Bilder in der Sequenz klassifiziert wurden. Für den zweiten Ansatz wird eine Kombination aus Bild- und Sequenzerkennung verwendet um die Bildsequenzen als ganzes zu klassifizieren. Die Architekturken für den jeweiligen Ansatz werden in den folgenden Absätzen vorgestellt.
+
+Beim ersten Ansatz handelt es sich um die Klassifizierung von einzelnen Bildern, wofür \acp{CNN} verwendet werden. Das Training mit \acp{CNN} hat in den vergangenen Jahre große Fortschritte gemacht durch die Verfügbarkeit von großen Datenmengen, steigender Rechenleistung und die Wiederverwendung von bereits vortrainierten \acp{CNN}. Diese Verwendung von bereits trainierten Netzen nennt sich Transferlernen (engl. transfer learning) \cite{oquab2014transfer}. Die Idee von einem \ac{CNN} ist es in den frühen Schichten sehr grundlegende Merkmale (engl. low-level features) und in späteren Schichten abstraktere Merkmale (engl. high-level features) zu extrahieren. Schließlich wird Bilder auf Basis dieser abstrakten Merkmale mithilfe von einer oder mehreren Fully-Connected-Schichten klassifiziert. Diese Funktionsweise macht man sich beim Transferlernen zunutze und verwendet ein \ac{CNN} das bereits auf vielen Millionen Bildern trainiert wurde. Dieses \ac{CNN} hat bereits gelernt unterschiedliche Merkmale aus Bildern zu extrahieren. Um ein ein solches neuronales Netz für die eigene Arbeit verwenden zu können, muss man lediglich die letzten Fully-Connected-Schichten ersetzen und mit den eigenen Bilddaten und entsprechenden Klassen trainieren \cite{oquab2014transfer}. Mit diesem Verfahren kann viel Zeit und Rechenleistung gespart werden, weil die grundlegende Merkmalsextraktion nicht grundlegend neu gelernt werden muss. 
+
+Das Transferlernen wird auch in dieser Arbeit verwendet. Dazu wurden verschiedene \ac{CNN}-Architekturen verglichen und schließlich zwei unterschiedliche für diese Arbeit ausgewählt. Eine Übersicht der bekanntesten vortrainierten \acp{CNN} ist in Abbildung \ref{fig_comparison_cnns} dargestellt. In dieser Darstellung werden die neuronalen Netze anhand ihrer erreichen Genauigkeit (engl. accuracy) und der benötigten Operationen bzw. ihrer Parameter bei der Berechnung einer Klassifizierung eingeordnet \cite{canziani2016analysis}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.35]{comparison_cnns.png}
+\caption{Vergleich von vortrainierten \aclp{CNN}, entnommen aus \cite{canziani2016analysis}}
+\label{fig_comparison_cnns}
+\end{figure}
+
+Für die Architekturen in dieser Arbeit werden die \acp{CNN} Inception-V3 \cite{szegedy2016inception} und VGG-16 \cite{simonyan2014vgg} als Basis verwendet, weil beide in vergangene Wettbewerben und anderen Arbeiten sehr gute Ergebnisse erzielen konnten.
+
+Das VGG-16 Netz 
+138,357,544
+
+ImageNet ist ein Datensatz mit 14.197.122 Bildern und 21.841 sogenannten Synonymmengen (engl. synonym sets) \cite{deng2009imagenet}. In Synonymmengen sind Wörter der gleichen Bedeutung zusammengefasst. Dabei sind alle Wörter auch hierarchisch nach dem WordNet-Projekt eingeordnet.
+
+Im Gegensatz zu einfach gestapelten Convolution- und Pooling-Schichten wie beispielsweise dem VGG-16 Netz, orientiert sich das Inception-V3 Netz an zusätzlichen Prinzipen, um die Genauigkeit zu verbessern und die Rechenleistung zu senken. Zusätzlich werden Convolution-Operationen nicht nur gestapelt, sondern auch parallel zu anderen Convolution-Operationen berechnet, was zu einer besseren Leistung des Netzes führt \cite{szegedy2016inception}. 
+
+Es wird argumentiert, dass ein Filter mit der Dimension 5x5 durch zwei aufeinanderfolgende Filter der Dimension 3x3 ersetzt werden kann, was die Rechenleistung deutlich reduziert \cite{szegedy2016inception}. Diese Funktionalität wird in einem sogenannten Inception-Modul umgesetzt, was in Abbildung \ref{fig_inc_fig} unter (a) zu sehen ist. Ein weiteres Prinzip ist, dass ein nxn-Filter mit einen 1xn-Filter gefolgt von einem nx1 Filter ersetzt werden kann, bei gleichbleibender Leistung und 33\% weniger Rechenaufwand. Dieses Prinzip ist in Abbildung \ref{fig_inc_fig} unter (b) dargestellt. Für das dritte Prinzip wird argumentiert, dass bei einer starken Dimensionsreduzierung durch Pooling-Schichten viel Information aus dem Bild verloren gehen kann. Um dies zu verhindern, werden statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt. Dieses Prinzip wird mit dem Inception-Modul aus Abbildung \ref{fig_inc_fig} unter (c) umgesetzt.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c c}
+\subfloat[Inception-Modul in dem ein 5x5-Filter mit zwei 3x3-Filter ersetzt wird]{\includegraphics[scale=0.35]{inc_fig_5.pdf}} &
+\subfloat[Inception-Modul in dem ein 7x7-Filter mit einen 1x7-Filter gefolgt von einem 7x1 Filter ersetzt wird]{\includegraphics[scale=0.35]{inc_fig_6.pdf}} \\
+\subfloat[Inception-Modul in statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt werden]{\includegraphics[scale=0.35]{inc_fig_7.pdf}} &
+\end{tabular}
+\caption{Inception-Module aus der Inception-V3 Architektur \cite{szegedy2016inception}}
+\label{fig_inc_fig}
+\end{figure}
+
+Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} dargestellt. In dieser Arbeit wird ein Inception-V3 Netz verwendet, das mit dem Datenset ImageNet \cite{deng2009imagenet} trainiert wurde.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.45]{inception_v3.png}
+\caption{Architektur des Inception-V3 Netzes, entnommen aus \cite{google2018inceptionv3}}
+\label{fig_inception_v3}
+\end{figure}
+
 
 
 % ===========================

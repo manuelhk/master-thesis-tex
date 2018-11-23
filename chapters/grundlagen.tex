@@ -19,7 +19,7 @@ In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderunge
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{level_autonomes_fahren.jpg}
-\caption{Norm SAE J3016 für die Level des autonomen Fahrens \cite{sae2014taxonomy}}
+\caption{Norm SAE J3016 für die Level des autonomen Fahrens, entnommen aus \cite{sae2014taxonomy}}
 \label{fig_level_autonomes_fahren}
 \end{figure}
 
@@ -353,7 +353,7 @@ Heute werden in Anwendungen häufig tiefe neuronale Netze (engl. deep neural net
 
 Ein \acf{CNN} ist eine Architektur eines \acp{KNN} und gilt heute als Stand der Technik für Probleme in der Bilderkennung \cite{krizhevsky2012imagenet}. Die Architektur eines \acp{CNN} besteht grundsätzlich aus einer oder mehreren Convolution-Schicht und einer Pooling-Schicht \cite{lecun2010convolutional}. Diese Abfolge kann sich beliebig oft wiederholen und wird am Ende mit einer oder mehreren Fully-Connected-Schicht für die Klassifizierung ergänzt. In den folgenden Absätzen werden die Funktionsweisen der Convolution- und der Pooling-Schicht erklärt. Eine Fully-Connected-Schicht entspricht einer Schicht wie sie im vorherigen Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben wurde. In Abbildung \ref{fig_cnn} ist ein gesamtes \ac{CNN} dargestellt.
 
-Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von einer Aktivierungsfunktion. Die Idee dieser Schicht ist es Merkmale aus einem Bild (oder anderen Inputdaten) zu extrahieren. Dabei werden in den ersten Schichten Merkmalen auf einer niedrigen Ebene und in späteren Schichten zunehmend abstraktere Merkmale extrahiert. Bei der Convolution-Operation (oder auch Faltung) wird ein ausgewählter Filter mit einer festgelegten Schrittgröße über das Bild bewegt und bei jedem Schritt der entsprechende Ausgabewert berechnet. Diese Operation ist in Abbildung \ref{fig_conv_operation} dargestellt.
+Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von einer Aktivierungsfunktion. Die Idee dieser Schicht ist es Merkmale aus einem Bild (oder anderen Inputdaten) zu extrahieren. Dabei werden in den ersten Schichten Merkmalen auf einer niedrigen Ebene (engl. low-level features) und in späteren Schichten zunehmend abstraktere Merkmale (engl. high-level features) extrahiert. Bei der Convolution-Operation (oder auch Faltung) wird ein ausgewählter Filter mit einer festgelegten Schrittgröße (engl. stride) über das Bild bewegt und bei jedem Schritt der entsprechende Ausgabewert berechnet. Diese Operation ist in Abbildung \ref{fig_conv_operation} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -362,7 +362,7 @@ Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von eine
 \label{fig_conv_operation}
 \end{figure}
 
-In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 5 x 5 x 1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimensionen 3x3x1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
+In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 5x5x1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimensionen 3x3x1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
 
 \begin{equation}
 0*33+0*15+1*1+0*93+0*84+0*17+1*36+0*72+0*83=37

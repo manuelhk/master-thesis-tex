@@ -16,6 +16,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{amsmath}
+\usepackage{pdfpages}
 \usepackage{hyperref}
 
 
@@ -68,7 +69,7 @@
 
 % definition of own variables
 \newcommand{\submissiondate}{23. Dezember 2018}
-\newcommand{\mytitle}{Künstliches Lernen: Trainingsdaten aus dem virtuellen \\ Fahrversuch für Deep Learning Algorithmen}
+\newcommand{\mytitle}{Künstliches Lernen: Trainingsdaten aus dem virtuellen Fahrversuch \\ für Szenarienklassifizierung mit Deep Learning Algorithmen}
 
 % define style/settings of code
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -103,16 +104,13 @@
 \pagenumbering{roman}
 
 %\input{chapters/titelseite}
+%\includepdf[pages=1]{chapters/titelseite_itiv.pdf}
 
 \tableofcontents
 
 \input{chapters/abstract}
-%\addcontentsline{toc}{chapter}{Abstract}
 
 \input{chapters/erklaerung}
-%\addcontentsline{toc}{chapter}{Eidesstattliche Erklärung}
-
-%\tableofcontents
 
 \cleardoublepage
 \pagenumbering{arabic}
