@@ -202,7 +202,6 @@ Im Anschluss an die Klassifizierung einzelner Zeitpunkte werden diese zu Szenari
 \centering
 \def\arraystretch{1.4}
 \begin{tabular}{l c}
-
 \textbf{Szenario} & \textbf{Anzahl} \\
 \hline
 Free cruising & 2.545 \\
@@ -216,7 +215,6 @@ Unknown & 1.670 \\
 \hline
 Summe & 23.972 \\
 \hline
-
 \end{tabular}
 \caption{Anzahl der simulierten Szenarien nach Klasse}
 \label{tab_verteilung_szenarien}
@@ -419,6 +417,8 @@ Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} darg
 
 Eine Fully-Connected-Schicht ist, wie in Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben, eine normale Schicht mit $n$ Neuronen in einem Multilayer-Perzeptron. Diese Schicht muss mit einer Anzahl  Neuronen $n$ und einer Aktivierungsfunktion $\varphi$ konfiguriert werden. Die Ergebnisschicht in einem \ac{KNN} ist ebenfalls immer eine Fully-Connected-Schicht. In dieser Arbeit werden in jeder Architektur zwei dieser Schichten verwendet, eine nach dem vortrainierten \ac{CNN} bzw. der \ac{LSTM}-Schicht und die andere als Ergebnisschicht. Die erste Fully-Connected Schicht besteht in dieser Arbeit immer aus 128 Neuronen und der \ac{ReLU}-Aktivierungsfunktion \cite{nair2010rectified}. In der Ergebnisschicht werden alle zuvor extrahierten Merkmale auf die Anzahl der Klassen heruntergebrochen und daher besteht die Ergebnisschicht aus der gleichen Anzahl Neuronen wie es Klassen gibt. Als Aktivierungsfunktion für ein Multiklassen-Problem ($C>2$), wie in dieser Arbeit, wird Softmax als Aktivierungsfunktion verwendet \cite{bishop2006pattern}.
 
+\todo{Exkurs Regularisierung}
+
 Dropout ist eine Regularisierungs-Methode um beim Training von \acp{KNN} Überanpassung (engl. Overfitting) zu vermeiden und insgesamt bessere Leistung bei der Kombination von verschiedenen Architekturen zu erreichen \cite{srivastava2014dropout}. Die Grundidee von Dropout ist es die Komplexität eines \acp{KNN} zu reduzieren, indem bei jedem Trainingsschritt zufällig einige Neuronen und die zugehörigen Kanten im Netz, die Gewichte, entfernt. Dafür wird einer Schicht im Netz eine Rate $r$ zugeordnet. Diese Rate $r$ gibt an, welcher Anteil der Neuronen aus dieser Schicht zufällig entfernt wird. Bei $r=0,5$ werden beispielsweise 50\% aller Neuronen in jedem Trainingsschritt zufällig entfernt. Das Ergebnis ist, dass das \ac{KNN} nicht zu abhängig von einzelnen Neuronen oder Gewichten wird und insgesamt bessere Ergebnisse erzielt werden können \cite{srivastava2014dropout}. In dieser Arbeit wird Dropout mit der Rate $r=0,5$ verwendet. Obwohl Dropout keine eigenständige Schicht ist, wird es in Keras als Schicht modelliert. Dabei bezieht sich Dropout aber stets auf die jeweilige Schicht davor. Ein Beispiel von Dropout ist in Abbildung \ref{fig_dropout} dargestellt.
 
 \begin{figure}[h]
@@ -453,6 +453,7 @@ Ausgehend von der Darstellung in Abbildung \ref{fig_architekturen_grundlegend} w
 
 \begin{table}[h]
 \centering
+\small
 \def\arraystretch{1.4}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -486,6 +487,7 @@ Analog zu den Architekturen für die Klassifizierung von einzelnen Bildern, werd
 
 \begin{table}[h]
 \centering
+\small
 \def\arraystretch{1.4}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -525,7 +527,32 @@ ohne Dropout & Dropout & ohne Dropout & Dropout \\
 \label{umsetzung_training_experimente}
 % ===========================
 
- Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+Das Ziel der Experimente ist eine möglichst hohe Genauigkeit (engl. accuracy) bei der Klassifizierung von Bildsequenzen. Bei Mehrklassenproblemen werden häufig die Top-1 und Top-5 Genauigkeit bzw. der Top-1 und Top-5 Fehler untersucht \cite{szegedy2016inception, simonyan2014vgg}. Das Ergebnis einer Multiklassen-Klassifikation für jeden Input ist ein Vektor mit Wahrscheinlichkeiten für jede Klasse. Bei der Top-1 Genauigkeit bzw. dem Top-1 Fehler wird jeweils nur die Klasse mit der höchsten Genauigkeit betrachtet und mit der richtigen Klasse abgeglichen. Bei der Top-5 Genauigkeit bzw. dem Top-5 Fehler werden jeweils die fünf Klassen mit den höchsten Wahrscheinlichkeit mit mit der richtigen Klasse abgeglichen. Da in dieser Arbeit nur insgesamt fünf Klassen betrachtet werden, wird in dieser Arbeit nur die Top-1 Genauigkeit als Metrik betrachtet.
+
+Anhand dieser Metrik werden die unterschiedlichen Architekturen aus dem vorherigen Abschnitt \ref{umsetzung_training_architektur} untersucht, mit jeweils 10 und 100 Epochen trainiert und dann getestet. Aus der Variation von vier Parametern mit jeweils zwei Ausprägungen ergeben sich insgesamt 16 Experimente. Die Parameter mit ihren Ausprägungen sind auch in Tabelle \ref{tab_parameter} zusammengefasst.
+
+\begin{table}[h]
+\small
+\centering
+\def\arraystretch{1.4}
+\begin{tabular}{l l}
+\textbf{Parameter} & \textbf{Ausprägungen} \\
+\hline
+Prinzip der Klassifizierung & einzelne Bilder, Bildersequenzen \\
+\acl{CNN} & Inception-V3, VGG-16 \\
+Regularisierung & ohne Dropout, mit Dropout \\
+Epochen & 10, 100 \\
+\hline
+\end{tabular}
+\caption{Parameter die in den Experimenten variiert werden}
+\label{tab_parameter}
+\end{table}
+
+
+
+
+
+
  
 
 
