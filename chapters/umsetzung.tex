@@ -349,23 +349,43 @@ Die Bilddaten werden für das Training außerdem in die Form 299 x 299 x 3 Pixel
 \label{umsetzung_training_architektur}
 % ===========================
 
-In diesem Abschnitt werden verschiedene Architekturen von tiefen \acp{KNN} vorgestellt, die im nächsten Abschnitt \ref{umsetzung_training_experimente} für die Experimente in dieser Arbeit verwendet werden. Wie in Abschnitt \ref{grundlagen_nn_video} erläutert, gibt es verschiedenen Ansätze um Bildsequenzen mit \acp{KNN} zu klassifizieren. In dieser Arbeit werden zwei unterschiedliche Ansätze umgesetzt und miteinander verglichen. Im ersten Ansatz werden die Bilder in den Sequenzen einzeln klassifiziert. Anschließend wird den Sequenzen die Klasse zugeordnet, mit der die meisten Bilder in der Sequenz klassifiziert wurden. Für den zweiten Ansatz wird eine Kombination aus Bild- und Sequenzerkennung verwendet um die Bildsequenzen als ganzes zu klassifizieren. Die Architekturken für den jeweiligen Ansatz werden in den folgenden Absätzen vorgestellt.
+Wie in Abschnitt \ref{grundlagen_nn_video} erläutert, gibt es verschiedenen Ansätze um Bildsequenzen mit \acp{KNN} zu klassifizieren. In dieser Arbeit werden zwei unterschiedliche Ansätze umgesetzt und miteinander verglichen. Im ersten Ansatz werden die Bilder aus den Bildersequenzen einzeln klassifiziert. Anschließend wird den Sequenzen die Klasse zugeordnet, mit der die meisten Bilder aus der jeweiligen Sequenz klassifiziert wurden (Mehrheitsprinzip). Für den zweiten Ansatz wird eine Kombination aus Bild- und Sequenzerkennung verwendet um die Bildersequenzen als Ganzes zu klassifizieren. Die Architekturken für den jeweiligen Ansatz sind schematisch in Abbildung \ref{fig_ansaetze_architekturen} dargestellt und werden im Detail in den folgenden Absätzen erklärt. Dazu werden zu Beginn die Architekturen und Konfigurationen der verwendeten \acp{CNN} vorgestellt. Anschließend werden die verwendeten Fully-Connected-, Dropout- und \ac{LSTM}-Schichten mit den verwendeten Parametern vorgestellt. Am Ende dieses Abschnitts werden alle Komponenten zusammengefügt und acht Architekturen vorgestellt, die für die Experiment in Abschnitt \ref{umsetzung_training_experimente} verwendet werden.
 
-Beim ersten Ansatz handelt es sich um die Klassifizierung von einzelnen Bildern, wofür \acp{CNN} verwendet werden. Das Training mit \acp{CNN} hat in den vergangenen Jahre große Fortschritte gemacht durch die Verfügbarkeit von großen Datenmengen, steigender Rechenleistung und die Wiederverwendung von bereits vortrainierten \acp{CNN}. Diese Verwendung von bereits trainierten Netzen nennt sich Transferlernen (engl. transfer learning) \cite{oquab2014transfer}. Die Idee von einem \ac{CNN} ist es in den frühen Schichten sehr grundlegende Merkmale (engl. low-level features) und in späteren Schichten abstraktere Merkmale (engl. high-level features) zu extrahieren. Schließlich wird Bilder auf Basis dieser abstrakten Merkmale mithilfe von einer oder mehreren Fully-Connected-Schichten klassifiziert. Diese Funktionsweise macht man sich beim Transferlernen zunutze und verwendet ein \ac{CNN} das bereits auf vielen Millionen Bildern trainiert wurde. Dieses \ac{CNN} hat bereits gelernt unterschiedliche Merkmale aus Bildern zu extrahieren. Um ein ein solches neuronales Netz für die eigene Arbeit verwenden zu können, muss man lediglich die letzten Fully-Connected-Schichten ersetzen und mit den eigenen Bilddaten und entsprechenden Klassen trainieren \cite{oquab2014transfer}. Mit diesem Verfahren kann viel Zeit und Rechenleistung gespart werden, weil die grundlegende Merkmalsextraktion nicht grundlegend neu gelernt werden muss. 
+\begin{figure}[h]
+\centering
+\begin{tabular}{c}
+\subfloat[Bilderkennung mit anschließendem Mehrheitsprinzip]{\includegraphics[scale=0.6]{ansatz_bilderkennung.pdf}} \\
+\subfloat[Kombination aus Bild- und Sequenzerkennung]{\includegraphics[scale=0.6]{ansatz_bildsequenzerkennung.pdf}}
+\end{tabular}
+\caption{Zwei Ansätze für die Videoklassifizierung}
+\label{fig_ansaetze_architekturen}
+\end{figure}
+
+% ===========================
+\subsubsection{\aclp{CNN}}
+% ===========================
+
+Das Training mit \acp{CNN} hat in den vergangenen Jahre große Fortschritte gemacht durch die Verfügbarkeit von großen Datenmengen, steigender Rechenleistung und die Wiederverwendung von bereits vortrainierten \acp{CNN}. Diese Verwendung von bereits trainierten Netzen nennt sich Transferlernen (engl. transfer learning) \cite{oquab2014transfer}. Die Idee von einem \ac{CNN} ist es in den frühen Schichten sehr grundlegende Merkmale (engl. low-level features) und in späteren Schichten abstraktere Merkmale (engl. high-level features) zu extrahieren. Schließlich wird Bilder auf Basis dieser abstrakten Merkmale mithilfe von einer oder mehreren Fully-Connected-Schichten klassifiziert. Diese Funktionsweise macht man sich beim Transferlernen zunutze und verwendet ein \ac{CNN} das bereits auf vielen Millionen Bildern trainiert wurde. Dieses \ac{CNN} hat bereits gelernt unterschiedliche Merkmale aus Bildern zu extrahieren. Um ein ein solches neuronales Netz für die eigene Arbeit verwenden zu können, muss man lediglich die letzten Fully-Connected-Schichten ersetzen und mit den eigenen Bilddaten und entsprechenden Klassen trainieren \cite{oquab2014transfer}. Mit diesem Verfahren kann viel Zeit und Rechenleistung gespart werden, weil die grundlegende Merkmalsextraktion nicht grundlegend neu gelernt werden muss. 
 
 Das Transferlernen wird auch in dieser Arbeit verwendet. Dazu wurden verschiedene \ac{CNN}-Architekturen verglichen und schließlich zwei unterschiedliche für diese Arbeit ausgewählt. Eine Übersicht der bekanntesten vortrainierten \acp{CNN} ist in Abbildung \ref{fig_comparison_cnns} dargestellt. In dieser Darstellung werden die neuronalen Netze anhand ihrer erreichen Genauigkeit (engl. accuracy) und der benötigten Operationen bzw. ihrer Parameter bei der Berechnung einer Klassifizierung eingeordnet \cite{canziani2016analysis}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.35]{comparison_cnns.png}
+\includegraphics[scale=0.3]{comparison_cnns.png}
 \caption{Vergleich von vortrainierten \aclp{CNN}, entnommen aus \cite{canziani2016analysis}}
 \label{fig_comparison_cnns}
 \end{figure}
 
 Für die Architekturen in dieser Arbeit werden die \acp{CNN} Inception-V3 \cite{szegedy2016inception} und VGG-16 \cite{simonyan2014vgg} als Basis verwendet, weil beide in vergangene Wettbewerben und anderen Arbeiten sehr gute Ergebnisse erzielen konnten.
 
-Das VGG-16 Netz 
-138,357,544
+Das VGG-16 Netz \cite{simonyan2014vgg} ist ein tiefes \acl{CNN}, das aus mehreren Convolution-, Pooling und Fully-Connected-Schichten besteht. Dabei sind die Schichten, wie in Abschnitt \ref{grundlagen_nn_cnn} beschrieben, aufeinander gestapelt. Das Netz umfasst insgesamt 138.357.544 trainierbare Parameter, die in dieser Arbeit auf Basis des ImageNet Datensatz vortrainiert waren. Die Architektur des Netztes ist in Abbildung \ref{fig_vgg_16} dargestellt. Davon werden in dieser Arbeit alle Convolution- und Pooling-Schichten verwendet. Die Fully-Connected- und Softmax-Schichten am Ende des Netzes werden entfernt, da sie auf die Klassifizierung der der ImageNet-Klassen angepasst sind. An ihrer Stelle werden andere Schichten eingefügt, die in weiteren Verlauf dieses Abschnitts erklärt werden.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{vgg16.png}
+\caption{Architektur des VGG-16 Netzes, entnommen aus \cite{cord2018vgg16}}
+\label{fig_vgg_16}
+\end{figure}
 
 ImageNet ist ein Datensatz mit 14.197.122 Bildern und 21.841 sogenannten Synonymmengen (engl. synonym sets) \cite{deng2009imagenet}. In Synonymmengen sind Wörter der gleichen Bedeutung zusammengefasst. Dabei sind alle Wörter auch hierarchisch nach dem WordNet-Projekt eingeordnet.
 
@@ -375,16 +395,16 @@ Es wird argumentiert, dass ein Filter mit der Dimension 5x5 durch zwei aufeinand
 
 \begin{figure}[h]
 \centering
-\begin{tabular}{c c}
-\subfloat[Inception-Modul in dem ein 5x5-Filter mit zwei 3x3-Filter ersetzt wird]{\includegraphics[scale=0.35]{inc_fig_5.pdf}} &
-\subfloat[Inception-Modul in dem ein 7x7-Filter mit einen 1x7-Filter gefolgt von einem 7x1 Filter ersetzt wird]{\includegraphics[scale=0.35]{inc_fig_6.pdf}} \\
-\subfloat[Inception-Modul in statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt werden]{\includegraphics[scale=0.35]{inc_fig_7.pdf}} &
+\begin{tabular}{ccc}
+\subfloat[Inception-Modul in dem ein 5x5-Filter mit zwei 3x3-Filter ersetzt wird]{\includegraphics[scale=0.3]{inc_fig_5.pdf}} &
+\subfloat[Inception-Modul in dem ein 7x7-Filter mit einen 1x7-Filter gefolgt von einem 7x1 Filter ersetzt wird]{\includegraphics[scale=0.3]{inc_fig_6.pdf}} &
+\subfloat[Inception-Modul in statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt werden]{\includegraphics[scale=0.3]{inc_fig_7.pdf}}
 \end{tabular}
 \caption{Inception-Module aus der Inception-V3 Architektur \cite{szegedy2016inception}}
 \label{fig_inc_fig}
 \end{figure}
 
-Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} dargestellt. In dieser Arbeit wird ein Inception-V3 Netz verwendet, das mit dem Datenset ImageNet \cite{deng2009imagenet} trainiert wurde.
+Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} dargestellt. In dieser Arbeit wird ein Inception-V3 Netz verwendet, das mit dem Datenset ImageNet \cite{deng2009imagenet} trainiert wurde. Wie bei dem VGG-16 Netz werden in dieser Arbeit die letzten Schichten (in der Abbildung der \textit{final part}) am Ende des Netzes entfernt und ebenfalls andere Schichten eingefügt, die in den nachfolgenden Absätzen erklärt werden.
 
 \begin{figure}[h]
 \centering
@@ -393,7 +413,41 @@ Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} darg
 \label{fig_inception_v3}
 \end{figure}
 
+% ===========================
+\subsubsection{Fully-Connected-, Dropout- und \ac{LSTM}-Schicht}
+% ===========================
 
+Eine Fully-Connected-Schicht ist, wie in Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben, eine normale Schicht mit $n$ Neuronen in einem Multilayer-Perzeptron. Diese Schicht muss mit einer Anzahl  Neuronen $n$ und einer Aktivierungsfunktion $\varphi$ konfiguriert werden. Die Ergebnisschicht in einem \ac{KNN} ist ebenfalls immer eine Fully-Connected-Schicht. In dieser Arbeit werden in jeder Architektur zwei dieser Schichten verwendet, eine nach dem vortrainierten \ac{CNN} bzw. der \ac{LSTM}-Schicht und die andere als Ergebnisschicht. Die erste Fully-Connected Schicht besteht in dieser Arbeit immer aus 128 Neuronen und der \ac{ReLU}-Aktivierungsfunktion \cite{nair2010rectified}. In der Ergebnisschicht werden alle zuvor extrahierten Merkmale auf die Anzahl der Klassen heruntergebrochen und daher besteht die Ergebnisschicht aus der gleichen Anzahl Neuronen wie es Klassen gibt. Als Aktivierungsfunktion für ein Multiklassen-Problem ($C>2$), wie in dieser Arbeit, wird Softmax als Aktivierungsfunktion verwendet \cite{bishop2006pattern}.
+
+Dropout ist eine Regularisierungs-Methode um beim Training von \acp{KNN} Überanpassung (engl. Overfitting) zu vermeiden und insgesamt bessere Leistung bei der Kombination von verschiedenen Architekturen zu erreichen \cite{srivastava2014dropout}. Die Grundidee von Dropout ist es die Komplexität eines \acp{KNN} zu reduzieren, indem bei jedem Trainingsschritt zufällig einige Neuronen und die zugehörigen Kanten im Netz, die Gewichte, entfernt. Dafür wird einer Schicht im Netz eine Rate $r$ zugeordnet. Diese Rate $r$ gibt an, welcher Anteil der Neuronen aus dieser Schicht zufällig entfernt wird. Bei $r=0,5$ werden beispielsweise 50\% aller Neuronen in jedem Trainingsschritt zufällig entfernt. Das Ergebnis ist, dass das \ac{KNN} nicht zu abhängig von einzelnen Neuronen oder Gewichten wird und insgesamt bessere Ergebnisse erzielt werden können \cite{srivastava2014dropout}. In dieser Arbeit wird Dropout mit der Rate $r=0,5$ verwendet. Obwohl Dropout keine eigenständige Schicht ist, wird es in Keras als Schicht modelliert. Dabei bezieht sich Dropout aber stets auf die jeweilige Schicht davor. Ein Beispiel von Dropout ist in Abbildung \ref{fig_dropout} dargestellt.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c@{\hskip 1.5cm}c}
+\subfloat[\ac{KNN} ohne Dropout]{\includegraphics[scale=1.5]{dropout_1.pdf}} &
+\subfloat[\ac{KNN} mit Dropout in der mittleren Schicht mit einer Wahrscheinlichkeit von $r=0,5$]{\includegraphics[scale=1.5]{dropout_2.pdf}}
+\end{tabular}
+\caption{Regularisierung mit Dropout \cite{srivastava2014dropout}}
+\label{fig_dropout}
+\end{figure}
+
+Wie in Abschnitt \ref{grundlagen_nn_rnn} beschrieben, werden \ac{LSTM}-Schichten für die Sequenzerkennung eingesetzt. Da die \ac{LSTM}-Schicht in dieser Arbeit nach der Merkmalsextraktion mit einem \ac{CNN} verwendet wird, ist in Keras eine sogenannte \textit{TimeDistributed}-Schicht nötig, um die Merkmale aller Bilder einer Sequenz der \ac{LSTM}-Schicht übergeben zu können. Diese Umhüllung (engl. wrapper) hat keine Parameter und keinen Einfluss auf die Klassifizierung. Die eigentliche \ac{LSTM}-Schicht wird mit der Ausgangsdimension $units = 256$ und der \ac{tanh}-Aktivierungsfunktion konfiguriert.
+
+% ===========================
+\subsubsection{Komponenten zusammenfügen}
+% ===========================
+
+Auf Basis der oben beschriebenen Komponenten werden jetzt acht verschiedene \ac{KNN}-Architekturen designed. Dabei wird zwischen den Architekturen für die Klassifizierung einzelner Bilder und den Architekturen für die Klassifizierung von Bildersequenzen unterschieden. Beide grundlegenden Architekturen sind schematisch in Abbildung \ref{fig_architekturen_grundlegend} dargestellt.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c}
+\subfloat[Architektur für die Klassifizierung einzelner Bilder]{\includegraphics[scale=0.6]{architektur_1.pdf}} \\
+\subfloat[Architektur für die Klassifizierung von Bildersequenzen]{\includegraphics[scale=0.658]{architektur_2.pdf}}
+\end{tabular}
+\caption{Grundlegende Architekturen in dieser Arbeit}
+\label{fig_architekturen_grundlegend}
+\end{figure}
 
 % ===========================
 \subsection{Experimente}
@@ -402,8 +456,7 @@ Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} darg
 
  Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
  
- Dropout - \cite{hinton2012improving}
- \cite{srivastava2014dropout}
+
 
  
  
