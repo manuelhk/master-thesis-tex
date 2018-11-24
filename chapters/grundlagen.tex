@@ -312,13 +312,13 @@ o_k = p(c_k|x) = \frac{e^{x^\top w}}{\sum_{j=1}^Ce^{x_j^\top w}}
 
 Dabei beschreibt $x$ den Vektor mit Aktivierungswerten aus der vorherigen Schicht, $w$ den Gewichtsvektor und $C$ die Anzahl der Klassen $c_k$. Auf diese Weise können die Wahrscheinlichkeiten $p(c_k|x)$ für jede Klasse $c_k$, gegeben den Aktivierungswerten $x$, berechnet werden.
 
-Für das Erlernen von Gewichten in mehrschichtigen \acp{KNN} wird die Fehlerrückführung (engl. error backpropagation) verwendet. Die Idee bei diesem Verfahren ist es eine Fehlerfunktion, die die Abweichung zwischen der berechneten und der tatsächlichen Klasse beschreibt, zu definieren und dann zu minimieren \cite{bishop2006pattern}. Dafür wird die Funktion
+Für das Erlernen von Gewichten in mehrschichtigen \acp{KNN} wird die Fehlerrückführung (engl. error backpropagation) verwendet. Die Idee bei diesem Verfahren ist es eine Fehlerfunktion, die die Abweichung zwischen der berechneten und der tatsächlichen Klasse beschreibt, zu definieren und dann zu minimieren \cite{bishop2006pattern}. Dafür wird häufig die mittlere quadratische Abweichung als Fehlerfunktion verwendet:
 
 \begin{equation}
-E = \frac{1}{2}\sum_{j=1}^n(t_j-o_j)^2
+E = \frac{1}{n}\sum_{j=1}^n(t_j-o_j)^2
 \end{equation}
 
-verwendet. Dabei beschreiben $t_j$ die tatsächliche Klasse, $o_j$ die errechnete Klasse und $n$ die Anzahl der Klassen. Auf Basis dieser Fehlerfunktion läuft die Fehlerrückführung iterativ in den folgenden Schritten ab \cite{bishop2006pattern}:
+Dabei beschreiben $t_j$ die tatsächliche Klasse, $o_j$ die errechnete Klasse und $n$ die Anzahl der Klassen. Auf Basis dieser Fehlerfunktion läuft die Fehlerrückführung iterativ in den folgenden Schritten ab \cite{bishop2006pattern}:
 
 \begin{enumerate}
 \item Auf Basis eines Eingangsvektors $\vec{x}$ werden alle Aktivierungswerte $\vec{y_j}$ aller versteckter Schichten $j$ und der Ergebnisvektor $\vec{o}$ berechnet.

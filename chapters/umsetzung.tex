@@ -302,7 +302,7 @@ In diesem Abschnitt wird zu Beginn das Format und der Import der Trainings- und 
 
 
 % ===========================
-\subsection{Inputdaten}
+\subsection{Vorbereitung der Inputdaten}
 \label{umsetzung_training_input}
 % ===========================
 
@@ -480,7 +480,7 @@ ohne Dropout & Dropout & ohne Dropout & Dropout \\
 \hline
 \end{tabular}
 \caption{\ac{KNN}-Architekturen für die Klassifizierung von Bildersequenzen}
-\label{tab_architekturen_video}
+\label{tab_architekturen_bild}
 \end{table}
 
 Analog zu den Architekturen für die Klassifizierung von einzelnen Bildern, werden bei den Architekturen für die Klassifizierung von Bildersequenzen ebenfalls zwei verschiedene \ac{CNN}-Architekturen variiert und mit und ohne Dropout gearbeitet. Die resultierenden vier Architekturen sind in Tabelle \ref{tab_architekturen_video} mit ihren Parametern zusammengefasst.
@@ -518,18 +518,30 @@ ohne Dropout & Dropout & ohne Dropout & Dropout \\
 \hline
 \end{tabular}
 \caption{\ac{KNN}-Architekturen für die Klassifizierung einzelner Bilder}
-\label{tab_architekturen_bild}
+\label{tab_architekturen_video}
 \end{table}
 
 
 % ===========================
-\subsection{Experimente}
+\subsection{Wahl der Parameter}
 \label{umsetzung_training_experimente}
 % ===========================
 
-Das Ziel der Experimente ist eine möglichst hohe Genauigkeit (engl. accuracy) bei der Klassifizierung von Bildsequenzen. Bei Mehrklassenproblemen werden häufig die Top-1 und Top-5 Genauigkeit bzw. der Top-1 und Top-5 Fehler untersucht \cite{szegedy2016inception, simonyan2014vgg}. Das Ergebnis einer Multiklassen-Klassifikation für jeden Input ist ein Vektor mit Wahrscheinlichkeiten für jede Klasse. Bei der Top-1 Genauigkeit bzw. dem Top-1 Fehler wird jeweils nur die Klasse mit der höchsten Genauigkeit betrachtet und mit der richtigen Klasse abgeglichen. Bei der Top-5 Genauigkeit bzw. dem Top-5 Fehler werden jeweils die fünf Klassen mit den höchsten Wahrscheinlichkeit mit mit der richtigen Klasse abgeglichen. Da in dieser Arbeit nur insgesamt fünf Klassen betrachtet werden, wird in dieser Arbeit nur die Top-1 Genauigkeit als Metrik betrachtet.
+Bei der Konfiguration von \acp{KNN} und den einzelnen Schichten können viele unterschiedliche Parameter konfiguriert werden. Da es sich bei dieser Arbeit um einen Proof-of-Concept handelt, wurden sowohl im letzten Abschnitt \ref{umsetzung_training_architektur} bei der Konfiguration der \ac{KNN}-Architekturen, als auch in diesem Abschnitt, oftmals auf die Standardkonfiguration von Keras zurückgegriffen. Diese Standardkonfiguration basiert nach Chollet stets auf aktuellen Forschungsergebnissen und dem Stand der Technik bei \acp{KNN} \cite{chollet2015keras}. Diese Vorgehensweise erlaubt einerseits eine schnelle Umsetzung des Proof-of-Concept dieser Arbeit und bietet andererseits in nachfolgenden Arbeiten viel Potential die Ergebnisse weiter zu verbessern.
 
-Anhand dieser Metrik werden die unterschiedlichen Architekturen aus dem vorherigen Abschnitt \ref{umsetzung_training_architektur} untersucht, mit jeweils 10 und 100 Epochen trainiert und dann getestet. Aus der Variation von vier Parametern mit jeweils zwei Ausprägungen ergeben sich insgesamt 16 Experimente. Die Parameter mit ihren Ausprägungen sind auch in Tabelle \ref{tab_parameter} zusammengefasst.
+Vor jedem Training werden die \acp{KNN} mit einem Optimierer (engl. optimizer) und einer Fehlerfunktion (engl. loss function) kompiliert. Als Optimierer wird in dieser Arbeit Adam (adaptive moment estimation) verwendet. Dieser Optimierer vereint die Vorteile von den Optimierern AdaGrad (adaptive gradient algorithm) und RMSProp (root mean square propagation). Das Grundprinzip ist es, die Lernrate dynamisch aanzupassen, was zu weniger benötigtem Speicher und einer hohen Konvergenzrate führt \cite{kingma2014adam}.
+
+ Neben der mittleren quadratischen Abweichung, die in der Abschnitt \ref{grundlagen_nn_entwicklung} vorgestellt wurde, gibt es weitere Fehlerfunktionen. In dieser Arbeit wird die Kreuzentropie (engl. cross entropy) für Mehrklassenprobleme mit der folgenden Fehlerfunktion verwendet \cite{bishop2006pattern}:
+
+\begin{equation}
+E(w_1, ..., w_K) = -\sum _{n=1}^N \sum _{k=1}^K t_{nk} * ln(y_{nk})
+\end{equation}
+
+Dabei beschreiben $w_1, ..., w_K$ die zu optimierenden Gewichte, $N$ ist die Anzahl der Trainingsdaten und $K$ die Anzahl der Klassen. $t_{nk}$ gibt mit dem Wert $1$ an, ob der Dateninput $n$ zur Klasse $k$ gehört. Wenn $n$ nicht zur Klasse $k$ gehört, nimmt $t_{nk}$ den Wert $0$ an. $y_{nk}$ ist die berechnete Wahrscheinlichkeit des Klassifikators, dass der Dateninput $n$ zur Klasse $k$ gehört.
+
+Das Ziel der Experimente ist eine möglichst hohe Genauigkeit (engl. accuracy) bei der Klassifizierung von Bildsequenzen. Bei Mehrklassenproblemen (engl. multi-class problem) werden häufig die Top-1 und Top-5 Genauigkeit bzw. der Top-1 und Top-5 Fehler untersucht \cite{szegedy2016inception, simonyan2014vgg}. Das Ergebnis einer Multiklassen-Klassifikation für jeden Input ist ein Vektor mit Wahrscheinlichkeiten für jede Klasse. Bei der Top-1 Genauigkeit bzw. dem Top-1 Fehler wird jeweils nur die Klasse mit der höchsten Genauigkeit betrachtet und mit der richtigen Klasse abgeglichen. Bei der Top-5 Genauigkeit bzw. dem Top-5 Fehler werden jeweils die fünf Klassen mit den höchsten Wahrscheinlichkeit mit der richtigen Klasse abgeglichen. Da in dieser Arbeit nur insgesamt fünf Klassen betrachtet werden, wird nur die Top-1 Genauigkeit als Metrik verwendet.
+
+Anhand dieser Metrik werden die unterschiedlichen Architekturen aus dem vorherigen Abschnitt \ref{umsetzung_training_architektur} mit jeweils 10 und 100 Epochen trainiert und dann getestet. Aus der Variation von vier Parametern mit jeweils zwei Ausprägungen ergeben sich insgesamt 16 Experimente. Die Parameter mit ihren Ausprägungen sind in Tabelle \ref{tab_parameter} zusammengefasst.
 
 \begin{table}[h]
 \small
@@ -547,6 +559,13 @@ Epochen & 10, 100 \\
 \caption{Parameter die in den Experimenten variiert werden}
 \label{tab_parameter}
 \end{table}
+
+
+
+
+
+
+
 
 
 
