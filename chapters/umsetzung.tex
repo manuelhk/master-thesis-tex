@@ -445,9 +445,80 @@ Auf Basis der oben beschriebenen Komponenten werden jetzt acht verschiedene \ac{
 \subfloat[Architektur für die Klassifizierung einzelner Bilder]{\includegraphics[scale=0.6]{architektur_1.pdf}} \\
 \subfloat[Architektur für die Klassifizierung von Bildersequenzen]{\includegraphics[scale=0.658]{architektur_2.pdf}}
 \end{tabular}
-\caption{Grundlegende Architekturen in dieser Arbeit}
+\caption{Grundlegende \ac{KNN}-Architekturen in dieser Arbeit}
 \label{fig_architekturen_grundlegend}
 \end{figure}
+
+Ausgehend von der Darstellung in Abbildung \ref{fig_architekturen_grundlegend} wird bei den Architekturen für die Klassifizierung von einzelnen Bildern zwischen den zwei \acp{CNN} und zwischen einer Version mit und ohne Dropout unterschieden. Damit ergeben sich vier verschiedene Architekturen, die in Tabelle \ref{tab_architekturen_bild} mit den jeweiligen Parametern zusammengefasst sind.
+
+\begin{table}[h]
+\centering
+\def\arraystretch{1.4}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\multicolumn{4}{|c|}{\textbf{Architekturen}} \\
+\hline
+\textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} \\
+\hline
+\hline
+\multicolumn{4}{|c|}{Input shape: 299x299x3} \\
+\hline
+\multicolumn{2}{|c|}{Inception-V3} & \multicolumn{2}{|c|}{VGG-16} \\
+\multicolumn{2}{|c|}{Output shape: 2048} & \multicolumn{2}{|c|}{Output shape: 512} \\
+\hline
+\multicolumn{4}{|c|}{Fully-Connected-Schicht} \\
+\multicolumn{4}{|c|}{$units=128$, $activation=\text{\ac{ReLU}}$} \\
+\multicolumn{4}{|c|}{Output shape: 128} \\
+\hline
+ohne Dropout & Dropout & ohne Dropout & Dropout \\
+- & $r=0,5$ & - & $r=0,5$ \\
+\hline
+\multicolumn{4}{|c|}{Fully-Connected-Schicht (Ergebnisschicht)} \\
+\multicolumn{4}{|c|}{$units=5$, $activation=Softmax$} \\
+\multicolumn{4}{|c|}{Output shape: 5} \\
+\hline
+\end{tabular}
+\caption{\ac{KNN}-Architekturen für die Klassifizierung von Bildersequenzen}
+\label{tab_architekturen_video}
+\end{table}
+
+Analog zu den Architekturen für die Klassifizierung von einzelnen Bildern, werden bei den Architekturen für die Klassifizierung von Bildersequenzen ebenfalls zwei verschiedene \ac{CNN}-Architekturen variiert und mit und ohne Dropout gearbeitet. Die resultierenden vier Architekturen sind in Tabelle \ref{tab_architekturen_video} mit ihren Parametern zusammengefasst.
+
+\begin{table}[h]
+\centering
+\def\arraystretch{1.4}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\multicolumn{4}{|c|}{\textbf{Architekturen}} \\
+\hline
+\textbf{E} & \textbf{F} & \textbf{G} & \textbf{H} \\
+\hline
+\hline
+\multicolumn{4}{|c|}{Input shape: 15x299x299x3} \\
+\hline
+\multicolumn{2}{|c|}{\textit{TimeDistributed} mit Inception-V3} & \multicolumn{2}{|c|}{\textit{TimeDistributed} mit VGG-16} \\
+\multicolumn{2}{|c|}{Output shape: 15x2048} & \multicolumn{2}{|c|}{Output shape: 15x512} \\
+\hline
+\multicolumn{4}{|c|}{\ac{LSTM}-Schicht} \\
+\multicolumn{4}{|c|}{$units=256$, $activation=\text{\ac{tanh}}$} \\
+\multicolumn{4}{|c|}{Output shape: 256} \\
+\hline
+\multicolumn{4}{|c|}{Fully-Connected-Schicht} \\
+\multicolumn{4}{|c|}{$units=128$, $activation=\text{\ac{ReLU}}$} \\
+\multicolumn{4}{|c|}{Output shape: 128} \\
+\hline
+ohne Dropout & Dropout & ohne Dropout & Dropout \\
+- & $r=0,5$ & - & $r=0,5$ \\
+\hline
+\multicolumn{4}{|c|}{Fully-Connected-Schicht (Ergebnisschicht)} \\
+\multicolumn{4}{|c|}{$units=5$, $activation=Softmax$} \\
+\multicolumn{4}{|c|}{Output shape: 5} \\
+\hline
+\end{tabular}
+\caption{\ac{KNN}-Architekturen für die Klassifizierung einzelner Bilder}
+\label{tab_architekturen_bild}
+\end{table}
+
 
 % ===========================
 \subsection{Experimente}
