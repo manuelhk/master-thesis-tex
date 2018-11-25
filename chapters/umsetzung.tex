@@ -394,9 +394,11 @@ Wie in Abschnitt \ref{grundlagen_nn_video} erläutert, gibt es verschiedenen Ans
 \subsubsection{\aclp{CNN}}
 % ===========================
 
-Das Training mit \acp{CNN} hat in den vergangenen Jahre große Fortschritte gemacht durch die Verfügbarkeit von großen Datenmengen, steigender Rechenleistung und die Wiederverwendung von bereits vortrainierten \acp{CNN}. Diese Verwendung von bereits trainierten Netzen nennt sich Transferlernen (engl. transfer learning) \cite{oquab2014transfer}. Die Idee von einem \ac{CNN} ist es in den frühen Schichten sehr grundlegende Merkmale (engl. low-level features) und in späteren Schichten abstraktere Merkmale (engl. high-level features) zu extrahieren. Schließlich wird Bilder auf Basis dieser abstrakten Merkmale mithilfe von einer oder mehreren Fully-Connected-Schichten klassifiziert. Diese Funktionsweise macht man sich beim Transferlernen zunutze und verwendet ein \ac{CNN} das bereits auf vielen Millionen Bildern trainiert wurde. Dieses \ac{CNN} hat bereits gelernt unterschiedliche Merkmale aus Bildern zu extrahieren. Um ein ein solches neuronales Netz für die eigene Arbeit verwenden zu können, muss man lediglich die letzten Fully-Connected-Schichten ersetzen und mit den eigenen Bilddaten und entsprechenden Klassen trainieren \cite{oquab2014transfer}. Mit diesem Verfahren kann viel Zeit und Rechenleistung gespart werden, weil die grundlegende Merkmalsextraktion nicht grundlegend neu gelernt werden muss. 
+Das Training mit \acp{CNN} hat in den vergangenen Jahre große Fortschritte gemacht durch die Verfügbarkeit von großen Datenmengen, steigender Rechenleistung und die Wiederverwendung von bereits vortrainierten \acp{CNN}. Diese Verwendung von bereits trainierten Netzen nennt sich Transferlernen (engl. transfer learning) \cite{oquab2014transfer}. Die Idee von einem \ac{CNN} ist es in den frühen Schichten sehr grundlegende Merkmale (engl. low-level features) und in späteren Schichten abstraktere Merkmale (engl. high-level features) zu extrahieren. Schließlich wird Bilder auf Basis dieser abstrakten Merkmale mithilfe von einer oder mehreren Fully-Connected-Schichten klassifiziert. Diese Funktionsweise macht man sich beim Transferlernen zunutze und verwendet ein \ac{CNN} das bereits auf vielen Millionen Bildern trainiert wurde. Dieses \ac{CNN} hat bereits gelernt unterschiedliche Merkmale aus Bildern zu extrahieren. Um ein ein solches neuronales Netz für die eigene Arbeit verwenden zu können, muss man lediglich die letzten Fully-Connected-Schichten ersetzen und mit den eigenen Bilddaten und entsprechenden Klassen trainieren \cite{oquab2014transfer}. Mit diesem Verfahren kann viel Zeit und Rechenleistung gespart werden, weil die grundlegende Merkmalsextraktion nicht grundlegend neu gelernt werden muss.
 
-Das Transferlernen wird auch in dieser Arbeit verwendet. Dazu wurden verschiedene \ac{CNN}-Architekturen verglichen und schließlich zwei unterschiedliche für diese Arbeit ausgewählt. Eine Übersicht der bekanntesten vortrainierten \acp{CNN} ist in Abbildung \ref{fig_comparison_cnns} dargestellt. In dieser Darstellung werden die neuronalen Netze anhand ihrer erreichen Genauigkeit (engl. accuracy) und der benötigten Operationen bzw. ihrer Parameter bei der Berechnung einer Klassifizierung eingeordnet \cite{canziani2016analysis}.
+Ein Datensatz der häufig für das Training von \ac{CNN}-Architekturen verwendet wird ist ImageNet. ImageNet umfasst 14.197.122 Bildern und 21.841 sogenannte Synonymmengen (engl. synonym sets) \cite{deng2009imagenet}. In Synonymmengen sind Wörter der gleichen Bedeutung zusammengefasst. Dabei sind alle Wörter auch hierarchisch nach dem WordNet-Projekt eingeordnet. In dieser Arbeit werden \ac{CNN}-Architekturen verwendet, die mit dem ImageNet-Datensatz vortrainiert wurden.
+
+Eine Übersicht von bekannten \acp{CNN}-Architekturen ist in Abbildung \ref{fig_comparison_cnns} dargestellt. In dieser Darstellung werden die neuronalen Netze anhand ihrer erreichen Genauigkeit (engl. accuracy) und der benötigten Operationen bei der Berechnung einer Klassifizierung eingeordnet \cite{canziani2016analysis}. Die Größe der Kreise zeigt die Anzahl der Parameter der jeweiligen Architektur. 
 
 \begin{figure}[h]
 \centering
@@ -405,22 +407,11 @@ Das Transferlernen wird auch in dieser Arbeit verwendet. Dazu wurden verschieden
 \label{fig_comparison_cnns}
 \end{figure}
 
-Für die Architekturen in dieser Arbeit werden die \acp{CNN} Inception-V3 \cite{szegedy2016inception} und VGG-16 \cite{simonyan2014vgg} als Basis verwendet, weil beide in vergangene Wettbewerben und anderen Arbeiten sehr gute Ergebnisse erzielen konnten.
+Von diesen Architekturen wird in dieser Arbeit die Inception-V3-Architektur \cite{szegedy2016inception} als Basis verwendet. Diese Architektur hat wenige Parameter, was eine geringe Anzahl benötigter Operationen zur Folge hat, bei gleichzeitig sehr guter Genauigkeit \cite{canziani2016analysis}. Das Inception-V4 Modell ist zur Zeit dieser Arbeit noch nicht bei Keras verfügbar und kann daher nicht verwendet werden. Die zweite Architektur in dieser Arbeit ist die Xception-Architektur, welche auf den gleichen Prinzipien wie das Inception-V3-Netz entwickelt wurde. Diese Xception-Architektur hat dieselbe Anzahl Parameter wie die Inception-V3-Architektur, aber eine höhere Genauigkeit \cite{chollet2017xception}. In den folgenden Absätzen wird der Vorteil der Inception-Architekturen im Vergleich zu normalen tiefen \acp{CNN} erklärt und die beiden Architekturen Inception-V3 und Xception werden vorgestellt.
 
-Das VGG-16 Netz \cite{simonyan2014vgg} ist ein tiefes \acl{CNN}, das aus mehreren Convolution-, Pooling und Fully-Connected-Schichten besteht. Dabei sind die Schichten, wie in Abschnitt \ref{grundlagen_nn_cnn} beschrieben, aufeinander gestapelt. Das Netz umfasst insgesamt 138.357.544 trainierbare Parameter, die in dieser Arbeit auf Basis des ImageNet Datensatz vortrainiert waren. Die Architektur des Netztes ist in Abbildung \ref{fig_vgg_16} dargestellt. Davon werden in dieser Arbeit alle Convolution- und Pooling-Schichten verwendet. Die Fully-Connected- und Softmax-Schichten am Ende des Netzes werden entfernt, da sie auf die Klassifizierung der der ImageNet-Klassen angepasst sind. An ihrer Stelle werden andere Schichten eingefügt, die in weiteren Verlauf dieses Abschnitts erklärt werden.
+Einige Jahre waren tiefe \acp{CNN} mit vielen einfach gestapelten Convolution- und Pooling-Schichten, wie beispielsweise die VGG-16-Architeltur \cite{simonyan2014vgg}, der Stand der Technik und erreichten gute Genauigkeiten bei der Klassifizierung von Bildern. Der Nachteil waren viele Parameter und ein sehr hoher Rechenaufwand \cite{canziani2016analysis}. Genau an diesen Problemen, setzen Architekturen wie das Inception-V3 Netz an. Es werden verschiedenen Prinzipien angewendet, um die Rechenleistung zu senken und die dennoch Genauigkeit zu verbessern. Dabei werden Convolution-Operationen nicht nur gestapelt, sondern auch parallel zu anderen Convolution-Operationen berechnet \cite{szegedy2016inception}. 
 
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{vgg16.png}
-\caption{Architektur des VGG-16 Netzes, entnommen aus \cite{cord2018vgg16}}
-\label{fig_vgg_16}
-\end{figure}
-
-ImageNet ist ein Datensatz mit 14.197.122 Bildern und 21.841 sogenannten Synonymmengen (engl. synonym sets) \cite{deng2009imagenet}. In Synonymmengen sind Wörter der gleichen Bedeutung zusammengefasst. Dabei sind alle Wörter auch hierarchisch nach dem WordNet-Projekt eingeordnet.
-
-Im Gegensatz zu einfach gestapelten Convolution- und Pooling-Schichten wie beispielsweise dem VGG-16 Netz, orientiert sich das Inception-V3 Netz an zusätzlichen Prinzipen, um die Genauigkeit zu verbessern und die Rechenleistung zu senken. Zusätzlich werden Convolution-Operationen nicht nur gestapelt, sondern auch parallel zu anderen Convolution-Operationen berechnet, was zu einer besseren Leistung des Netzes führt \cite{szegedy2016inception}. 
-
-Es wird argumentiert, dass ein Filter mit der Dimension 5x5 durch zwei aufeinanderfolgende Filter der Dimension 3x3 ersetzt werden kann, was die Rechenleistung deutlich reduziert \cite{szegedy2016inception}. Diese Funktionalität wird in einem sogenannten Inception-Modul umgesetzt, was in Abbildung \ref{fig_inc_fig} unter (a) zu sehen ist. Ein weiteres Prinzip ist, dass ein nxn-Filter mit einen 1xn-Filter gefolgt von einem nx1 Filter ersetzt werden kann, bei gleichbleibender Leistung und 33\% weniger Rechenaufwand. Dieses Prinzip ist in Abbildung \ref{fig_inc_fig} unter (b) dargestellt. Für das dritte Prinzip wird argumentiert, dass bei einer starken Dimensionsreduzierung durch Pooling-Schichten viel Information aus dem Bild verloren gehen kann. Um dies zu verhindern, werden statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt. Dieses Prinzip wird mit dem Inception-Modul aus Abbildung \ref{fig_inc_fig} unter (c) umgesetzt.
+Es wird argumentiert, dass ein Filter mit der Dimension 5x5 durch zwei aufeinanderfolgende Filter der Dimension 3x3 ersetzt werden kann, was die Rechenleistung deutlich reduziert \cite{szegedy2016inception}. Diese Funktionalität wird in einem sogenannten Inception-Modul umgesetzt, was in Abbildung \ref{fig_inc_fig}a zu sehen ist. Ein weiteres Prinzip ist, dass ein nxn-Filter mit einen 1xn-Filter gefolgt von einem nx1 Filter ersetzt werden kann, bei gleichbleibender Leistung und 33\% weniger Rechenaufwand. Dieses Prinzip ist in Abbildung \ref{fig_inc_fig}b dargestellt. Für das dritte Prinzip wird argumentiert, dass bei einer starken Dimensionsreduzierung durch Pooling-Schichten viel Information aus dem Bild verloren gehen kann. Um dies zu verhindern, werden statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt. Dieses Prinzip wird mit dem Inception-Modul aus Abbildung \ref{fig_inc_fig}c umgesetzt.
 
 \begin{figure}[h]
 \centering
@@ -433,13 +424,31 @@ Es wird argumentiert, dass ein Filter mit der Dimension 5x5 durch zwei aufeinand
 \label{fig_inc_fig}
 \end{figure}
 
-Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} dargestellt. In dieser Arbeit wird ein Inception-V3 Netz verwendet, das mit dem Datenset ImageNet \cite{deng2009imagenet} trainiert wurde. Wie bei dem VGG-16 Netz werden in dieser Arbeit die letzten Schichten (in der Abbildung der \textit{final part}) am Ende des Netzes entfernt und ebenfalls andere Schichten eingefügt, die in den nachfolgenden Absätzen erklärt werden.
+Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} dargestellt. In dieser Arbeit wird ein Inception-V3 Netz verwendet, das mit dem Datenset ImageNet \cite{deng2009imagenet} trainiert wurde. Außerdem werden die letzten Schichten der Inception-V3-Architektur (in der Abbildung der \textit{final part}) am Ende des Netzes entfernt und andere Schichten eingefügt, die in den nachfolgenden Absätzen erklärt werden.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.45]{inception_v3.png}
 \caption{Architektur des Inception-V3 Netzes, entnommen aus \cite{google2018inceptionv3}}
 \label{fig_inception_v3}
+\end{figure}
+
+Die Grundidee bestehende Filter zu vereinfachen und um eine Dimension zu reduzieren (7x7 -> 1x7 und 7x1), wird mit der Xception-Architektur aufgegriffen und noch weiter vorangetrieben \cite{chollet2017xception}. Die Idee ist es, mit Inception-Modulen die räumliche Convolution-Operation (engl. spatial convolution) und die Convolution-Operation über die Kanäle (engl. depthwise convolution) komplett zu trennen. Das heißt, dass es einen Filter mit den Dimensionen $1x1xc$ gibt, der auf ein Bild oder eine Feature Map der Tiefe $c$ angewendet wird, gefolgt von einem Filter mit den Dimensionen $3x3x1$, der auf jede Schicht der Feature Map angewendet wird. Diese getrennten Convolution-Operation (engl. depthwise separable convolution) ist in dem Inception-Modul in Abbildung \ref{fig_inception_extreme} dargestellt.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{inception_extreme.pdf}
+\caption{Inception-Modul der Xception-Architektur \cite{chollet2017xception}}
+\label{fig_inception_extreme}
+\end{figure}
+
+Die gesamte Xception-Architektur besteht aus mehreren dieser getrennten Convolution-Operation und ist in Abbildung \ref{fig_xception} dargestellt. Wie die Gewichte des Inception-V3 Netzes, sind auch die Gewichte des Xception Netzes mit dem Imagenet Datensatz vortrainiert. Für die Anwendung in dieser Arbeit werden ebenfalls die letzten Fully-Connected-Schichten entfernt.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{xception.png}
+\caption{Xception-Architektur, entnommen aus \cite{chollet2017xception}}
+\label{fig_xception}
 \end{figure}
 
 % ===========================
