@@ -245,7 +245,6 @@ Es sind auch einige Szenarien als \textit{unknown} klassifiziert, da zwischen de
 \label{fig_beispiel_szenario_lcl}
 \end{figure}
 
-
 % ===========================
 \section{Generierung realer Trainings- und Testdaten}
 \label{umsetzung_daten_real}
@@ -291,6 +290,38 @@ Die Aufnahme der Route 1 umfasst über sechs Stunden Videomaterial mit über ein
 \caption{Beispiel eines realen Szenarios der Klasse \textit{lane change right}}
 \label{fig_beispiel_szenario_lcr_real}
 \end{figure}
+
+In Tabelle \ref{tab_datensaetze} wird dieser Datensatz, mit synthetischen und realen Daten, mit anderen synthetischen Datensätzen, die in Abschnitt \ref{grundlagen_nn_synthetisch} vorgestellt wurden, und realen Datensätzen, die in diesem Abschnitt vorgestellt werden, verglichen.
+
+\small
+\begin{longtable}[c]{p{2cm} p{3cm} p{3cm} p{4cm}}
+\textbf{Datensatz} & \textbf{Generierung} & \textbf{Umfang} & \textbf{Label} \\
+\hline
+\endhead
+
+\cite{ros2016synthia} & synthetisch mit der Unity Development Platform & 200.000 Bilder & semantische Annotation auf Pixelebene von 11 Klassen  \\
+\hline
+\cite{johnson2017driving} & synthetisch mit dem Computerspiel GTA5 & 250.000 Bilder & Begrenzungsboxen für die Klasse Fahrzeuge \\
+\hline
+\cite{richter2016playing} & synthetisch mit dem Computerspiel GTA5 & 25.000 Bilder & semantische Annotation auf Pixelebene von 19 Klassen \\
+\hline
+\cite{tremblay2018training} & synthetisch mit 3D Modelle von Fahrzeugen und realen Szenen & 100.000 Bilder & Begrenzungsboxen für die Klasse Fahrzeuge \\
+\hline
+KITTI, \cite{geiger2013vision} & real mit Fahrten in der Region Karlsruhe & 22 Videos und 15.000 Bilder & Begrenzungsboxen mit 8 Klassen \\
+\hline
+BDD100K, \cite{yu2018bdd100k} & real mit Fahrten in der Städten New York, Berkeley, San Francisco und der Bay Area & 100.000 Videos (40 Sekunden) mit insgesamt 120 Mio. Bilder & für jeweils das zehnte Bild aus jedem Video: Fahrbahnbegrenzungslinien und Begrenzungsboxen für 10 Objekte; Für 10.000 Bilder semantische Annotation auf Pixelebene von 19 Klassen \\
+\hline
+Cityscapes, \cite{cordts2016cityscapes} & real mit Fahrten in 50 Städten in Deutschland & 25.000 Bilder & semantische Annotation auf Pixelebene von 30 Klassen \\
+\hline
+Oxford RobotCar, \cite{maddern20171} & real mit Fahrten in Oxford & knapp 20 Mio. Bilder & keine Label \\
+\hline
+Diese Arbeit & synthetisch mit CarMaker und real mit zwei Autobahnfahrten in Deutschland & 24.307 Szenarien (3 Sekunden) mit insgesamt 331.133 Bilder & 7 Szenario-Klassen \\
+
+\hline
+\caption{Vergleich von synthetischen und realen Datensätzen}
+\label{tab_datensaetze}
+\end{longtable}
+\normalsize
 
 
 % ===========================

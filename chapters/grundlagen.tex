@@ -446,7 +446,7 @@ h_t = o_t * \tanh(c_t)
 \label{grundlagen_nn_synthetisch}
 % ===========================
 
-Ein großes Problem beim Training von neuronalen Netzen ist der Aufwand um die Trainings- und Validierungsdaten zu labeln \cite{richter2016playing}. Ein Ansatz dem entgegenzuwirken ist das Training mit synthetischen Daten oder einer Kombination aus synthetischen und realen Daten. In diesem Abschnitt werden vier Arbeiten aus den letzten Jahren vorgestellt, die diesen Ansatz untersuchen.
+Ein großes Problem beim Training von neuronalen Netzen ist der Aufwand um die Trainings- und Validierungsdaten zu labeln \cite{richter2016playing}. Ein Ansatz dem entgegenzuwirken ist das Training mit synthetischen Daten oder einer Kombination aus synthetischen und realen Daten. In diesem Abschnitt werden vier Arbeiten aus den letzten Jahren vorgestellt, die diesen Ansatz untersuchen. Diese Arbeiten werden im Abschnitt \ref{umsetzung_daten_real} in Tabelle \ref{tab_datensaetze} zusammengefasst und mit dem Datensatz aus dieser Arbeit verglichen.
 
 Ros et al. \cite{ros2016synthia} haben für die Simulation einer virtuellen Stadt die Unity Development Platform verwendet. Mit virtuellen Fahrten wurden insgesamt circa 200.000 Bilder generiert und diese mit 11 Klassen (e.g. \textit{Sky, Buildings, Road}) auf Pixelebene annotiert. Für das Training wurden die Bilder auf eine Größe von 180 x 120 Pixeln reduziert. Das kombinierte Training mit synthetischen und realen Daten auf den Datensätzen KITTI, CamVid, U-LabelMe und CBCL hat die Genauigkeit (engl. accuracy) auf den realen Testdaten, im Vergleich zum Training mit ausschließlich realen Daten, deutlich gesteigert
 
@@ -454,7 +454,7 @@ Johnson-Roberson et al. \cite{johnson2017driving} und Richter et al. \cite{richt
 
 Tremblay et al. \cite{tremblay2018training} verfolgten bei der Generierung von Bilder einen etwas anderen Ansatz. Sie nutzen 3D Modelle von Fahrzeugen und platzierten diese mit zufällige Positionen und Ausrichtungen auf verschiedene reale Szenen. Die 100.000 Bilder wurde mit Begrenzungsboxen (engl. bounding boxes) um Fahrzeuge gelabelt. Beim Training wurden ausschließlich die synthetischen Daten verwendet und es wurde eine Genauigkeit von circa 80\% erreicht.
 
-Insgesamt zeigt das Training von neuronalen Netzen mit einer Kombination von synthetischen und realen Daten bereits vielversprechende Ergebnisse, auf denen dieses Arbeit aufbauen will.
+Insgesamt zeigt das Training von neuronalen Netzen mit einer Kombination von synthetischen und realen Daten bereits vielversprechende Ergebnisse, auf denen dieses Arbeit aufbauen will. Im Gegensatz zu den vergangenen Arbeiten, werden in dieser Arbeit ganze Szenarien generiert und gelabelt und nicht einzelne Bilder mit Begrenzungsboxen oder semantischer Annotation auf Pixelebene.
 
 
 % ===========================
