@@ -4,16 +4,9 @@
 \label{konzept}
 % ===========================
 
-Wie in Abschnitt \ref{grundlagen_fahren} beschrieben, stellt das Testen von hochautomatisierten \ac{FAS} die Automobilindustrie vor große Herausforderungen. Die Menge der bekannten Fahrszenarien ist nur eine Teilmenge aller Szenarien, die zukünftige \ac{FAS} abdecken müssen. Diese Beziehung ist schematisch in Abbildung \ref{fig_teilmenge_fahrszenarien} dargestellt. Die Folge ist eine steigende Anzahl benötigter Testkilometer, die in Zukunft mit ökonomischem Aufwand nicht mehr umsetzbar sein wird. Es müssen neue Methoden gefunden werden, relevante Szenarien für die Generierung von Testfällen zu identifizieren, um die Sicherung von hochautomatisierten \ac{FAS} mit ökonomischen Aufwand garantieren zu können.
+Wie in Abschnitt \ref{grundlagen_fahren} beschrieben, stellt das Testen von hochautomatisierten \ac{FAS} die Automobilindustrie vor große Herausforderungen. Die Menge der bekannten Fahrszenarien ist nur eine Teilmenge aller Szenarien, die zukünftige \ac{FAS} abdecken müssen. Die Folge ist eine steigende Anzahl benötigter Testkilometer, die in Zukunft mit ökonomischem Aufwand nicht mehr umsetzbar sein wird. Es müssen neue Methoden gefunden werden, relevante Szenarien für die Generierung von Testfällen zu identifizieren, um die Sicherung von hochautomatisierten \ac{FAS} mit ökonomischen Aufwand garantieren zu können.
 
-Genau hier soll diese Arbeit einen Beitrag leisten. Das Ziel, wie bereits in Abschnitt \ref{einleitung_zielsetzung} erläutert, ist die Identifikation von bisher unbekannten Fahrszenarien. Die Grundidee ist es einen Klassifikator mit einem großen Anteil synthetischer Daten und einem kleinen Anteil realer Daten von bisher bekannten Szenarien zu trainieren. Dieser Klassifikator kann dann bekannte Szenarien erkennen, liefert aber keine eindeutigen Ergebnisse bei bisher unbekannten Szenarien. Mit dieser Methodik soll es möglich sein bisher unbekannte Fahrszenarien zu identifizieren, um auf der Basis neue Testfälle für die Sicherung hochautomatisierter Fahrfunktionen zu generieren.
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.3]{teilmenge_fahrszenarien.pdf}
-\caption{Beziehung zwischen bekannten und unbekannten Fahrszenarien}
-\label{fig_teilmenge_fahrszenarien}
-\end{figure}
+Genau hier soll diese Arbeit einen Beitrag leisten. Das Ziel, wie bereits in Abschnitt \ref{einleitung_zielsetzung} erklärt, ist die Klassifizierung von realen Fahrszenarien. Die Grundidee ist es, einen Klassifikator mit einem großen Anteil synthetischer Daten (circa 95\%) und einem kleinen Anteil realer Daten (circa 5\%) von bisher bekannten Szenarien zu trainieren. Es wird mit einem großen Teil synthetischer Daten gearbeitet, weil es in der Praxis um ein Vielfaches einfacher ist synthetische Daten zu generieren und automatisch zu Labeln als große Mengen realer Daten zu Labeln. Der trainierte Klassifikator kann dann bekannte Szenarien sehr gut klassifizieren. Die Idee ist, dass auf diese Weise auch unbekannte Szenarien herausgefiltert werden können, weil diese von dem trainierten Klassifikator nicht erkannt werden. Diese bisher unbekannten Szenarien können dann wiederum als Basis für neue Testfälle für die Sicherung hochautomatisierter Fahrfunktionen verwendet werden.
 
 In dieser Arbeit soll ein Proof-of-Concept für diese Methodik entwickelt werden. Dafür wird im folgenden Abschnitt \ref{konzept_struktur} das Konzept im Detail und die Vorgehensweise vorgestellt. Anschließend wird in Abschnitt \ref{konzept_methodik} die Methodik erklärt mit welcher dieses Konzept umgesetzt werden soll.
 
@@ -43,8 +36,8 @@ Für die Generierung von synthetischen Daten wird mit der Simulationssoftware Ca
 \label{fig_functional_decomposition}
 \end{figure}
 
-Für das Training und die Evaluation eines Klassifikators werden \acp{KNN} verwendet. Wie in Abschnitt \ref{grundlagen_nn} beschrieben, sind \acp{CNN} nach dem Stand der Technik die besten Architekturen um Merkmale aus Bildern zu extrahieren. \acp{LSTM} sind besonders für Zeitreihen geeignet. Daher wird ein Klassifikator aus einer Kombination dieser Architekturen erstellt. Um die Skalierbarkeit dieses Ansatzes zu gewährleisten, wird für das Training nur ein kleiner Teil realer und ein großer Teil synthetischer Daten verwendet. Damit wird auch für die Zukunft der Aufwand des manuellen Labelns gering gehalten.
-
+Für das Training und die Evaluation eines Klassifikators werden \acp{KNN} verwendet. Wie Abschnitt \ref{grundlagen_nn_video} gibt es verschiedene Ansätze einen Klassifikator für Videos zu trainieren. In dieser Arbeit werden zwei verschiedene Ansätze angewendet und miteinander verglichen. Beim ersten Ansatz werden \acp{CNN} verwendet um einzelne Bilder zu klassifizieren. \acp{CNN} sind nach dem Stand der Technik die besten Architekturen um Merkmale aus Bildern zu extrahieren. Im Anschluss werden Videos mit dem Szenario klassifiziert, mit dem die meisten Bilder im Video klassifiziert wurden. Mit dem zweiten Ansatz wird ein Klassifikator aus einer Kombination von \acp{CNN} und \acp{LSTM} erstellt. Damit können räumlichen und zeitlichen Merkmalen aus ganzen Videos extrahiert und diese dann auf der Basis klassifiziert werden. Wie oben beschrieben wird für das Training nur ein kleiner Teil realer und ein großer Teil synthetischer Daten verwendet, um die Skalierbarkeit dieses Ansatzes in der Praxis zu gewährleisten.
+ 
 
 % ===========================
 \section{Ansätze, Methoden, Werkzeuge}
@@ -53,7 +46,6 @@ Für das Training und die Evaluation eines Klassifikators werden \acp{KNN} verwe
 
 In diesem Abschnitt wird ein Überblick gegeben, welche Ansätze, Methoden und Werkzeuge in den jeweiligen Teilen der Umsetzung verwendet werden. Diese Zuordnung ist in der folgenden Tabelle \ref{tab_konzept_methods} dargestellt. Die detaillierte Beschreibung folgt in Kapitel \ref{umsetzung}.
 
-\small
 \begin{longtable}[c]{p{5cm} p{6.5cm} p{1.5cm}}
 \textbf{Teil der Umsetzung} & \textbf{Ansätze, Methoden, Werkzeuge} & \textbf{Quellen} \\
 \hline
@@ -65,13 +57,12 @@ Simulation und Labeln synthetischer Trainingsdaten & Generierung von Bild- und S
 \hline
 Generierung realer Trainingsdaten & Auswahl geeigneter Videosequenzen von YouTube, manuelles Labeln & \cite{youtube2018video}, \cite{google2018route1}, \cite{google2018route2} \\
 \hline
-Vorbereitung der Daten, Erstellung des Klassifikators und Evaluation der Experimente & Architektur eines \ac{KNN} mit einer Kombination von \ac{CNN} und \ac{LSTM}, implementiert mit Python und Keras & \cite{chollet2015keras}, \cite{lecun2010convolutional}, \cite{hochreiter1997long} \\
+Vorbereitung der Daten, Erstellung des Klassifikators und Evaluation der Experimente & Verschiedene Architekturen mit \acp{CNN} und \acp{LSTM}, implementiert mit Python und Keras & \cite{chollet2015keras}, \cite{lecun2010convolutional}, \cite{hochreiter1997long} \\
 
 \hline
 \caption{Ansätze, Methoden und Werkzeuge dieser Arbeit}
 \label{tab_konzept_methods}
 \end{longtable}
-\normalsize
 
 
 
