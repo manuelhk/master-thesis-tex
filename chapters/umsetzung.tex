@@ -457,9 +457,9 @@ Die gesamte Xception-Architektur besteht aus mehreren dieser getrennten Convolut
 
 Eine Fully-Connected-Schicht ist, wie in Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben, eine normale Schicht mit $n$ Neuronen in einem Multilayer-Perzeptron. Diese Schicht muss mit einer Anzahl  Neuronen $n$ und einer Aktivierungsfunktion $\varphi$ konfiguriert werden. Die Ergebnisschicht in einem \ac{KNN} ist ebenfalls immer eine Fully-Connected-Schicht. In dieser Arbeit werden in jeder Architektur zwei dieser Schichten verwendet, eine nach dem vortrainierten \ac{CNN} bzw. der \ac{LSTM}-Schicht und die andere als Ergebnisschicht. Die erste Fully-Connected Schicht besteht in dieser Arbeit immer aus 128 Neuronen und der \ac{ReLU}-Aktivierungsfunktion \cite{nair2010rectified}. In der Ergebnisschicht werden alle zuvor extrahierten Merkmale auf die Anzahl der Klassen heruntergebrochen und daher besteht die Ergebnisschicht aus der gleichen Anzahl Neuronen wie es Klassen gibt. Als Aktivierungsfunktion für ein Multiklassen-Problem ($C>2$), wie in dieser Arbeit, wird Softmax als Aktivierungsfunktion verwendet \cite{bishop2006pattern}.
 
-\todo{Exkurs Regularisierung}
+Das Ziel jedes \acp{KNN} ist es nach dem Training gute Ergebnisse auf bisher unbekannten Daten zu erzielen. Dies wird Generalisierbarkeit eines Netzes genannt \cite{bishop2006pattern}. Regularisierungsmethoden werden oft während des Trainings eingesetzt, um die Generalisierbarkeit nach dem Training zu erhöhen. In dieser Arbeit wird die Methode Dropout \cite{srivastava2014dropout} verwendet.
 
-Dropout ist eine Regularisierungs-Methode um beim Training von \acp{KNN} Überanpassung (engl. Overfitting) zu vermeiden und insgesamt bessere Leistung bei der Kombination von verschiedenen Architekturen zu erreichen \cite{srivastava2014dropout}. Die Grundidee von Dropout ist es die Komplexität eines \acp{KNN} zu reduzieren, indem bei jedem Trainingsschritt zufällig einige Neuronen und die zugehörigen Kanten im Netz, die Gewichte, entfernt. Dafür wird einer Schicht im Netz eine Rate $r$ zugeordnet. Diese Rate $r$ gibt an, welcher Anteil der Neuronen aus dieser Schicht zufällig entfernt wird. Bei $r=0,5$ werden beispielsweise 50\% aller Neuronen in jedem Trainingsschritt zufällig entfernt. Das Ergebnis ist, dass das \ac{KNN} nicht zu abhängig von einzelnen Neuronen oder Gewichten wird und insgesamt bessere Ergebnisse erzielt werden können \cite{srivastava2014dropout}. In dieser Arbeit wird Dropout mit der Rate $r=0,5$ verwendet. Obwohl Dropout keine eigenständige Schicht ist, wird es in Keras als Schicht modelliert. Dabei bezieht sich Dropout aber stets auf die jeweilige Schicht davor. Ein Beispiel von Dropout ist in Abbildung \ref{fig_dropout} dargestellt.
+Dropout ist eine Methode um beim Training von \acp{KNN} Überanpassung (engl. Overfitting) zu vermeiden und insgesamt bessere Leistung bei der Kombination von verschiedenen Architekturen zu erreichen \cite{srivastava2014dropout}. Die Grundidee von Dropout ist es die Komplexität eines \acp{KNN} zu reduzieren, indem bei jedem Trainingsschritt zufällig einige Neuronen und die zugehörigen Kanten im Netz, die Gewichte, entfernt. Dafür wird einer Schicht im Netz eine Rate $r$ zugeordnet. Diese Rate $r$ gibt an, welcher Anteil der Neuronen aus dieser Schicht zufällig entfernt wird. Bei $r=0,5$ werden beispielsweise 50\% aller Neuronen in jedem Trainingsschritt zufällig entfernt. Das Ergebnis ist, dass das \ac{KNN} nicht zu abhängig von einzelnen Neuronen oder Gewichten wird und insgesamt bessere Ergebnisse erzielt werden können \cite{srivastava2014dropout}. In dieser Arbeit wird Dropout mit der Rate $r=0,5$ verwendet. Obwohl Dropout keine eigenständige Schicht ist, wird es in Keras als Schicht modelliert. Dabei bezieht sich Dropout aber stets auf die jeweilige Schicht davor. Ein Beispiel von Dropout ist in Abbildung \ref{fig_dropout} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -473,11 +473,51 @@ Dropout ist eine Regularisierungs-Methode um beim Training von \acp{KNN} Überan
 
 Wie in Abschnitt \ref{grundlagen_nn_rnn} beschrieben, werden \ac{LSTM}-Schichten für die Sequenzerkennung eingesetzt. Da die \ac{LSTM}-Schicht in dieser Arbeit nach der Merkmalsextraktion mit einem \ac{CNN} verwendet wird, ist in Keras eine sogenannte \textit{TimeDistributed}-Schicht nötig, um die Merkmale aller Bilder einer Sequenz der \ac{LSTM}-Schicht übergeben zu können. Diese Umhüllung (engl. wrapper) hat keine Parameter und keinen Einfluss auf die Klassifizierung. Die eigentliche \ac{LSTM}-Schicht wird mit der Ausgangsdimension $units = 256$ und der \ac{tanh}-Aktivierungsfunktion konfiguriert.
 
+
+% ===========================
+\subsection{Wahl der Parameter}
+\label{umsetzung_training_experimente}
+% ===========================
+
+Bei der Konfiguration von \acp{KNN} und den einzelnen Schichten können viele unterschiedliche Parameter konfiguriert werden. Da es sich bei dieser Arbeit um einen Proof-of-Concept handelt, werden sowohl im Abschnitt \ref{umsetzung_training_architektur} bei der Konfiguration der \ac{KNN}-Architekturen, als auch in diesem Abschnitt, oftmals auf die Standardkonfiguration von Keras zurückgegriffen. Diese Standardkonfiguration basiert nach Chollet stets auf aktuellen Forschungsergebnissen und dem Stand der Technik bei \acp{KNN} \cite{chollet2015keras}. Diese Vorgehensweise erlaubt einerseits eine schnelle Umsetzung des Proof-of-Concept dieser Arbeit und bietet andererseits in nachfolgenden Arbeiten viel Potential die Ergebnisse weiter zu verbessern.
+
+Vor jedem Training werden die \acp{KNN} mit einem Optimierer (engl. optimizer) und einer Fehlerfunktion (engl. loss function) kompiliert. Als Optimierer wird in dieser Arbeit Adam (adaptive moment estimation) verwendet. Dieser Optimierer vereint die Vorteile von den Optimierern AdaGrad (adaptive gradient algorithm) und RMSProp (root mean square propagation). Das Grundprinzip ist es, die Lernrate dynamisch aanzupassen, was zu weniger benötigtem Speicher und einer hohen Konvergenzrate führt \cite{kingma2014adam}.
+
+ Neben der mittleren quadratischen Abweichung, die in der Abschnitt \ref{grundlagen_nn_entwicklung} vorgestellt wurde, gibt es weitere Fehlerfunktionen. In dieser Arbeit wird die Kreuzentropie (engl. cross entropy) für Mehrklassenprobleme mit der folgenden Fehlerfunktion verwendet \cite{bishop2006pattern}:
+
+\begin{equation}
+E(w_1, ..., w_K) = -\sum _{n=1}^N \sum _{k=1}^K t_{nk} * ln(y_{nk})
+\end{equation}
+
+Dabei beschreiben $w_1, ..., w_K$ die zu optimierenden Gewichte, $N$ ist die Anzahl der Trainingsdaten und $K$ die Anzahl der Klassen. $t_{nk}$ gibt mit dem Wert $1$ an, ob der Dateninput $n$ zur Klasse $k$ gehört. Wenn $n$ nicht zur Klasse $k$ gehört, nimmt $t_{nk}$ den Wert $0$ an. $y_{nk}$ ist die berechnete Wahrscheinlichkeit des Klassifikators, dass der Dateninput $n$ zur Klasse $k$ gehört.
+
+Das Ziel der Experimente ist eine möglichst hohe Genauigkeit (engl. accuracy) bei der Klassifizierung von Bildsequenzen. Bei Mehrklassenproblemen (engl. multi-class problem) werden häufig die Top-1 und Top-5 Genauigkeit bzw. der Top-1 und Top-5 Fehler untersucht \cite{szegedy2016inception, simonyan2014vgg, chollet2017xception}. Das Ergebnis einer Multiklassen-Klassifikation für jeden Input ist ein Vektor mit Wahrscheinlichkeiten für jede Klasse. Bei der Top-1 Genauigkeit bzw. dem Top-1 Fehler wird jeweils nur die Klasse mit der höchsten Genauigkeit betrachtet und mit der richtigen Klasse abgeglichen. Bei der Top-5 Genauigkeit bzw. dem Top-5 Fehler werden jeweils die fünf Klassen mit den höchsten Wahrscheinlichkeit mit der richtigen Klasse abgeglichen. Da in dieser Arbeit nur insgesamt fünf Klassen betrachtet werden, wird nur die Top-1 Genauigkeit als Metrik verwendet.
+
+Anhand dieser Metrik werden die unterschiedlichen Architekturen aus dem Abschnitt \ref{umsetzung_training_architektur} mit jeweils 10 und 100 Epochen trainiert und dann getestet. Aus der Variation von vier Parametern mit jeweils zwei Ausprägungen ergeben sich insgesamt 16 Experimente. Die Parameter mit ihren Ausprägungen sind in Tabelle \ref{tab_parameter} zusammengefasst.
+
+\begin{table}[h]
+\small
+\centering
+\def\arraystretch{1.4}
+\begin{tabular}{l l}
+\textbf{Parameter} & \textbf{Ausprägungen} \\
+\hline
+Prinzip der Klassifizierung & einzelne Bilder, Bildersequenzen \\
+\acl{CNN} & Inception-V3, Xception \\
+Regularisierung & ohne Dropout, mit Dropout \\
+Epochen & 10, 100 \\
+\hline
+\end{tabular}
+\caption{Parameter die in den Experimenten variiert werden}
+\label{tab_parameter}
+\end{table}
+
+
 % ===========================
 \subsubsection{Komponenten zusammenfügen}
 % ===========================
 
-Auf Basis der oben beschriebenen Komponenten werden jetzt acht verschiedene \ac{KNN}-Architekturen designed. Dabei wird zwischen den Architekturen für die Klassifizierung einzelner Bilder und den Architekturen für die Klassifizierung von Bildersequenzen unterschieden. Beide grundlegenden Architekturen sind schematisch in Abbildung \ref{fig_architekturen_grundlegend} dargestellt.
+Auf Basis der oben beschriebenen Komponenten und Parameter werden jetzt 16 verschiedene \ac{KNN}-Architekturen designed. Dabei wird zwischen den Architekturen für die Klassifizierung einzelner Bilder und den Architekturen für die Klassifizierung von Bildersequenzen unterschieden. Beide grundlegenden Architekturen sind schematisch in Abbildung \ref{fig_architekturen_grundlegend} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -489,11 +529,10 @@ Auf Basis der oben beschriebenen Komponenten werden jetzt acht verschiedene \ac{
 \label{fig_architekturen_grundlegend}
 \end{figure}
 
-Ausgehend von der Darstellung in Abbildung \ref{fig_architekturen_grundlegend} wird bei den Architekturen für die Klassifizierung von einzelnen Bildern zwischen den zwei \acp{CNN} und zwischen einer Version mit und ohne Dropout unterschieden. Damit ergeben sich vier verschiedene Architekturen, die in Tabelle \ref{tab_architekturen_bild} mit den jeweiligen Parametern zusammengefasst sind.
+Ausgehend von der Darstellung in Abbildung \ref{fig_architekturen_grundlegend} wird bei den Architekturen für die Klassifizierung von einzelnen Bildern zwischen den zwei \acp{CNN} Inception-V3 \cite{szegedy2016inception} und Xception \cite{chollet2017xception} und zwischen einer Version mit und ohne Dropout \cite{srivastava2014dropout} unterschieden. Damit ergeben sich vier verschiedene Architekturen. Als Basis wird dafür bei jeder Architektur eines der oben beschriebenen \acp{CNN} verwendet. Nach den Convolution- und Pooling-Schichten des jeweiligen \acp{CNN} wird eine Fully-Connected-Schicht mit 128 Neuronen und der \ac{ReLU}-Aktivierungsfunktion eingefügt. Diese Schicht wird in zwei der vier Architekturen mit Dropout, mit $r=0,5$, konfiguriert. Abschließend wird eine weitere Fully-Connected-Schicht mit 5 Neuronen, was der Anzahl der zu klassifizierenden Szenen entspricht, und der Softmax-Aktivierungsfunktion angehängt. Diese vier Konfigurationen sind in der Tabelle \ref{tab_architekturen_bild} mit den jeweiligen Parametern zusammengefasst.
 
 \begin{table}[h]
 \centering
-\small
 \def\arraystretch{1.4}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -504,8 +543,8 @@ Ausgehend von der Darstellung in Abbildung \ref{fig_architekturen_grundlegend} w
 \hline
 \multicolumn{4}{|c|}{Input shape: 299x299x3} \\
 \hline
-\multicolumn{2}{|c|}{Inception-V3} & \multicolumn{2}{|c|}{VGG-16} \\
-\multicolumn{2}{|c|}{Output shape: 2048} & \multicolumn{2}{|c|}{Output shape: 512} \\
+\multicolumn{2}{|c|}{Inception-V3} & \multicolumn{2}{|c|}{Xception} \\
+\multicolumn{2}{|c|}{Output shape: 2048} & \multicolumn{2}{|c|}{Output shape: 2048} \\
 \hline
 \multicolumn{4}{|c|}{Fully-Connected-Schicht} \\
 \multicolumn{4}{|c|}{$units=128$, $activation=\text{\ac{ReLU}}$} \\
@@ -523,11 +562,10 @@ ohne Dropout & Dropout & ohne Dropout & Dropout \\
 \label{tab_architekturen_bild}
 \end{table}
 
-Analog zu den Architekturen für die Klassifizierung von einzelnen Bildern, werden bei den Architekturen für die Klassifizierung von Bildersequenzen ebenfalls zwei verschiedene \ac{CNN}-Architekturen variiert und mit und ohne Dropout gearbeitet. Die resultierenden vier Architekturen sind in Tabelle \ref{tab_architekturen_video} mit ihren Parametern zusammengefasst.
+Analog zu den Architekturen für die Klassifizierung von einzelnen Bildern, werden bei den Architekturen für die Klassifizierung von Bildersequenzen ebenfalls die zwei verschiedene \ac{CNN}-Architekturen variiert. Der Unterschied ist, dass diese \acp{CNN} jeweils in eine \textit{TimeDistributed}-Schicht eingehüllt werden um danach eine \ac{LSTM}-Schicht mit 256 Neuronen anzuhängen. Danach wird wie bei den anderen Architekturen eine Fully-Connected-Schicht mit 128 Neuronen und der \ac{ReLU}-Aktivierungsfunktion eingefügt und zweimal mit der Regularisierungsmethode Dropout ($r=0,5$) konfiguriert. Die Ergebnisschicht ist ebenfalls identisch mit 5 Neuronen und der Softmax-Aktivierungsfunktion. Die resultierenden vier Architekturen für die Klassifizierung von Bildersequenzen sind in Tabelle \ref{tab_architekturen_video} mit ihren Parametern zusammengefasst.
 
 \begin{table}[h]
 \centering
-\small
 \def\arraystretch{1.4}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -538,8 +576,8 @@ Analog zu den Architekturen für die Klassifizierung von einzelnen Bildern, werd
 \hline
 \multicolumn{4}{|c|}{Input shape: 15x299x299x3} \\
 \hline
-\multicolumn{2}{|c|}{\textit{TimeDistributed} mit Inception-V3} & \multicolumn{2}{|c|}{\textit{TimeDistributed} mit VGG-16} \\
-\multicolumn{2}{|c|}{Output shape: 15x2048} & \multicolumn{2}{|c|}{Output shape: 15x512} \\
+\multicolumn{2}{|c|}{\textit{TimeDistributed} mit Inception-V3} & \multicolumn{2}{|c|}{\textit{TimeDistributed} mit Xception} \\
+\multicolumn{2}{|c|}{Output shape: 15x2048} & \multicolumn{2}{|c|}{Output shape: 15x2048} \\
 \hline
 \multicolumn{4}{|c|}{\ac{LSTM}-Schicht} \\
 \multicolumn{4}{|c|}{$units=256$, $activation=\text{\ac{tanh}}$} \\
@@ -559,45 +597,6 @@ ohne Dropout & Dropout & ohne Dropout & Dropout \\
 \end{tabular}
 \caption{\ac{KNN}-Architekturen für die Klassifizierung einzelner Bilder}
 \label{tab_architekturen_video}
-\end{table}
-
-
-% ===========================
-\subsection{Wahl der Parameter}
-\label{umsetzung_training_experimente}
-% ===========================
-
-Bei der Konfiguration von \acp{KNN} und den einzelnen Schichten können viele unterschiedliche Parameter konfiguriert werden. Da es sich bei dieser Arbeit um einen Proof-of-Concept handelt, wurden sowohl im letzten Abschnitt \ref{umsetzung_training_architektur} bei der Konfiguration der \ac{KNN}-Architekturen, als auch in diesem Abschnitt, oftmals auf die Standardkonfiguration von Keras zurückgegriffen. Diese Standardkonfiguration basiert nach Chollet stets auf aktuellen Forschungsergebnissen und dem Stand der Technik bei \acp{KNN} \cite{chollet2015keras}. Diese Vorgehensweise erlaubt einerseits eine schnelle Umsetzung des Proof-of-Concept dieser Arbeit und bietet andererseits in nachfolgenden Arbeiten viel Potential die Ergebnisse weiter zu verbessern.
-
-Vor jedem Training werden die \acp{KNN} mit einem Optimierer (engl. optimizer) und einer Fehlerfunktion (engl. loss function) kompiliert. Als Optimierer wird in dieser Arbeit Adam (adaptive moment estimation) verwendet. Dieser Optimierer vereint die Vorteile von den Optimierern AdaGrad (adaptive gradient algorithm) und RMSProp (root mean square propagation). Das Grundprinzip ist es, die Lernrate dynamisch aanzupassen, was zu weniger benötigtem Speicher und einer hohen Konvergenzrate führt \cite{kingma2014adam}.
-
- Neben der mittleren quadratischen Abweichung, die in der Abschnitt \ref{grundlagen_nn_entwicklung} vorgestellt wurde, gibt es weitere Fehlerfunktionen. In dieser Arbeit wird die Kreuzentropie (engl. cross entropy) für Mehrklassenprobleme mit der folgenden Fehlerfunktion verwendet \cite{bishop2006pattern}:
-
-\begin{equation}
-E(w_1, ..., w_K) = -\sum _{n=1}^N \sum _{k=1}^K t_{nk} * ln(y_{nk})
-\end{equation}
-
-Dabei beschreiben $w_1, ..., w_K$ die zu optimierenden Gewichte, $N$ ist die Anzahl der Trainingsdaten und $K$ die Anzahl der Klassen. $t_{nk}$ gibt mit dem Wert $1$ an, ob der Dateninput $n$ zur Klasse $k$ gehört. Wenn $n$ nicht zur Klasse $k$ gehört, nimmt $t_{nk}$ den Wert $0$ an. $y_{nk}$ ist die berechnete Wahrscheinlichkeit des Klassifikators, dass der Dateninput $n$ zur Klasse $k$ gehört.
-
-Das Ziel der Experimente ist eine möglichst hohe Genauigkeit (engl. accuracy) bei der Klassifizierung von Bildsequenzen. Bei Mehrklassenproblemen (engl. multi-class problem) werden häufig die Top-1 und Top-5 Genauigkeit bzw. der Top-1 und Top-5 Fehler untersucht \cite{szegedy2016inception, simonyan2014vgg}. Das Ergebnis einer Multiklassen-Klassifikation für jeden Input ist ein Vektor mit Wahrscheinlichkeiten für jede Klasse. Bei der Top-1 Genauigkeit bzw. dem Top-1 Fehler wird jeweils nur die Klasse mit der höchsten Genauigkeit betrachtet und mit der richtigen Klasse abgeglichen. Bei der Top-5 Genauigkeit bzw. dem Top-5 Fehler werden jeweils die fünf Klassen mit den höchsten Wahrscheinlichkeit mit der richtigen Klasse abgeglichen. Da in dieser Arbeit nur insgesamt fünf Klassen betrachtet werden, wird nur die Top-1 Genauigkeit als Metrik verwendet.
-
-Anhand dieser Metrik werden die unterschiedlichen Architekturen aus dem vorherigen Abschnitt \ref{umsetzung_training_architektur} mit jeweils 10 und 100 Epochen trainiert und dann getestet. Aus der Variation von vier Parametern mit jeweils zwei Ausprägungen ergeben sich insgesamt 16 Experimente. Die Parameter mit ihren Ausprägungen sind in Tabelle \ref{tab_parameter} zusammengefasst.
-
-\begin{table}[h]
-\small
-\centering
-\def\arraystretch{1.4}
-\begin{tabular}{l l}
-\textbf{Parameter} & \textbf{Ausprägungen} \\
-\hline
-Prinzip der Klassifizierung & einzelne Bilder, Bildersequenzen \\
-\acl{CNN} & Inception-V3, VGG-16 \\
-Regularisierung & ohne Dropout, mit Dropout \\
-Epochen & 10, 100 \\
-\hline
-\end{tabular}
-\caption{Parameter die in den Experimenten variiert werden}
-\label{tab_parameter}
 \end{table}
 
 

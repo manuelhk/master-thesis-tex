@@ -462,6 +462,36 @@ Insgesamt zeigt das Training von neuronalen Netzen mit einer Kombination von syn
 \label{grundlagen_nn_video}
 % ===========================
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
+Grundsätzlich kann zwischen drei verschiedenen Ansätze bei der Klassifizierung von Videos mit \acp{KNN} unterschieden werden. Beim ersten Ansatz werden die einzelnen Bilder aus einem Video einzeln mit einem \ac{CNN} klassifiziert und anschließend wird das Video der Klasse zugeordnet, zu der die meisten Bilder zugeordnet wurden \cite{karpathy2014large}. Mit diesem Ansatz werden die räumlichen Merkmale (engl. spatial features) mit dem \ac{CNN} sehr gut extrahiert und bei der Klassifizierung berücksichtigt. Das Problem ist, dass zeitliche Merkmale (engl. temporal features) keine Beachtung finden und die Reihenfolge der einzelnen Bilder ignoriert wird. Dieser Ansatz ist in Abbildung \ref{fig_single_frame_classification} dargestellt.
 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.8]{single_frame_classification.pdf}
+\caption{Klassifizierung von einzelnen Bildern mit anschließender Klassifizierung des gesamten Videos}
+\label{fig_single_frame_classification}
+\end{figure}
+
+Ein weiterer Ansatz basiert auf der Idee Feature Maps von mehreren Bildern zu kombinieren und damit die zeitlichen Merkmalen mit 3D-Filtern eines \acp{CNN} zu extrahieren. In frühen Arbeiten dazu wurde für diese Kombination eine Pooling-Operation verwendet \cite{karpathy2014large, yue2015beyond} und es wurden verschiedene Architekturen mit frühen, späten oder langsamen Fusion verwendet (engl. early, late, and slow fusion). Bei der frühen Fusion werden schon zu Beginn die Eingangswerte von mehreren Bilder kombiniert und dann zusammen die Feature Maps berechnet. Bei der späten Fusion werden von allen Bildern einzeln die Merkmale extrahiert und erst am Ende mit einer Pooling-Schicht vereint. Beim Ansatz der langsamen Fusion werden schrittweise die Feature Maps von immer mehr Bildern zusammengefasst. Diese Architekturen sind schematisch in Abbildung \ref{fig_fusion_classification} dargestellt.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c@{\hskip 1.5cm}c@{\hskip 1.5cm}c}
+\subfloat[Frühe Fusion]{\includegraphics[scale=0.5]{fusion_early.pdf}} &
+\subfloat[Späte Fusion]{\includegraphics[scale=0.5]{fusion_late.pdf}} &
+\subfloat[Langsame Fusion]{\includegraphics[scale=0.5]{fusion_slow.pdf}} 
+\end{tabular}
+\caption{Schematische Darstellung von Klassifizierungsarchitekturen mit frühen, späten und langsamen Fusionen von Feature Maps \cite{karpathy2014large}}
+\label{fig_fusion_classification}
+\end{figure}
+
+Später wurden neben der Pooling-Operation andere Operationen für die Fusion entwickelt \cite{feichtenhofer2016convolutional}. Obwohl damit teilweise sehr gute Ergebnisse erzielt werden konnten \cite{carreira2017quo}, haben die Fusions-Architekturen einen entscheidenden Nachteil. Zeitliche Merkmale werden berücksichtigt, allerdings nicht die Reihenfolge der Bilder. Aus diesem Grund gibt es einen dritten Ansatz für die Klassifizierung von Videos, die Kombination aus \acp{CNN}, die räumliche Merkmale extrahieren, und \acp{LSTM}, die zeitliche Merkmale extrahieren. Eine Architektur mit diesem Ansatz wurde von Donahue et al. \cite{donahue2015long} vorgestellt. Dabei wird ein vortrainiertes \ac{CNN} verwendet um die räumlichen Merkmale aus allen Bildern zu extrahieren. Anschließend werden diese Feature Maps einer \ac{LSTM}-Schicht übergeben, die die zeitlichen Merkmale extrahiert. In Abbildung \ref{fig_cnn_lstm_architektur} ist diese Architektur schematisch dargestellt.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.8]{cnn_lstm_architektur.pdf}
+\caption{Klassifizierung von Videos mit einer \ac{CNN}-\ac{LSTM}-Architektur \cite{donahue2015long}}
+\label{fig_cnn_lstm_architektur}
+\end{figure}
+
+In dieser Arbeit wird der erste Ansatz, die Klassifizierung von einzelnen Bilder mit anschließender Klassifizierung des gesamten Videos, und der dritte Ansatz, die kombinierte \ac{CNN}-\ac{LSTM}-Architektur verwendet. Die Architekturen dieser Arbeit werden im Detail in Abschnitt \ref{umsetzung_training_architektur} vorgestellt.
 
