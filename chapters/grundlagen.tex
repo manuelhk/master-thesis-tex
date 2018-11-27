@@ -126,10 +126,9 @@ Für die Klassifizierung wurden verschiedene Sensordaten aus dem Fahrzeug verwen
 
 Auf Basis der Sensordaten wurden verschiedene Klassifikatoren erstellt. Es wurden die Methoden \ac{SVM} \cite{sun2017robust, cervantes2016vehicle, woo2016manoeuvre, camlica2016feature, zheng2016drivers, zheng2015non}, \ac{RF} \cite{xie2018driving, cervantes2016vehicle, zheng2016drivers}, \ac{kNN} \cite{zheng2017lane, camlica2016feature, zheng2016drivers}, \ac{HMM} \cite{zheng2017lane, li2015lane}, \ac{FRC} \cite{cervantes2016vehicle, arroyo2016adaptive}, Bayesian Inference Model \cite{sun2017robust}, \ac{CNN} \cite{gruner2017spatiotemporal}, Decision Tree \cite{zheng2014threshold} und Naive Bayes \cite{camlica2016feature} verwendet. Da es für diese Arbeit nicht relevant ist, werden die Methoden an dieser Stelle nicht im Detail erläutert, es wird lediglich auf die jeweiligen Quellen verwiesen.
 
-In Tabelle \ref{tab_szenarienerkennung} sind alle Arbeiten zusammengefasst. Neben den verwendeten Methoden zur Klassifizierung sind die jeweils verwendeten Sensordaten und die klassifizierten Szenarien aufgeführt.
+In Tabelle \ref{tab_szenarienerkennung} sind alle dem Autor bekannten Arbeiten seit 2014 zusammengefasst. Neben den verwendeten Methoden zur Klassifizierung sind die jeweils verwendeten Sensordaten und die klassifizierten Szenarien aufgeführt.
 
-\small
-\begin{longtable}[c]{p{1,5cm} p{4cm} p{2,5cm} p{5cm}}
+\begin{longtable}[c]{p{1,5cm} p{4.5cm} p{2,5cm} p{4.5cm}}
 \textbf{Quelle} & \textbf{Sensordaten} & \textbf{Klassifikator} & \textbf{Szenarien} \\
 \hline
 \endhead
@@ -173,7 +172,6 @@ In Tabelle \ref{tab_szenarienerkennung} sind alle Arbeiten zusammengefasst. Neb
 \caption{Bisherige Arbeiten zur Szenarienerkennung}
 \label{tab_szenarienerkennung}
 \end{longtable}
-\normalsize
 
 Die Datenerhebungen in den vergangenen Arbeiten wurde vor dem Hintergrund durchgeführt vordefinierte Szenarien zu erkennen. Von diesen Szenarien wurden die benötigten Sensordaten abgeleitet und dann mit bestimmten Methoden verschiedene Klassifikatoren erstellt. Bis auf in der Arbeit von Gruner \cite{gruner2017spatiotemporal} werden für die Klassifizierung von Fahrszenarien bisher keine \acp{DNN} verwendet. Und in seiner Arbeit verwendet er keine Kamerabildern, sondern mit gespapelten Matritzen, auf denen jeweils die Positionen aller Verkehrsteilnehmer markiert sind. Nach Grunder \cite{gruner2017spatiotemporal} wird sich die zukünftige Forschung mit tieferen Netzstrukturen wie \acp{RNN} beschäftigen, um zeitabhängige Szenarien noch besser zu verstehen.
 
@@ -338,7 +336,7 @@ Mit diesem Algorithmus werden die Gewichte von mehrschichtigen \acp{KNN} bei jed
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.3]{overfitting.pdf}
+\includegraphics[scale=0.4]{overfitting.pdf}
 \caption{Beispiel einer Unter- und Überanpassung eines Klassifikators}
 \label{fig_overfitting}
 \end{figure}
@@ -351,30 +349,30 @@ Heute werden in Anwendungen häufig tiefe neuronale Netze (engl. deep neural net
 \label{grundlagen_nn_cnn}
 % ===========================
 
-Ein \acf{CNN} ist eine Architektur eines \acp{KNN} und gilt heute als Stand der Technik für Probleme in der Bilderkennung \cite{krizhevsky2012imagenet}. Die Architektur eines \acp{CNN} besteht grundsätzlich aus einer oder mehreren Convolution-Schicht und einer Pooling-Schicht \cite{lecun2010convolutional}. Diese Abfolge kann sich beliebig oft wiederholen und wird am Ende mit einer oder mehreren Fully-Connected-Schicht für die Klassifizierung ergänzt. In den folgenden Absätzen werden die Funktionsweisen der Convolution- und der Pooling-Schicht erklärt. Eine Fully-Connected-Schicht entspricht einer Schicht wie sie im vorherigen Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben wurde. In Abbildung \ref{fig_cnn} ist ein gesamtes \ac{CNN} dargestellt.
+Ein \acf{CNN} ist eine Architektur eines \acp{KNN} und gilt heute als Stand der Technik für Probleme in der Bilderkennung \cite{krizhevsky2012imagenet}. Die Architektur eines \acp{CNN} besteht grundsätzlich aus einer oder mehreren Convolution-Schicht und einer Pooling-Schicht \cite{lecun2010convolutional}. Diese Abfolge kann sich beliebig oft wiederholen und wird am Ende mit einer oder mehreren Fully-Connected-Schicht für die Klassifizierung ergänzt. In den folgenden Absätzen werden die Funktionsweisen der Convolution- und der Pooling-Schicht erklärt. Eine Fully-Connected-Schicht entspricht einer Schicht im mehrlagigen Perzeptron wie sie im vorherigen Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben wurde. In Abbildung \ref{fig_cnn} ist ein gesamtes \ac{CNN} dargestellt.
 
-Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von einer Aktivierungsfunktion. Die Idee dieser Schicht ist es Merkmale aus einem Bild (oder anderen Inputdaten) zu extrahieren. Dabei werden in den ersten Schichten Merkmalen auf einer niedrigen Ebene (engl. low-level features) und in späteren Schichten zunehmend abstraktere Merkmale (engl. high-level features) extrahiert. Bei der Convolution-Operation (oder auch Faltung) wird ein ausgewählter Filter mit einer festgelegten Schrittgröße (engl. stride) über das Bild bewegt und bei jedem Schritt der entsprechende Ausgabewert berechnet. Diese Operation ist in Abbildung \ref{fig_conv_operation} dargestellt.
+Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von einer Aktivierungsfunktion. Die Idee dieser Schicht ist es Merkmale aus einem Bild (oder anderen Inputdaten) zu extrahieren. Dabei werden in den ersten Schichten Merkmalen auf einer niedrigen Ebene (engl. low-level features) und in späteren Schichten zunehmend abstraktere Merkmale (engl. high-level features) extrahiert. Bei der Convolution-Operation (oder auch Faltung) wird ein ausgewählter Filter mit einer festgelegten Schrittgröße (engl. stride) über das Bild bewegt und bei jedem Schritt der entsprechende Ausgabewert berechnet \cite{lecun1998cnn}. Diese Operation ist in Abbildung \ref{fig_conv_operation} dargestellt.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.3]{conv_operation.pdf}
+\includegraphics[scale=0.4]{conv_operation.pdf}
 \caption{Beispiel einer Convolution-Operation}
 \label{fig_conv_operation}
 \end{figure}
 
-In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 5x5x1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimensionen 3x3x1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
+In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 6x6x1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimensionen 3x3x1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
 
-\begin{equation}
+\begin{equation*}
 0*33+0*15+1*1+0*93+0*84+0*17+1*36+0*72+0*83=37
-\end{equation}
+\end{equation*}
 
-Nach dieser Berechnung bewegt sich der Filter einen Schritt weiter nach rechts und der nächste Wert wird berechnet. Dies wiederholt sich bis der Filter am rechten unteren Rand des Bildes angekommen ist. Bei einem dreidimensionalen Bild, mit den drei Farbkanälen als dritte Dimension, hat der Filter ebenfalls drei Dimensionen und die Berechnung wird analog durchgeführt. Bei dieser Operation kann die Größe des Filters und die Schrittgrüße variiert werden. Es können auch verschiedenen Filter eingesetzt werden um unterschiedliche Merkmale zu extrahieren. Außerdem können sogenannte Padding-Methoden eingesetzt werden um den Rand der Bilder künstlich zu erweitern. Somit kann sich ein Filter auch über die existierenden Ränder hinweg bewegen und Muster an den Rändern besser erkennen. Das Ergebnis einer Convolution Schicht ist eine sogenannte Feature Map, also eine Schicht die aus extrahierten Merkmalen besteht \cite{lecun1997convolutional}.
+Nach dieser Berechnung bewegt sich der Filter einen Schritt weiter nach rechts und der nächste Wert wird berechnet. Am rechten Rand des Bilder angekommen, wir der Filter eine Schrittlänge weiter nach unten gesetzt und wieder and linken Rand gesetzt. Dies wiederholt sich bis der Filter am rechten unteren Rand des Bildes angekommen ist. Bei einem dreidimensionalen Bild, mit den drei Farbkanälen als dritte Dimension, hat der Filter ebenfalls drei Dimensionen. Die Berechnung wird analog durchgeführt. Bei dieser Operation kann die Größe des Filters und die Schrittgrüße variiert werden. Es können auch verschiedenen Filter eingesetzt werden um unterschiedliche Merkmale zu extrahieren. Außerdem können sogenannte Padding-Methoden eingesetzt werden um den Rand der Bilder künstlich zu erweitern. Beim sogenannten Zero-Padding wird beispielsweise eine beliebig breiter Rand mit den Werten 0 um das Bild gelegt. Somit kann sich ein Filter auch über die existierenden Ränder hinweg bewegen und Muster an den Rändern besser erkennen. Das Ergebnis einer Convolution Schicht ist eine sogenannte Feature Map, also eine Schicht die aus extrahierten Merkmalen besteht \cite{lecun1997convolutional}.
 
 Das Ziel der Pooling-Schicht ist es, die Größe der Feature Map zu reduzieren und dabei die wichtigsten Merkmale beizubehalten \cite{scherer2010evaluation}. Wie bei der Convolution-Operation, gibt es auch beim Pooling verschiedene Operationen (e.g. Average-Pooling). Es können auch die Größe des Pooling-Fensters und die Schrittgröße variiert werden. In Abbildung \ref{fig_pool_operation} ist die oft verwendete Max-Pooling-Operation dargestellt.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.3]{pool_operation.pdf}
+\includegraphics[scale=0.4]{pool_operation.pdf}
 \caption{Beispiel einer Max-Pooling-Operation}
 \label{fig_pool_operation}
 \end{figure}
@@ -395,13 +393,15 @@ Mit Convolution-, Pooling- und Fully-Connected-Schichten kann die Architektur ei
 \label{grundlagen_nn_rnn}
 % ===========================
 
-In diesem Abschnitt wird die Architektur von \acfp{RNN} und einer modifizierten Version davon, \acfp{LSTM}, vorgestellt. Ein \ac{RNN} ist ein \ac{KNN}, das besonders für sequentielle Daten geeignet ist. Der Unterschied zu der Architektur eines mehrlagigen Perzeptrons ist, dass die Neuronen einer versteckten Schicht bei einem \ac{RNN} miteinander und mit vorherigen Schichten verbunden sind \cite{graves2012rnn}. Damit entsteht nicht nur eine Abhängigkeit zu den Aktivierungswerten der vorherigen Schicht, sondern auch zu den Werten von anderen Neuronen derselben Schicht. Das bedeutet wiederum, dass das \ac{RNN} nicht von einem einzigen Eingangsvektor abhängig ist, sondern von einer Sequenz von Eingangsvektoren. Es gibt verschiedene Architekturen von \acp{RNN}, e.g. mit Ergebniswerten von jedem Input (engl. many to many) oder nur einem Ergebniswert am Ende einer Sequenz (engl. many to one). Diese beiden Varianten sind beispielhaft in Abbildung \ref{fig_rnn} dargestellt. In dieser Arbeit wird in Kapitel \ref{umsetzung} die Variante mit einem Ergebnis basierend auf einer Sequenz von Inputdaten verwendet, i.e. die Berechnung einer Klasse auf Basis einer Bildsequenz.
+In diesem Abschnitt wird die Architektur von \acfp{RNN} und einer modifizierten Version davon, \acfp{LSTM}, vorgestellt. Ein \ac{RNN} ist ein \ac{KNN}, das besonders für sequentielle Daten geeignet ist. Der Unterschied zu der Architektur eines mehrlagigen Perzeptrons ist, dass die Neuronen einer versteckten Schicht bei einem \ac{RNN} miteinander und mit vorherigen Schichten verbunden sind \cite{graves2012rnn}. Damit entsteht nicht nur eine Abhängigkeit zu den Aktivierungswerten der vorherigen Schicht, sondern auch zu den Werten von anderen Neuronen derselben Schicht. Das bedeutet wiederum, dass das \ac{RNN} nicht von einem einzigen Eingangsvektor abhängig ist, sondern von einer Sequenz von Eingangsvektoren. 
+
+Es gibt verschiedene Architekturen von \acp{RNN}, e.g. mit Ergebniswerten von jedem Input (engl. many to many) oder nur einem Ergebniswert am Ende einer Sequenz (engl. many to one). Die Architekturen mit Ergebniswerten von jedem Input werden beispielsweise für die automatische Übersetzung von Texten verwendet. Dabei ist jeder Input ein neues Wort für das jeweils ein Ergebnis, eine Übersetzung, produziert wird, und das auch Einfluss auf die Bedeutung der folgenden Wörter hat. Architekturen mit einem Ergebniswert werden für Klassifizierungsprobleme verwendet, in denen einer Sequenz von Inputdaten eine Klasse zugeordnet werden soll, beispielsweise eine Videoklassifizierung wie in dieser Arbeit. Diese beiden Varianten sind beispielhaft in Abbildung \ref{fig_rnn} dargestellt. In dieser Arbeit wird in Kapitel \ref{umsetzung} die Variante mit einem Ergebnis basierend auf einer Sequenz von Inputdaten verwendet, i.e. die Berechnung einer Klasse auf Basis einer Bildsequenz.
 
 \begin{figure}[h]
 \centering
-\begin{tabular}{c@{\hskip 1.5cm}c}
-\subfloat[many to many]{\includegraphics[scale=0.6]{rnn_1.pdf}} &
-\subfloat[many to one]{\includegraphics[scale=0.6]{rnn_2.pdf}} \\
+\begin{tabular}{c@{\hskip 1cm}c}
+\subfloat[many to many]{\includegraphics[scale=0.7]{rnn_1.pdf}} &
+\subfloat[many to one]{\includegraphics[scale=0.7]{rnn_2.pdf}} \\
 \end{tabular}
 \caption{Beispiel von zwei verschiedenen \ac{RNN}-Architekturen}
 \label{fig_rnn}
@@ -475,10 +475,10 @@ Ein weiterer Ansatz basiert auf der Idee Feature Maps von mehreren Bildern zu ko
 
 \begin{figure}[h]
 \centering
-\begin{tabular}{c@{\hskip 1.5cm}c@{\hskip 1.5cm}c}
-\subfloat[Frühe Fusion]{\includegraphics[scale=0.5]{fusion_early.pdf}} &
-\subfloat[Späte Fusion]{\includegraphics[scale=0.5]{fusion_late.pdf}} &
-\subfloat[Langsame Fusion]{\includegraphics[scale=0.5]{fusion_slow.pdf}} 
+\begin{tabular}{c@{\hskip 0.7cm}c@{\hskip 0.7cm}c}
+\subfloat[Frühe Fusion]{\includegraphics[scale=0.6]{fusion_early.pdf}} &
+\subfloat[Späte Fusion]{\includegraphics[scale=0.6]{fusion_late.pdf}} &
+\subfloat[Langsame Fusion]{\includegraphics[scale=0.6]{fusion_slow.pdf}} 
 \end{tabular}
 \caption{Schematische Darstellung von Klassifizierungsarchitekturen mit frühen, späten und langsamen Fusionen von Feature Maps \cite{karpathy2014large}}
 \label{fig_fusion_classification}
