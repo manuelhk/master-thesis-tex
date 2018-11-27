@@ -108,8 +108,12 @@
 
 \tableofcontents
 
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Zusammenfassung}
 \input{chapters/abstract}
 
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Eidesstattliche Erklärung}
 \input{chapters/erklaerung}
 
 %\tableofcontents
@@ -141,11 +145,7 @@
 
 \input{chapters/zusammenfassung}
 
-\cleardoublepage
-\pagenumbering{roman}
-\setcounter{page}{13}
-
-%\renewcommand{\bibname}{Literaturverzeichnis}
+\renewcommand{\bibname}{Literaturverzeichnis}
 \addcontentsline{toc}{chapter}{Literaturverzeichnis}
 \printbibliography
 
