@@ -68,7 +68,7 @@
 
 
 % definition of own variables
-\newcommand{\submissiondate}{23. Dezember 2018}
+\newcommand{\submissiondate}{21. Dezember 2018}
 \newcommand{\mytitle}{Künstliches Lernen: Trainingsdaten aus dem virtuellen Fahrversuch \\ für Szenarienklassifizierung mit Deep Learning Algorithmen}
 
 % define style/settings of code
@@ -112,6 +112,20 @@
 
 \input{chapters/erklaerung}
 
+%\tableofcontents
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+\input{chapters/abkuerzungsverzeichnis}
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+\listoffigures
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+\listoftables
+
 \cleardoublepage
 \pagenumbering{arabic}
 
@@ -129,22 +143,13 @@
 
 \cleardoublepage
 \pagenumbering{roman}
-\setcounter{page}{11}
+\setcounter{page}{13}
 
-\renewcommand{\bibname}{Literaturverzeichnis}
-\printbibliography
+%\renewcommand{\bibname}{Literaturverzeichnis}
 \addcontentsline{toc}{chapter}{Literaturverzeichnis}
+\printbibliography
 
-\input{chapters/abkuerzungsverzeichnis}
-\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
-
-\listoftables
-\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
-
-\listoffigures
-\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
-
-\appendix
-\input{chapters/appendix}
+%\appendix
+%\input{chapters/appendix}
 
 \end{document}
