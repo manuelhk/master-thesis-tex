@@ -448,9 +448,9 @@ Die gesamte Xception-Architektur besteht aus mehreren dieser getrennten Convolut
 
 Eine Fully-Connected-Schicht ist, wie in Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben, eine normale Schicht mit $n$ Neuronen in einem Multilayer-Perzeptron. Diese Schicht muss mit einer Anzahl  Neuronen $n$ und einer Aktivierungsfunktion $\varphi$ konfiguriert werden. Die Ergebnisschicht in einem \ac{KNN} ist ebenfalls immer eine Fully-Connected-Schicht. In dieser Arbeit werden in jeder Architektur zwei dieser Schichten verwendet, eine nach dem vortrainierten \ac{CNN} bzw. der \ac{LSTM}-Schicht und die andere als Ergebnisschicht. Die erste Fully-Connected Schicht besteht in dieser Arbeit immer aus 128 Neuronen und der \ac{ReLU}-Aktivierungsfunktion \cite{nair2010rectified}. In der Ergebnisschicht werden alle zuvor extrahierten Merkmale auf die Anzahl der Klassen heruntergebrochen und daher besteht die Ergebnisschicht aus der gleichen Anzahl Neuronen wie es Klassen gibt. Als Aktivierungsfunktion für ein Multiklassen-Problem ($C>2$), wie in dieser Arbeit, wird Softmax als Aktivierungsfunktion verwendet \cite{bishop2006pattern}.
 
-Das Ziel jedes \acp{KNN} ist es nach dem Training gute Ergebnisse auf bisher unbekannten Daten zu erzielen. Dies wird Generalisierbarkeit eines Netzes genannt \cite{bishop2006pattern}. Regularisierungsmethoden werden oft während des Trainings eingesetzt, um die Generalisierbarkeit nach dem Training zu erhöhen. In dieser Arbeit werden die Methoden Dropout \cite{hinton2012improving} und Early Stopping \cite{prechelt1998early} verwendet.
+Das Ziel jedes \acp{KNN} ist es nach dem Training gute Ergebnisse auf bisher unbekannten Daten zu erzielen. Dies wird Generalisierbarkeit eines Netzes genannt \cite{bishop2006pattern}. Regularisierungsmethoden werden oft während des Trainings eingesetzt, um die Generalisierbarkeit nach dem Training zu erhöhen. In dieser Arbeit wird die Methode Dropout \cite{srivastava2014dropout} verwendet.
 
-Dropout ist eine Methode um beim Training von \acp{KNN} Überanpassung (engl. Overfitting) zu vermeiden und insgesamt bessere Leistung bei der Kombination von verschiedenen Architekturen zu erreichen \cite{hinton2012improving}. Die Grundidee von Dropout ist es die Komplexität eines \acp{KNN} zu reduzieren, indem bei jedem Trainingsschritt zufällig einige Neuronen und die zugehörigen Kanten im Netz, die Gewichte, entfernt. Dafür wird einer Schicht im Netz eine Rate $r$ zugeordnet. Diese Rate $r$ gibt an, welcher Anteil der Neuronen aus dieser Schicht zufällig entfernt wird. Bei $r=0,5$ werden beispielsweise 50\% aller Neuronen in jedem Trainingsschritt zufällig entfernt. Das Ergebnis ist, dass das \ac{KNN} nicht zu abhängig von einzelnen Neuronen oder Gewichten wird und insgesamt bessere Ergebnisse erzielt werden können \cite{srivastava2014dropout}. In dieser Arbeit wird Dropout mit der Rate $r=0,5$ verwendet. Obwohl Dropout keine eigenständige Schicht ist, wird es in Keras als Schicht modelliert. Dabei bezieht sich Dropout aber stets auf die jeweilige Schicht davor. Ein Beispiel von Dropout ist in Abbildung \ref{fig_dropout} dargestellt.
+Dropout ist eine Methode um beim Training von \acp{KNN} Überanpassung (engl. Overfitting) zu vermeiden und insgesamt bessere Leistung bei der Kombination von verschiedenen Architekturen zu erreichen \cite{srivastava2014dropout}. Die Grundidee von Dropout ist es die Komplexität eines \acp{KNN} zu reduzieren, indem bei jedem Trainingsschritt zufällig einige Neuronen und die zugehörigen Kanten im Netz, die Gewichte, entfernt. Dafür wird einer Schicht im Netz eine Rate $r$ zugeordnet. Diese Rate $r$ gibt an, welcher Anteil der Neuronen aus dieser Schicht zufällig entfernt wird. Bei $r=0,5$ werden beispielsweise 50\% aller Neuronen in jedem Trainingsschritt zufällig entfernt. Das Ergebnis ist, dass das \ac{KNN} nicht zu abhängig von einzelnen Neuronen oder Gewichten wird und insgesamt bessere Ergebnisse erzielt werden können \cite{srivastava2014dropout}. In dieser Arbeit wird Dropout mit der Rate $r=0,5$ verwendet. Obwohl Dropout keine eigenständige Schicht ist, wird es in Keras als Schicht modelliert. Dabei bezieht sich Dropout aber stets auf die jeweilige Schicht davor. Ein Beispiel von Dropout ist in Abbildung \ref{fig_dropout} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -461,8 +461,6 @@ Dropout ist eine Methode um beim Training von \acp{KNN} Überanpassung (engl. Ov
 \caption{Regularisierung mit Dropout \cite{srivastava2014dropout}}
 \label{fig_dropout}
 \end{figure}
-
-Early Stopping ist eine Methode bei der das Training eines \acp{KNN} abgebrochen wird, wenn die Genauigkeit oder oder Fehler sich nicht weiter verbessern \cite{prechelt1998early}. In dieser Arbeit wird die Validierungs-Genauigkeit (engl. validation accuracy) als Metrik verwendet und das Training wird beendet, wenn sich diese Metrik innerhalb von 15 Epochen nicht mindestens um den Wert 0,01 verbessert.
 
 Wie in Abschnitt \ref{grundlagen_nn_rnn} beschrieben, werden \ac{LSTM}-Schichten für die Sequenzerkennung eingesetzt. Da die \ac{LSTM}-Schicht in dieser Arbeit nach der Merkmalsextraktion mit einem \ac{CNN} verwendet wird, ist in Keras eine sogenannte \textit{TimeDistributed}-Schicht nötig, um die Merkmale aller Bilder einer Sequenz der \ac{LSTM}-Schicht übergeben zu können. Diese Umhüllung (engl. wrapper) hat keine Parameter und keinen Einfluss auf die Klassifizierung. Die eigentliche \ac{LSTM}-Schicht wird mit der Ausgangsdimension $units = 256$ und der \ac{tanh}-Aktivierungsfunktion konfiguriert.
 
@@ -486,7 +484,7 @@ Dabei beschreiben $w_1, ..., w_K$ die zu optimierenden Gewichte, $N$ ist die Anz
 
 Das Ziel der Experimente ist eine möglichst hohe Genauigkeit (engl. accuracy) bei der Klassifizierung von Bildsequenzen. Bei Mehrklassenproblemen (engl. multi-class problem) werden häufig die Top-1 und Top-5 Genauigkeit bzw. der Top-1 und Top-5 Fehler untersucht \cite{szegedy2016inception, simonyan2014vgg, chollet2017xception}. Das Ergebnis einer Multiklassen-Klassifikation für jeden Input ist ein Vektor mit Wahrscheinlichkeiten für jede Klasse. Bei der Top-1 Genauigkeit bzw. dem Top-1 Fehler wird jeweils nur die Klasse mit der höchsten Genauigkeit betrachtet und mit der richtigen Klasse abgeglichen. Bei der Top-5 Genauigkeit bzw. dem Top-5 Fehler werden jeweils die fünf Klassen mit den höchsten Wahrscheinlichkeit mit der richtigen Klasse abgeglichen. Da in dieser Arbeit nur insgesamt fünf Klassen betrachtet werden, wird nur die Top-1 Genauigkeit als Metrik verwendet.
 
-Anhand dieser Metrik werden die unterschiedlichen Architekturen aus dem Abschnitt \ref{umsetzung_training_architektur} mit 100 Epochen und Early Stopping trainiert und dann getestet. Aus der Variation von drei Parametern mit jeweils zwei Ausprägungen ergeben sich insgesamt acht Experimente. Die Parameter mit ihren Ausprägungen sind in Tabelle \ref{tab_parameter} zusammengefasst.
+Anhand dieser Metrik werden die unterschiedlichen Architekturen aus dem Abschnitt \ref{umsetzung_training_architektur} mit jeweils 10 und 100 Epochen trainiert und dann getestet. Aus der Variation von vier Parametern mit jeweils zwei Ausprägungen ergeben sich insgesamt 16 Experimente. Die Parameter mit ihren Ausprägungen sind in Tabelle \ref{tab_parameter} zusammengefasst.
 
 \begin{table}[h]
 \small
@@ -498,6 +496,7 @@ Anhand dieser Metrik werden die unterschiedlichen Architekturen aus dem Abschnit
 Prinzip der Klassifizierung & einzelne Bilder, Bildersequenzen \\
 \acl{CNN} & Inception-V3, Xception \\
 Regularisierung & ohne Dropout, mit Dropout \\
+Epochen & 10, 100 \\
 \hline
 \end{tabular}
 \caption{Parameter die in den Experimenten variiert werden}
@@ -509,7 +508,7 @@ Regularisierung & ohne Dropout, mit Dropout \\
 \subsubsection{Komponenten zusammenfügen}
 % ===========================
 
-Auf Basis der oben beschriebenen Komponenten und Parameter werden jetzt acht verschiedene \ac{KNN}-Architekturen designed. Dabei wird zwischen den Architekturen für die Klassifizierung einzelner Bilder und den Architekturen für die Klassifizierung von Bildersequenzen unterschieden. Beide grundlegenden Architekturen sind schematisch in Abbildung \ref{fig_architekturen_grundlegend} dargestellt.
+Auf Basis der oben beschriebenen Komponenten und Parameter werden jetzt 16 verschiedene \ac{KNN}-Architekturen designed. Dabei wird zwischen den Architekturen für die Klassifizierung einzelner Bilder und den Architekturen für die Klassifizierung von Bildersequenzen unterschieden. Beide grundlegenden Architekturen sind schematisch in Abbildung \ref{fig_architekturen_grundlegend} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -521,7 +520,7 @@ Auf Basis der oben beschriebenen Komponenten und Parameter werden jetzt acht ver
 \label{fig_architekturen_grundlegend}
 \end{figure}
 
-Ausgehend von der Darstellung in Abbildung \ref{fig_architekturen_grundlegend} wird bei den Architekturen für die Klassifizierung von einzelnen Bildern zwischen den zwei \acp{CNN} Inception-V3 \cite{szegedy2016inception} und Xception \cite{chollet2017xception} und zwischen einer Version mit und ohne Dropout \cite{srivastava2014dropout} unterschieden. Damit ergeben sich vier verschiedene Architekturen. Als Basis wird dafür bei jeder Architektur eines der oben beschriebenen \acp{CNN} verwendet. Nach den Convolution- und Pooling-Schichten des jeweiligen \acp{CNN} wird eine Fully-Connected-Schicht mit 128 Neuronen und der \ac{ReLU}-Aktivierungsfunktion eingefügt. Diese Schicht wird in zwei der vier Architekturen mit Dropout, mit $r=0,5$, konfiguriert. Abschließend wird eine weitere Fully-Connected-Schicht mit fünf Neuronen, was der Anzahl der zu klassifizierenden Szenen entspricht, und der Softmax-Aktivierungsfunktion angehängt. Diese vier Konfigurationen sind in der Tabelle \ref{tab_architekturen_bild} mit den jeweiligen Parametern zusammengefasst.
+Ausgehend von der Darstellung in Abbildung \ref{fig_architekturen_grundlegend} wird bei den Architekturen für die Klassifizierung von einzelnen Bildern zwischen den zwei \acp{CNN} Inception-V3 \cite{szegedy2016inception} und Xception \cite{chollet2017xception} und zwischen einer Version mit und ohne Dropout \cite{srivastava2014dropout} unterschieden. Damit ergeben sich vier verschiedene Architekturen. Als Basis wird dafür bei jeder Architektur eines der oben beschriebenen \acp{CNN} verwendet. Nach den Convolution- und Pooling-Schichten des jeweiligen \acp{CNN} wird eine Fully-Connected-Schicht mit 128 Neuronen und der \ac{ReLU}-Aktivierungsfunktion eingefügt. Diese Schicht wird in zwei der vier Architekturen mit Dropout, mit $r=0,5$, konfiguriert. Abschließend wird eine weitere Fully-Connected-Schicht mit 5 Neuronen, was der Anzahl der zu klassifizierenden Szenen entspricht, und der Softmax-Aktivierungsfunktion angehängt. Diese vier Konfigurationen sind in der Tabelle \ref{tab_architekturen_bild} mit den jeweiligen Parametern zusammengefasst.
 
 \begin{table}[h]
 \centering
