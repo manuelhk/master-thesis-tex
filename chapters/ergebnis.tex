@@ -5,12 +5,63 @@
 \label{ergebnis}
 % ===========================
 
-In diesem Kapitel werden die Ergebnisse der trainierten \acp{KNN} aus Abschnitt \ref{umsetzung_training_architektur} mit den Parametern aus Abschnitt \ref{umsetzung_training_experimente} vorgestellt. Dabei wird die Genaugígkeit (eng. accuracy) hinsichtlich der unterschiedlichen Parametern aus Abschnitt \ref{umsetzung_training_experimente} verglichen. In den folgenden vier Abschnitten wird jeweils ein Parameters betrachtet und die Ergebnisse von der Variation seiner Ausprägungen erklärt.
+In diesem Kapitel werden die Ergebnisse der trainierten \acp{KNN} aus Abschnitt \ref{umsetzung_training_architektur} mit den Parametern aus Abschnitt \ref{umsetzung_training_experimente} vorgestellt. Jede Architektur wird mit einer Maximalanzahl von 100 Epochen trainiert. Aufgrund der Regularisierungsmethode Early Stopping wird diese Anzahl jedoch nie erreicht. Das Training bricht jeweils ab, wenn sich die Klassifizierungsgenauigkeit der Validierungsdaten innerhalb von 20 Epochen nicht um mindestens 0,01 verbessert. Nach Abbruch werden jeweils die Gewichte der Epoche mit der höchsten Genauigkeit wiederhergestellt. 
+
+In Abschnitt \ref{ergebnis_parameter} wird die Genauigkeit der jeweiligen Netzarchitekturen bei der Klassifizierung der realen Testdaten und die Anzahl der trainierten Epochen hinsichtlich der unterschiedlichen Parameter aus Abschnitt \ref{umsetzung_training_experimente} verglichen. Danach wird in Abschnitt \ref{ergebnis_synth_vs_real} die Genauigkeit der Klassifizierung zwischen realen und synthetischen Testdaten untersucht.
 
 
 % ===========================
-\section{Prinzip der Klassifizierung}
-\label{ergebnis_prinzip}
+\section{Variation der Parameter}
+\label{ergebnis_parameter}
+% ===========================
+
+In diesem Abschnitt werden die Unterschiede der verschiedenen Architekturen aus Abschnitt \ref{umsetzung_training_architektur} noch einmal kurz aufgegriffen und dann die dazugehörigen Ergebnisse vorgestellt. Die Ergebnisse sind in Tabelle \ref{tab_ergebnis} zusammengefasst.
+
+\begin{table}[h]
+\small
+\centering
+\def\arraystretch{1.4}
+\begin{tabular}{c p{3cm} c c}
+\textbf{Architektur} & \textbf{Beschreibung} & \textbf{Genauigkeit} & \textbf{Epochen} \\
+\hline
+A & Inception-V3 & 0,73 & 4 \\
+\hline
+B & Inception-V3 \newline Dropout & 0,64 & 1 \\
+\hline
+C & Xception & 0,54 & 1 \\
+\hline
+D & Xception \newline Dropout & 0,48 & 9 \\
+\hline 
+E & Inception-V3 \newline LSTM & 0,36 & 80 \\
+\hline
+F & Inception-V3 \newline LSTM \newline Dropout & 0,95 & 12 \\
+\hline
+G & Xception \newline LSTM & XX,XX & XX \\
+\hline
+H & Xception \newline LSTM \newline Dropout & 0,28 & 3 \\
+\hline
+\end{tabular}
+\caption{Ergebnisse der verschiedenen Architekturen bei der Klassifizierung der realen Testdaten}
+\label{tab_ergebnis}
+\end{table}
+
+% ===========================
+\subsubsection{Prinzip der Klassifizierung}
+% ===========================
+
+Bei der Klassifizierung wird in dieser Arbeit zwischen \acp{KNN} für die Erkennung von einzelnen Bildern und für die Erkennung von 3-Sekunden-Videos mit jeweils 15 Bildern unterschieden. Die detaillierten Architekturen sind in Abschnitt \ref{umsetzung_training_architektur} vorgestellt.
+
+Insgesamt wurde die höchste Genauigkeit von 0,95 mit einer Architektur für Videoerkennung erreicht. Gleichzeitig wurde auch 
+
+
+
+% ===========================
+\subsubsection{\aclp{CNN}}
+% ===========================
+
+
+% ===========================
+\subsubsection{Regularisierung mit Dropout}
 % ===========================
 
 
@@ -23,26 +74,8 @@ In diesem Kapitel werden die Ergebnisse der trainierten \acp{KNN} aus Abschnitt 
 
 
 
-% ===========================
-\section{Convolutional Neural Networks}
-\label{ergebnis_cnn}
-% ===========================
 
 
-
-
-% ===========================
-\section{Regularisierung mit Dropout}
-\label{ergebnis_dropout}
-% ===========================
-
-
-
-
-% ===========================
-\section{Epochen}
-\label{ergebnis_epochen}
-% ===========================
 
 
 
