@@ -108,27 +108,27 @@
 
 \tableofcontents
 
-\cleardoublepage
-\addcontentsline{toc}{chapter}{Zusammenfassung}
+%\cleardoublepage
 \input{chapters/abstract}
+\addcontentsline{toc}{chapter}{Zusammenfassung}
 
-\cleardoublepage
-\addcontentsline{toc}{chapter}{Eidesstattliche Erklärung}
+%\cleardoublepage
 \input{chapters/erklaerung}
+\addcontentsline{toc}{chapter}{Eidesstattliche Erklärung}
 
 %\tableofcontents
 
-\cleardoublepage
-\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+%\cleardoublepage
 \input{chapters/abkuerzungsverzeichnis}
+\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
 
-\cleardoublepage
-\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+%\cleardoublepage
 \listoffigures
+\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
 
-\cleardoublepage
-\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+%\cleardoublepage
 \listoftables
+\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
 
 \cleardoublepage
 \pagenumbering{arabic}
@@ -145,9 +145,10 @@
 
 \input{chapters/zusammenfassung}
 
+\cleardoublepage
+\printbibliography
 \renewcommand{\bibname}{Literaturverzeichnis}
 \addcontentsline{toc}{chapter}{Literaturverzeichnis}
-\printbibliography
 
 %\appendix
 %\input{chapters/appendix}

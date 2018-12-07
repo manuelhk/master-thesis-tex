@@ -328,15 +328,15 @@ In diesem Abschnitt wird zu Beginn das Format und der Import der Trainings- und 
 \label{umsetzung_training_input}
 % ===========================
 
-Die Generierung der synthetischen und realen Trainings- und Testdaten wurde bereits in den vorherigen Abschnitten beschrieben. In diesem Abschnitt soll kurz darauf eingegangen werden wie diese Daten in das jeweilige \ac{KNN} eingespeist werden.
+Die Generierung der synthetischen und realen Trainings-, Validierungs- und Testdaten wurde bereits in den vorherigen Abschnitten beschrieben. In diesem Abschnitt wrid kurz darauf eingegangen wie diese Daten in das jeweilige \ac{KNN} eingespeist werden.
 
-In dieser Arbeit werden \acp{CNN} für die Erkennung einzelner Bilder und Kombinationen aus \acp{CNN} und \ac{LSTM} für die Klassifizierung von Videos eingesetzt. Daher müssen sowohl einzelne Bilder, als auch Bildsequenzen in das jeweilige \ac{KNN} importiert werden. Da es sich um große Datenmengen von über 50GB handelt, müssen die Daten mit einem Datenstrom eingespeist werden, da nicht alle Daten zu Beginn in den Arbeitsspeicher geladen werden können.
+In dieser Arbeit werden \acp{CNN} für die Erkennung einzelner Bilder und Kombinationen aus \acp{CNN} und \ac{LSTM} für die Klassifizierung von Videos eingesetzt. Daher müssen sowohl einzelne Bilder, als auch Bildsequenzen in das jeweilige \ac{KNN} importiert werden. Da es sich um große Datenmengen von insgesamt über 50GB handelt, müssen die Daten mit einem Datenstrom (engl. data stream) eingespeist werden, da nicht alle Daten zu Beginn in den Arbeitsspeicher geladen werden können.
 
-Die Deep-Learning-Bibliothek Keras hat bereits sogenannte \textit{DataGenerators} für der Import von einzelnen Bildern und für sequenzielle Daten mit zwei Dimensionen (e.g. CSV-Dateien). Es gibt allerdings keine bereits nutzbare Lösung für den Import von sequentiellen Bildern, was 4-dimensionalen Daten entspricht (Anzahl Bilder, Höhe, Breite, Farbkanal). Aus diesem Grund wird die Lösung von Amidi \ref{amidi2017datagenerator} adaptiert um höher-dimensionale Datensets importieren zu können.
+Die Deep-Learning-Bibliothek Keras besitzt bereits Klasse, sogenannte \textit{DataGenerators}, für der Import von einzelnen Bildern und für sequenzielle Daten mit zwei Dimensionen (e.g. CSV-Dateien). Es gibt allerdings keine bereits nutzbare Lösung für den Import von sequentiellen Bildern, was 4-dimensionalen Daten entspricht (Anzahl Bilder, Höhe, Breite, Farbkanal). Aus diesem Grund wird die Lösung von Amidi \ref{amidi2017datagenerator} adaptiert um höher-dimensionale Datensets importieren zu können.
 
-Von den generierten synthetischen und realen Szenarien werden \textit{free cruising}, \textit{following}, \textit{catching up}, \textit{lane change left} und \textit{lane change right} für das Training ausgewählt. Das Szenario \textit{approaching} wurde für den Proof-of-Concept in dieser Arbeit bewusst entfernt, weil es oft Überscheidungen mit dem Szenario \textit{following} gibt. Diese Überschneidungen und Ähnlichkeiten zwischen Szenarien und ihren Einfluss auf das Training eines Klassifikators können in weiteren Arbeiten untersucht werden. Das Szenario \textit{overtaking} wurde entfernt, weil es mit der konfigurierten Frontkamera allein nicht erfasst werden kann. In folgenden Arbeiten kann dieses Szenario mithilfe weiterer Kameraperspektiven zusätzlich berücksichtigt werden.
+Von den generierten synthetischen und realen Szenarien werden \textit{free cruising}, \textit{following}, \textit{catching up}, \textit{lane change left} und \textit{lane change right} für das Training ausgewählt. Das Szenario \textit{approaching} wird für den Proof-of-Concept in dieser Arbeit bewusst entfernt, weil es oft Überscheidungen mit dem Szenario \textit{following} gibt. Diese Überschneidungen und Ähnlichkeiten zwischen Szenarien und ihren Einfluss auf das Training eines Klassifikators können in weiteren Arbeiten untersucht werden. Das Szenario \textit{overtaking} wird entfernt, weil es mit der konfigurierten Frontkamera nicht erfasst werden kann. In folgenden Arbeiten kann dieses Szenario mithilfe weiterer Kameraperspektiven oder anderen Signaldaten berücksichtigt werden.
 
-Um das Ergebnis nicht zu verzerren, sollten für das Training mit neuronalen Netzen in jeder Klasse jeweils die gleiche Anzahl an Trainings- und Testdaten vorhanden sein. Aus diesem Grund werden für das Training aus jeder Klasse nur die Anzahl der Szenarien verwendet, die mindestens in jeder Klasse verfügbar sind. Damit dieser Ansatz auch in der Praxis verwendet werden kann wird außerdem darauf geachtet, dass 95\% synthetische Daten und 5\% reale Daten für das Training verwendet werden. Mit dieser Verteilung bleibt der manuelle Aufwand für das Labeln der Trainingsdaten überschaubar. Die daraus resultierende Aufteilung von synthetischen und realen Szenarien auf Trainings-, Validierungs- und Testdaten ist in Tabelle \ref{tab_daten_aufteilung} aufgeschlüsselt. Beim Training mit einzelnen Bildern wird die gleiche Verteilung angewendet und da jedes Szenario aus 15 Bilder besteht, können die Zahlen aus Tabelle \ref{tab_daten_aufteilung} dafür mit 15 multipliziert werden.
+Um das Ergebnis nicht zu verzerren, sollten für das Training mit \acp{KNN} in jeder Klasse jeweils die gleiche Anzahl an Trainings-, Validierungs- und Testdaten vorhanden sein. Aus diesem Grund werden für das Training aus jeder Klasse nur die Anzahl der Szenarien verwendet, die mindestens in jeder Klasse verfügbar sind. Damit dieser Ansatz auch in der Praxis verwendet werden kann wird außerdem darauf geachtet, dass 95\% synthetische Daten und 5\% reale Daten für das Training verwendet werden. Mit dieser Verteilung bleibt der manuelle Aufwand für das Labeln der Trainingsdaten überschaubar. Die daraus resultierende Aufteilung von synthetischen und realen Szenarien auf Trainings-, Validierungs- und Testdaten ist in Tabelle \ref{tab_daten_aufteilung} aufgeschlüsselt. Beim Training mit einzelnen Bildern wird die gleiche Verteilung angewendet und da jedes Szenario aus 15 Bildern besteht, können die Zahlen aus Tabelle \ref{tab_daten_aufteilung} dafür mit 15 multipliziert werden.
 
 \begin{table}[h]
 \centering
@@ -347,13 +347,13 @@ Um das Ergebnis nicht zu verzerren, sollten für das Training mit neuronalen Net
 & Training & Validierung & Test & Training & Validierung & Test \\
 Szenario & 85\% & 10\% & 5\% & 65\% & 10\% & 25\% \\
 \hline
-free cruising & 807 & 95 & 48 & 43 & 7 & 17 \\
-following & 807 & 95 & 48 & 43 & 7 & 17 \\
-catching up & 807 & 95 & 48 & 43 & 7 & 17 \\
-lane change left & 807 & 95 & 48 & 43 & 7 & 17 \\
-lane change right & 807 & 95 & 48 & 43 & 7 & 17 \\
+free cruising & 665 & 190 & 95 & 33 & 17 & 17 \\
+following & 665 & 190 & 95 & 33 & 17 & 17 \\
+catching up & 665 & 190 & 95 & 33 & 17 & 17 \\
+lane change left & 665 & 190 & 95 & 33 & 17 & 17 \\
+lane change right & 665 & 190 & 95 & 33 & 17 & 17 \\
 \hline
-\textbf{Summe} & \textbf{4.035} & \textbf{475} & \textbf{240} & \textbf{215} & \textbf{35} & \textbf{85} \\
+\textbf{Summe} & \textbf{3.325} & \textbf{950} & \textbf{475} & \textbf{165} & \textbf{85} & \textbf{85} \\
 \hline
 
 \end{tabular}

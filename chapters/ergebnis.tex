@@ -38,7 +38,7 @@ F & Inception-V3 \newline LSTM \newline Dropout & 0,95 & 12 \\
 \hline
 G & Xception \newline LSTM & 0,38 & 26 \\
 \hline
-H & Xception \newline LSTM \newline Dropout & 0,28 & 3 \\
+H & Xception \newline LSTM \newline Dropout & 0,61 & 9 \\
 \hline
 \end{tabular}
 \caption{Ergebnisse der verschiedenen Architekturen bei der Klassifizierung der realen Testdaten}
@@ -49,9 +49,9 @@ H & Xception \newline LSTM \newline Dropout & 0,28 & 3 \\
 \subsubsection{Prinzip der Klassifizierung}
 % ===========================
 
-Bei der Klassifizierung wird in dieser Arbeit zwischen \acp{KNN} für die Erkennung von einzelnen Bildern und für die Erkennung von 3-Sekunden-Videos mit jeweils 15 Bildern unterschieden. Die detaillierten Architekturen sind in Abschnitt \ref{umsetzung_training_architektur} vorgestellt.
+Bei dem Prinzip der Klassifizierung wird in dieser Arbeit zwischen \acp{KNN} für die Erkennung von einzelnen Bildern und für die Erkennung von 3-Sekunden-Videos mit jeweils 15 Bildern unterschieden. Die detaillierten Architekturen sind in Abschnitt \ref{umsetzung_training_architektur} vorgestellt.
 
-Insgesamt wurde die höchste Genauigkeit bei der Klassifizierung der realen Testdaten von 0,95 mit der Architektur F für Videoerkennung erreicht. Dieses Ergebnis ist auch in Abbilder \ref{fig_cm_v3_lstm_d_real} in der Konfusionsmatrix (engl. confusion matrix) dargestellt. Gleichzeitig wurde auch die niedrigste Genauigkeit mit der Architektur H für Videoerkennung erreicht. Architekturen für die reine Bilderkennung erreichen Genauigkeiten zwischen 0,48 (Architektur D) und 0,73 (Architektur A). Damit erzielen diese Architekturen Ergebnisse mit weniger Varianz im Vergleich zu den anderen Architekturen.
+Insgesamt wird die höchste Genauigkeit bei der Klassifizierung der realen Testdaten von 0,95 mit der Architektur F für Videoerkennung erreicht. Dieses Ergebnis ist auch in Abbildung \ref{fig_cm_v3_lstm_d_real} in der Konfusionsmatrix (engl. confusion matrix) dargestellt. Die niedrigste Genauigkeit von 0,28 wird mit der Architektur H für Videoerkennung erreicht. Architekturen für die reine Bilderkennung erreichen Genauigkeiten zwischen 0,48 (Architektur D) und 0,73 (Architektur A). Damit erzielen diese Architekturen Ergebnisse mit weniger Varianz im Vergleich zu den Architekturen mit \ac{LSTM}-Schicht.
 
 \begin{figure}[h]
 \centering
@@ -64,34 +64,40 @@ Insgesamt wurde die höchste Genauigkeit bei der Klassifizierung der realen Test
 \subsubsection{\aclp{CNN}}
 % ===========================
 
-Der Vergleich zwischen den zwei \ac{CNN}-Architekturen Inception-V3 und Xception zeigt ein klares Bild. In drei von vier Fällen kann die Architektur mit der Inception-V3-Architektur bessere Ergebnisse erzielen. Der Unterschied ist dabei zwischen 0,16 und 0,67 bei der Genauigkeit. Nur die Architektur G erzielt eine höhere Genauigkeit als Architektur E mit einem Unterschied von 0,02. Dieser Unterschied überrascht, da die Xception-Architektur in anderen Arbeiten \cite{chollet2017xception} höhere Genauigkeiten bei der Klassifizierung von Bildern erreicht hat.
+Der Vergleich zwischen den zwei \ac{CNN}-Architekturen Inception-V3 und Xception zeigt ein klares Bild. In drei von vier Fällen kann die Architektur mit der Inception-V3-Architektur als Basis bessere Ergebnisse erzielen. Die Differenz bei der Genauigkeit liegt dabei zwischen 0,16 und 0,67. Nur die Architektur G erzielt eine höhere Genauigkeit als Architektur E mit einem Unterschied von 0,02. Insgesamt überrascht dieser Unterschied, da die Xception-Architektur in anderen Arbeiten \cite{chollet2017xception} höhere Genauigkeiten bei der Klassifizierung von Bildern erreicht hat.
 
 % ===========================
 \subsubsection{Regularisierung mit Dropout}
 % ===========================
 
-Es ist auffällig, dass die Architekturen für Videoklassifizierung mit Dropout in der vorletzten Fully-Connected-Schicht deutlich bessere Ergebnisse erzielen können im Vergleich zu denselben Architekturen ohne Dropout. Im Gegensatz dazu erzielen die Architekturen für die Erkennung einzelner Bilder die bessere Genauigkeit ohne Dropout.
+Es ist auffällig, dass die Architekturen für Videoklassifizierung mit Dropout in der vorletzten Fully-Connected-Schicht deutlich bessere Ergebnisse erzielen können im Vergleich zu denselben Architekturen ohne Dropout. Im Gegensatz dazu erzielen die Architekturen für die Erkennung einzelner Bilder die bessere Genauigkeit ohne Regularisierung mit Dropout in der vorletzten Schicht.
 
-Eine mögliche Erklärung dafür könnte die Komplexität der Architekturen mit \ac{LSTM}-Schicht sein. Diese Architekturen haben mehr trainierbare Parameter und sind daher anfälliger für eine Überanpassung \cite{hinton2012improving}. Regularisierung mit Dropout kann die Komplexität reduzieren und führt zu höheren Genauigkeiten. Die Architekturen mit reinen \acp{CNN} sind weniger komplex und daher hat Dropout keine oder eine negative Auswirkung auf das Ergebnis.
+In Abbildung \ref{fig_acc_v3_lstm} ist beispielhaft die Entwicklung der Genauigkeit der Trainings- und Testdaten während dem Training von den Architekturen E und F dargestellt. Es ist deutlich zu sehen, dass die Anzahl der Epochen bei Architekturen mit \ac{LSTM}-Schicht mit Dropout stark reduziert werden kann und die Genauigkeit weniger sprunghaft und schneller konvergiert.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{cc}
+\subfloat[Architektur E (Inception-V3, LSTM)]{\includegraphics[scale=0.4]{acc_v3_lstm_86.png}} &
+\subfloat[Architektur F (Inception-V3, LSTM, Dropout)]{\includegraphics[scale=0.4]{acc_v3_lstm_dropout_23.png}}
+\end{tabular}
+\caption{Genauigkeit der Trainings- und Testdaten während dem Training von zwei verschiedenen Architekturen}
+\label{fig_acc_v3_lstm}
+\end{figure}
+
+Eine mögliche Erklärung dafür könnte die Komplexität der Architekturen mit \ac{LSTM}-Schicht sein. Diese Architekturen haben mehr trainierbare Parameter und sind daher anfälliger für eine Überanpassung \cite{hinton2012improving}. Regularisierung mit Dropout kann die Komplexität reduzieren und führt zu höheren Genauigkeiten \cite{hinton2012improving}. Die Architekturen mit reinen \acp{CNN} sind weniger komplex und daher könnte Dropout keine oder eine negative Auswirkung auf das Ergebnis haben.
 
 % ===========================
 \subsubsection{Anzahl der Epochen}
 % ===========================
 
-Es lässt sich beobachten, dass die Architekturen für die Klassifizierung von Videos mit bis zu 80 Epochen deutlich mehr Trainingsschritte benötigen als die Architekturen für reine Bilderkennung. Eine mögliche Erklärung dafür ist, dass reine \acp{CNN} eine weniger komplexe Architektur und weniger Parameter haben als die Architekturen mit einer \ac{LSTM}-Schicht. Mehr Gewichte, die angepasst werden können, bedeutet eine höhere Komplexität und dementsprechend mehr Trainingszeit.
+Es lässt sich beobachten, dass die Architekturen für die Klassifizierung von Videos mit bis zu 86 Epochen deutlich mehr Trainingsschritte benötigen als die Architekturen für reine Bilderkennung. Eine mögliche Erklärung dafür ist, dass reine \acp{CNN} eine weniger komplexe Architektur und weniger Parameter haben als die Architekturen mit einer \ac{LSTM}-Schicht. Mehr Gewichte, die angepasst werden können, bedeutet eine höhere Komplexität und dementsprechend mehr benötigte Epochen.
 
-Bei den Architekturen für die Klassifizierung von Videos reduziert Dropout die Anzahl der benötigten Epochen drastisch. Eine mögliche Erklärung ist die hohe Komplexität dieser Architekturen, die mit Dropout reduziert werden kann \cite{hinton2012improving}.
-
-Zu den Unterschieden der Trainingszeiten zwischen der Inception-V3- und der Xception-Architektur lässt sich in dieser Arbeit keine eindeutige Aussage treffen. Die benötige Epochenanzahl bei beiden Architekturen variiert sehr stark.
+Zu den Unterschieden der Epochenanzahl zwischen der Inception-V3- und der Xception-Architektur lässt sich in dieser Arbeit keine eindeutige Aussage treffen. Die benötige Epochenanzahl bei beiden Architekturen variiert sehr stark.
 
 % ===========================
 \section{Synthetische und reale Testdaten}
 \label{ergebnis_synth_vs_real}
 % ===========================
-
-In diesem Abschnitt werden die Unterschiede der Genauigkeiten bei der Klassifizierung zwischen realen und synthetischen Testdaten untersucht. Die Ergebnisse sind in Tabelle \ref{tab_ergebnis_synth} zusammengefasst. Es ist nicht überraschend, dass die Genauigkeiten bei der Klassifizierung von synthetischen Testdaten überwiegend deutlich höher ist, weil die \acp{KNN} mit circa 95\% synthetischer und nur 5\% realer Daten trainiert wurden. Das bestätigt auch die Ergebnisse der vorangegangenen Arbeit, die in Abschnitt \ref{grundlagen_nn_synthetisch} diskutiert werden. 
-
-Es ist auffällig, dass die Klassifizierung von einzelnen synthetischen Bildern mit der Xception Architektur niedriger ist als die Klassifizierung von realen Testbildern. Aktuell hat der Autor keine Erklärung hierfür. Dieses Ergebnis kann als Ausgangspunkt für weitere Arbeiten dienen.
 
 \begin{table}[h]
 \small
@@ -115,12 +121,16 @@ F & Inception-V3 \newline LSTM \newline Dropout & 0,95 & 0,99 \\
 \hline
 G & Xception \newline LSTM & 0,38 & 0,99 \\
 \hline
-H & Xception \newline LSTM \newline Dropout & 0,28 & 0,67 \\
+H & Xception \newline LSTM \newline Dropout & 0,61 & 0,91 \\
 \hline
 \end{tabular}
 \caption{Ergebnisse der Klassifizierung von synthetischen und realen Testdaten}
 \label{tab_ergebnis_synth}
 \end{table}
+
+In diesem Abschnitt werden die Unterschiede der Genauigkeiten bei der Klassifizierung zwischen realen und synthetischen Testdaten untersucht. Die Ergebnisse sind in Tabelle \ref{tab_ergebnis_synth} zusammengefasst. Es ist nicht überraschend, dass die Genauigkeiten bei der Klassifizierung von synthetischen Testdaten überwiegend deutlich höher ist, weil die \acp{KNN} mit 95\% synthetischer und nur 5\% realer Daten trainiert wurden. Das bestätigt auch die Ergebnisse der vorangegangenen Arbeit, die in Abschnitt \ref{grundlagen_nn_synthetisch} diskutiert werden. 
+
+Es ist auffällig, dass die Klassifizierung von einzelnen synthetischen Bildern mit der Xception Architektur niedriger ist als die Klassifizierung von realen Testbildern. Aktuell hat der Autor keine Erklärung hierfür. Dieses Ergebnis kann als Ausgangspunkt für weitere Arbeiten dienen.
 
 
 % ===========================
@@ -128,7 +138,7 @@ H & Xception \newline LSTM \newline Dropout & 0,28 & 0,67 \\
 \label{ergebnis_szenarien}
 % ===========================
 
-Die Betrachtung Klassifizierungsgenauigkeiten der einzelnen Klassen ergibt kein eindeutiges Bild. Bei verschiedenen Architekturen werden verschiedene Szenen besser oder schlechter erkannt. Hervorzuheben ist, dass es deutliche Unterschiede gibt, diese aber keinem erkennbaren Muster folgen. Eine Übersicht der Genauigkeit der Klassifizierung von realen Testdaten auf der Ebene von Szenarienklassen ist in Tabelle \ref{tab_ergebnis_szenarien} dargestellt.
+Die Betrachtung von Klassifizierungsgenauigkeiten der einzelnen Klassen ergibt kein eindeutiges Bild. Bei verschiedenen Architekturen werden verschiedene Szenen teilweise besser oder schlechter erkannt. Hervorzuheben ist, dass es deutliche Unterschiede gibt, diese aber keinem erkennbaren Muster folgen. Eine Übersicht der Genauigkeit der Klassifizierung von realen Testdaten auf der Ebene von Szenarienklassen ist in Tabelle \ref{tab_ergebnis_szenarien} dargestellt.
 
 \begin{table}[h]
 \small
@@ -145,16 +155,16 @@ D & 0,00 & 0,82 & 0,82 & 0,76 & 0,00 \\
 E & 0,59 & 0,47 & 0,41 & 0,06 & 0,29 \\
 F & 0,88 & 0,94 & 1,00 & 0,94 & 1,00 \\
 G & 0,47 & 0,06 & 0,18 & 0,59 & 0,06 \\
-H & 0,12 & 0,00 & 0,00 & 0,65 & 0,65 \\
+H & 0,71 & 1,00 & 0,71 & 0,35 & 0,29 \\
 \hline
-\textbf{Durchschnitt} & 0,55 & 0,57 & 0,65 & 0,46 & 0,44 \\
+\textbf{Durchschnitt} & 0,62 & 0,68 & 0,74 & 0,42 & 0,40 \\
 \hline
 \end{tabular}
 \caption{Genauigkeit der Klassifizierung von realen Testdaten auf der Ebene von Szenarienklassen}
 \label{tab_ergebnis_szenarien}
 \end{table}
 
-
+Um an dieser Stelle besser verstehen zu können auf welcher Basis die \acp{KNN} die Bilder beziehungsweise die Bildsequenzen erkennen, sollten in nachfolgenden Arbeiten weitere Untersuchungen dazu angestellt werden. So wäre es beispielsweise interessant, welche Teile der einzelnen Bilder stärker oder auch weniger stark bei der Klassifizierung berücksichtigt werden.
 
 
 
