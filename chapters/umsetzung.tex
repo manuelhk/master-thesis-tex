@@ -147,7 +147,7 @@ Mit diesen vier Variablen mit jeweils drei bzw. fünf Werten ergeben sich 135 ve
 
 
 % ===========================
-\subsection{Daten Labeling}
+\subsection{Daten Labeln}
 \label{umsetzung_daten_synth_labeling}
 % ===========================
 
@@ -172,17 +172,17 @@ v2_{laneID} = \text{Traffic.TX.Lane.Act.LaneId} \qquad \text{[1, 2]} \\
 
 \textbf{Free cruising} & $ego_v > 17$ \newline $s_0 < v2_{ds}$ \\
 \hline
-\textbf{Approaching} & $s_2 < v2_{ds} < s_0$ \newline $ego_{sRoad} < v2_{sRoad}$ \newline $ego_{laneID} == v2_{laneID}$ \newline $ego_v < \text{ Durchschnitt von } ego_v \text{ der letzten 3 Sekunden} $ \\
+\textbf{Approaching} & $s_2 < v2_{ds} < s_0$ \newline $ego_{sRoad} < v2_{sRoad}$ \newline $ego_{laneID} = v2_{laneID}$ \newline $ego_v < \text{ Durchschnitt von } ego_v \text{ der letzten 3 Sekunden} $ \\
 \hline
-\textbf{Following} & $v2_{dv} < ego_v * 0,05$ \newline $s_3 < s_1$ \newline $ego_{sRoad} < v2_{sRoad}$ \newline $ego_{laneID} == v2_{laneID}$ \\
+\textbf{Following} & $v2_{dv} < ego_v * 0,05$ \newline $s_3 < s_1$ \newline $ego_{sRoad} < v2_{sRoad}$ \newline $ego_{laneID} = v2_{laneID}$ \\
 \hline
-\textbf{Catching up} & $v2_{dv} < 0$ \newline $0 <= v2_{ds} < s_0$ \newline $ego_{sRoad} <= v2_{sRoad}$ \newline $ego_{laneID} == v2_{laneID} - 1$ \\
+\textbf{Catching up} & $v2_{dv} < 0$ \newline $0 <= v2_{ds} < s_0$ \newline $ego_{sRoad} \leq v2_{sRoad}$ \newline $ego_{laneID} = v2_{laneID} - 1$ \\
 \hline
-\textbf{Overtaking} & $0 <= v2_{ds} < s_0$ \newline $v2_{sRoad} < ego_{sRoad}$ \newline $ego_{laneID} == v2_{laneID} - 1$ \\
+\textbf{Overtaking} & $0 \leq v2_{ds} < s_0$ \newline $v2_{sRoad} < ego_{sRoad}$ \newline $ego_{laneID} = v2_{laneID} - 1$ \\
 \hline
-\textbf{Lane change left} & $ego_{laneID}^{before} == ego_{laneID}^{after} + 1$ \newline Als Spurwechsel wird ein Intervall von 4 Sekunden betrachtet in dessen Mitte die Variable ihren Wert wechseln muss\\
+\textbf{Lane change left} & $ego_{laneID}^{before} = ego_{laneID}^{after} + 1$ \newline Als Spurwechsel wird ein Intervall von 4 Sekunden betrachtet in dessen Mitte die Variable ihren Wert wechseln muss\\
 \hline
-\textbf{Lane change right} & $ego_{laneID}^{before} == ego_{laneID}^{after} - 1$ \newline Als Spurwechsel wird ein Intervall von 4 Sekunden betrachtet in dessen Mitte die Variable ihren Wert wechseln muss \\
+\textbf{Lane change right} & $ego_{laneID}^{before} = ego_{laneID}^{after} - 1$ \newline Als Spurwechsel wird ein Intervall von 4 Sekunden betrachtet in dessen Mitte die Variable ihren Wert wechseln muss \\
 
 \hline
 \caption{Bedingungen der Szenarien \textit{free cruising}, \textit{approaching}, \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right}}
