@@ -1,6 +1,6 @@
 
 % ===========================
-\chapter{Umsetzung}
+\chapter{Implementierung}
 \label{umsetzung}
 % ===========================
 
@@ -106,7 +106,7 @@ Für die Simulation werden zwei Strecken der Länge 6.000m und 10.000m mit dem \
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.25]{cm_road_bild.png}
+\includegraphics[scale=0.25]{images/cm_road_bild.png}
 \caption{Konfiguration der simulierten Straße \cite{ipg2018carmaker}}
 \label{fig_cm_road_bild}
 \end{figure}
@@ -116,8 +116,8 @@ Auf beiden Strecken wird autonomer, stochastisch verteilter Verkehr erzeugt, was
 \begin{figure}[h]
 \centering
 \begin{tabular}{c}
-\subfloat[Strecke 1]{\includegraphics[scale=0.8]{cm_road_1.png}} \\
-\subfloat[Strecke 2]{\includegraphics[scale=0.8]{cm_road_2.png}}
+\subfloat[Strecke 1]{\includegraphics[scale=0.8]{images/cm_road_1.png}} \\
+\subfloat[Strecke 2]{\includegraphics[scale=0.8]{images/cm_road_2.png}}
 \end{tabular}
 \caption{Schema der simulierten Strecken 1 und 2 \cite{ipg2018carmaker}}
 \label{fig_cm_road_strecke}
@@ -218,21 +218,21 @@ Es sind auch einige Szenarien als \textit{unknown} klassifiziert, da zwischen de
 \begin{figure}[h]
 \centering
 \begin{tabular}{c c c c c}
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl0.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl1.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl2.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl3.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl4.jpg}} \\
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl5.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl6.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl7.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl8.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl9.jpg}} \\
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl10.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl11.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl12.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl13.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcl_sim/lcl14.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl0.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl1.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl2.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl3.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl4.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl5.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl6.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl7.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl8.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl9.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl10.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl11.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl12.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl13.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl14.jpg}} \\
 \end{tabular}
 \caption{Beispiel eines simulierten Szenarios der Klasse \textit{lane change left} \cite{ipg2018carmaker}}
 \label{fig_beispiel_szenario_lcl}
@@ -252,8 +252,8 @@ Als Alternative werden die Aufnahmen von zwei Fahrten auf der Autobahn und Bunde
 \begin{figure}[h]
 \centering
 \begin{tabular}{c c}
-\subfloat[Route 1: Mannheim - Rostock]{\includegraphics[scale=0.7]{route_1.png}} &
-\subfloat[Route 2: Karlsruhe - Kandel]{\includegraphics[scale=0.7]{route_2.png}} \\
+\subfloat[Route 1: Mannheim - Rostock]{\includegraphics[scale=0.7]{images/route_1.png}} &
+\subfloat[Route 2: Karlsruhe - Kandel]{\includegraphics[scale=0.7]{images/route_2.png}} \\
 \end{tabular}
 \caption{Routen für die Aufnahme der realen Bilddaten \cite{google2018route1, google2018route2}}
 \label{fig_strecken_real}
@@ -264,21 +264,21 @@ Die Aufnahme der Route 1 umfasst über sechs Stunden Videomaterial mit über ein
 \begin{figure}[h]
 \centering
 \begin{tabular}{c c c c c}
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame0.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame1.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame2.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame3.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame4.jpg}} \\
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame5.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame6.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame7.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame8.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame9.jpg}} \\
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame10.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame11.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame12.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame13.jpg}} &
-\subfloat[]{\includegraphics[scale=0.1]{lcr_real/frame14.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame0.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame1.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame2.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame3.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame4.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame5.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame6.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame7.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame8.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame9.jpg}} \\
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame10.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame11.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame12.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame13.jpg}} &
+\subfloat[]{\includegraphics[scale=0.1]{images/lcr_real/frame14.jpg}} \\
 \end{tabular}
 \caption{Beispiel eines realen Szenarios der Klasse \textit{lane change right}}
 \label{fig_beispiel_szenario_lcr_real}
@@ -373,8 +373,8 @@ Wie in Abschnitt \ref{grundlagen_nn_video} erläutert, gibt es verschiedenen Ans
 \begin{figure}[h]
 \centering
 \begin{tabular}{c}
-\subfloat[Bilderkennung mit anschließendem Mehrheitsprinzip]{\includegraphics[scale=0.6]{ansatz_bilderkennung.pdf}} \\
-\subfloat[Kombination aus Bild- und Sequenzerkennung]{\includegraphics[scale=0.6]{ansatz_bildsequenzerkennung.pdf}}
+\subfloat[Bilderkennung mit anschließendem Mehrheitsprinzip]{\includegraphics[scale=0.6]{images/ansatz_bilderkennung.pdf}} \\
+\subfloat[Kombination aus Bild- und Sequenzerkennung]{\includegraphics[scale=0.6]{images/ansatz_bildsequenzerkennung.pdf}}
 \end{tabular}
 \caption{Zwei Ansätze für die Videoklassifizierung}
 \label{fig_ansaetze_architekturen}
@@ -392,7 +392,7 @@ Eine Übersicht von bekannten \acp{CNN}-Architekturen ist in Abbildung \ref{fig_
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.3]{comparison_cnns.png}
+\includegraphics[scale=0.3]{images/comparison_cnns.png}
 \caption{Vergleich von vortrainierten \aclp{CNN}, entnommen aus \cite{canziani2016analysis}}
 \label{fig_comparison_cnns}
 \end{figure}
@@ -404,9 +404,9 @@ Einige Jahre waren tiefe \acp{CNN} mit vielen einfach gestapelten Convolution- u
 \begin{figure}[h]
 \centering
 \begin{tabular}{ccc}
-\subfloat[Inception-Modul in dem ein 5x5-Filter mit zwei 3x3-Filter ersetzt wird]{\includegraphics[scale=0.3]{inc_fig_5.pdf}} &
-\subfloat[Inception-Modul in dem ein 7x7-Filter mit einen 1x7-Filter gefolgt von einem 7x1 Filter ersetzt wird]{\includegraphics[scale=0.3]{inc_fig_6.pdf}} &
-\subfloat[Inception-Modul in statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt werden]{\includegraphics[scale=0.3]{inc_fig_7.pdf}}
+\subfloat[Inception-Modul in dem ein 5x5-Filter mit zwei 3x3-Filter ersetzt wird]{\includegraphics[scale=0.3]{images/inc_fig_5.pdf}} &
+\subfloat[Inception-Modul in dem ein 7x7-Filter mit einen 1x7-Filter gefolgt von einem 7x1 Filter ersetzt wird]{\includegraphics[scale=0.3]{images/inc_fig_6.pdf}} &
+\subfloat[Inception-Modul in statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt werden]{\includegraphics[scale=0.3]{images/inc_fig_7.pdf}}
 \end{tabular}
 \caption{Inception-Module aus der Inception-V3 Architektur \cite{szegedy2016inception}}
 \label{fig_inc_fig}
@@ -418,7 +418,7 @@ Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} darg
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{inception_v3.png}
+\includegraphics[scale=0.4]{images/inception_v3.png}
 \caption{Architektur des Inception-V3 Netzes, entnommen aus \cite{google2018inceptionv3}}
 \label{fig_inception_v3}
 \end{figure}
@@ -427,7 +427,7 @@ Die Grundidee bestehende Filter zu vereinfachen und um eine Dimension zu reduzie
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{inception_extreme.pdf}
+\includegraphics[scale=0.5]{images/inception_extreme.pdf}
 \caption{Inception-Modul der Xception-Architektur \cite{chollet2017xception}}
 \label{fig_inception_extreme}
 \end{figure}
@@ -436,7 +436,7 @@ Die gesamte Xception-Architektur besteht aus mehreren dieser getrennten Convolut
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.35]{xception.png}
+\includegraphics[scale=0.35]{images/xception.png}
 \caption{Xception-Architektur, entnommen aus \cite{chollet2017xception}}
 \label{fig_xception}
 \end{figure}
@@ -454,8 +454,8 @@ Dropout ist eine Methode um beim Training von \acp{KNN} Überanpassung (engl. Ov
 \begin{figure}[h]
 \centering
 \begin{tabular}{c@{\hskip 1.5cm}c}
-\subfloat[\ac{KNN} ohne Dropout]{\includegraphics[scale=1.5]{dropout_1.pdf}} &
-\subfloat[\ac{KNN} mit Dropout in der mittleren Schicht mit einer Wahrscheinlichkeit von $r=0,5$]{\includegraphics[scale=1.5]{dropout_2.pdf}}
+\subfloat[\ac{KNN} ohne Dropout]{\includegraphics[scale=1.5]{images/dropout_1.pdf}} &
+\subfloat[\ac{KNN} mit Dropout in der mittleren Schicht mit einer Wahrscheinlichkeit von $r=0,5$]{\includegraphics[scale=1.5]{images/dropout_2.pdf}}
 \end{tabular}
 \caption{Regularisierung mit Dropout \cite{srivastava2014dropout}}
 \label{fig_dropout}
@@ -513,8 +513,8 @@ Auf Basis der oben beschriebenen Komponenten und Parameter werden jetzt acht ver
 \begin{figure}[h]
 \centering
 \begin{tabular}{c}
-\subfloat[Architektur für die Klassifizierung einzelner Bilder]{\includegraphics[scale=0.6]{architektur_1.pdf}} \\
-\subfloat[Architektur für die Klassifizierung von Bildersequenzen]{\includegraphics[scale=0.658]{architektur_2.pdf}}
+\subfloat[Architektur für die Klassifizierung einzelner Bilder]{\includegraphics[scale=0.6]{images/architektur_1.pdf}} \\
+\subfloat[Architektur für die Klassifizierung von Bildersequenzen]{\includegraphics[scale=0.658]{images/architektur_2.pdf}}
 \end{tabular}
 \caption{Grundlegende \ac{KNN}-Architekturen in dieser Arbeit}
 \label{fig_architekturen_grundlegend}

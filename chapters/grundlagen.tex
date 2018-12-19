@@ -6,7 +6,6 @@
 
 In diesem Kapitel werden die zum Verständnis nötigen Grundlagen für diese Arbeit erklärt. Dabei wird im Abschnitt \ref{grundlagen_fahren} der Stand der Technik von automatisierten Fahrfunktionen und deren Entwicklung beschrieben. Im Abschnitt \ref{grundlagen_nn} wird maschinelles Lernen im Allgemeinen und im Speziellen \acp{KNN}, die für die Umsetzung dieser Arbeit nötig sind, beschrieben.
 
-
 % ===========================
 \section{Hochautomatisiertes Fahren}
 \label{grundlagen_fahren}
@@ -18,7 +17,7 @@ In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderunge
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.7]{level_autonomes_fahren.jpg}
+\includegraphics[scale=0.7]{images/level_autonomes_fahren.jpg}
 \caption{Norm SAE J3016 für die Level des autonomen Fahrens, entnommen aus \cite{sae2014taxonomy}}
 \label{fig_level_autonomes_fahren}
 \end{figure}
@@ -35,7 +34,7 @@ In den folgenden Abschnitten wird erläutert wie aktuell diesen Herausforderunge
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{v_modell.pdf}
+\includegraphics[scale=0.5]{images/v_modell.pdf}
 \caption{V-Modell \cite{hakuli2015virtuelle}}
 \label{fig_v_modell}
 \end{figure}
@@ -51,7 +50,7 @@ Die Validierung und Verifikation von \ac{FAS} folgt dem Testkonzept. Ein Testkon
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.7]{testfallerstellung.pdf}
+\includegraphics[scale=0.7]{images/testfallerstellung.pdf}
 \caption{Schritte zur Testfallerstellung \cite{schuldt2013effiziente}}
 \label{fig_testfallerstellung}
 \end{figure}
@@ -89,7 +88,7 @@ Ein Szenario besteht aus mehrerer aufeinander folgenden Szenen und beschreibt di
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.7]{relation_sc_sc.pdf}
+\includegraphics[scale=0.7]{images/relation_sc_sc.pdf}
 \caption{Zusammenhang zwischen Szene und Szenario \cite{ulbrich2015defining}}
 \label{fig_relation_sc_sc}
 \end{figure}
@@ -110,7 +109,7 @@ Ein Beispiel zu jeder Abstraktionsebene (funktional, logisch, konkret) ist in Ab
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{funktional_logisch_konrekt.pdf}
+\includegraphics[scale=0.5]{images/funktional_logisch_konrekt.pdf}
 \caption{Beispiel für ein funktionales, logisches und konkretes Szenario \cite{bagschik2017szenarien}}
 \label{fig_funktional_logisch_konrekt}
 \end{figure}
@@ -214,7 +213,7 @@ In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien - d
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{klassifizierung.pdf}
+\includegraphics[scale=0.5]{images/klassifizierung.pdf}
 \caption{Beispiel einer Klassifizierung mit zwei Klassen}
 \label{fig_klassifizierung}
 \end{figure}
@@ -231,7 +230,7 @@ In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingef
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.7]{perceptron.pdf}
+\includegraphics[scale=0.7]{images/perceptron.pdf}
 \caption{Modell eines Perzeptrons \cite{rosenblatt1958perceptron}}
 \label{fig_perceptron}
 \end{figure}
@@ -278,10 +277,10 @@ Neben der Schwellenwertfunktion werden für die Aktivierung von einzelnen Neuron
 \begin{figure}[h]
 \centering
 \begin{tabular}{cc}
-\subfloat[Sigmoid]{\includegraphics[scale=0.4]{act_sigmoid.png}} &
-\subfloat[\ac{tanh}]{\includegraphics[scale=0.4]{act_tanh.png}} \\
-\subfloat[\ac{ReLU}]{\includegraphics[scale=0.4]{act_relu.png}} &
-\subfloat[Schwellenwertfunktion]{\includegraphics[scale=0.4]{act_step_fc.png}}
+\subfloat[Sigmoid]{\includegraphics[scale=0.4]{images/act_sigmoid.png}} &
+\subfloat[\ac{tanh}]{\includegraphics[scale=0.4]{images/act_tanh.png}} \\
+\subfloat[\ac{ReLU}]{\includegraphics[scale=0.4]{images/act_relu.png}} &
+\subfloat[Schwellenwertfunktion]{\includegraphics[scale=0.4]{images/act_step_fc.png}}
 \end{tabular}
 \caption{Aktivierungsfunktionen für Neuronen}
 \label{fig_aktivierungsfunktionen}
@@ -291,7 +290,7 @@ Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptronen werde
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.7]{knn.pdf}
+\includegraphics[scale=0.7]{images/knn.pdf}
 \caption{Mehrlagiges Perzeptron mit zwei versteckten Schichten und einer Ausgangsschicht}
 \label{fig_knn}
 \end{figure}
@@ -336,7 +335,7 @@ Mit diesem Algorithmus werden die Gewichte von mehrschichtigen \acp{KNN} bei jed
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{overfitting.pdf}
+\includegraphics[scale=0.4]{images/overfitting.pdf}
 \caption{Beispiel einer Unter- und Überanpassung eines Klassifikators}
 \label{fig_overfitting}
 \end{figure}
@@ -355,7 +354,7 @@ Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von eine
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{conv_operation.pdf}
+\includegraphics[scale=0.4]{images/conv_operation.pdf}
 \caption{Beispiel einer Convolution-Operation}
 \label{fig_conv_operation}
 \end{figure}
@@ -372,7 +371,7 @@ Das Ziel der Pooling-Schicht ist es, die Größe der Feature Map zu reduzieren u
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{pool_operation.pdf}
+\includegraphics[scale=0.4]{images/pool_operation.pdf}
 \caption{Beispiel einer Max-Pooling-Operation}
 \label{fig_pool_operation}
 \end{figure}
@@ -382,7 +381,7 @@ Mit Convolution-, Pooling- und Fully-Connected-Schichten kann die Architektur ei
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.2]{cnn.pdf}
+\includegraphics[scale=0.2]{images/cnn.pdf}
 \caption{Beispiel eines \aclp{CNN}}
 \label{fig_cnn}
 \end{figure}
@@ -400,8 +399,8 @@ Es gibt verschiedene Architekturen von \acp{RNN}, e.g. mit Ergebniswerten von je
 \begin{figure}[h]
 \centering
 \begin{tabular}{c@{\hskip 1cm}c}
-\subfloat[many to many]{\includegraphics[scale=0.7]{rnn_1.pdf}} &
-\subfloat[many to one]{\includegraphics[scale=0.7]{rnn_2.pdf}} \\
+\subfloat[many to many]{\includegraphics[scale=0.7]{images/rnn_1.pdf}} &
+\subfloat[many to one]{\includegraphics[scale=0.7]{images/rnn_2.pdf}} \\
 \end{tabular}
 \caption{Beispiel von zwei verschiedenen \ac{RNN}-Architekturen}
 \label{fig_rnn}
@@ -413,7 +412,7 @@ Eine \ac{LSTM}-Zelle ist mit drei Toren, dem Eingangstor (engl. input gate), dem
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{lstm.pdf}
+\includegraphics[scale=0.4]{images/lstm.pdf}
 \caption{\acl{LSTM}-Zelle \cite{olah2015lstm}}
 \label{fig_lstm}
 \end{figure}
@@ -466,7 +465,7 @@ Grundsätzlich kann zwischen drei verschiedenen Ansätze bei der Klassifizierung
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.8]{single_frame_classification.pdf}
+\includegraphics[scale=0.8]{images/single_frame_classification.pdf}
 \caption{Klassifizierung von einzelnen Bildern mit anschließender Klassifizierung des gesamten Videos}
 \label{fig_single_frame_classification}
 \end{figure}
@@ -476,9 +475,9 @@ Ein weiterer Ansatz basiert auf der Idee Feature Maps von mehreren Bildern zu ko
 \begin{figure}[h]
 \centering
 \begin{tabular}{c@{\hskip 0.7cm}c@{\hskip 0.7cm}c}
-\subfloat[Frühe Fusion]{\includegraphics[scale=0.6]{fusion_early.pdf}} &
-\subfloat[Späte Fusion]{\includegraphics[scale=0.6]{fusion_late.pdf}} &
-\subfloat[Langsame Fusion]{\includegraphics[scale=0.6]{fusion_slow.pdf}} 
+\subfloat[Frühe Fusion]{\includegraphics[scale=0.6]{images/fusion_early.pdf}} &
+\subfloat[Späte Fusion]{\includegraphics[scale=0.6]{images/fusion_late.pdf}} &
+\subfloat[Langsame Fusion]{\includegraphics[scale=0.6]{images/fusion_slow.pdf}} 
 \end{tabular}
 \caption{Schematische Darstellung von Klassifizierungsarchitekturen mit frühen, späten und langsamen Fusionen von Feature Maps \cite{karpathy2014large}}
 \label{fig_fusion_classification}
@@ -488,7 +487,7 @@ Später wurden neben der Pooling-Operation andere Operationen für die Fusion en
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.8]{cnn_lstm_architektur.pdf}
+\includegraphics[scale=0.8]{images/cnn_lstm_architektur.pdf}
 \caption{Klassifizierung von Videos mit einer \ac{CNN}-\ac{LSTM}-Architektur \cite{donahue2015long}}
 \label{fig_cnn_lstm_architektur}
 \end{figure}

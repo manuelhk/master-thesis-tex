@@ -5,10 +5,9 @@
 \label{ergebnis}
 % ===========================
 
-In diesem Kapitel werden die Ergebnisse der trainierten \acp{KNN} aus Abschnitt \ref{umsetzung_training_architektur} mit den Parametern aus Abschnitt \ref{umsetzung_training_experimente} vorgestellt. Jede Architektur wird mit einer Maximalanzahl von 100 Epochen trainiert. Aufgrund der Regularisierungsmethode Early Stopping wird diese Anzahl jedoch nie erreicht. Das Training bricht jeweils ab, wenn sich die Klassifizierungsgenauigkeit der Validierungsdaten innerhalb von 20 Epochen nicht um mindestens 0,01 verbessert. Nach Abbruch werden jeweils die Gewichte der Epoche mit der höchsten Genauigkeit wiederhergestellt. 
+In diesem Kapitel werden die Ergebnisse der trainierten \acp{KNN} aus Abschnitt \ref{umsetzung_training_architektur} mit den Parametern aus Abschnitt \ref{umsetzung_training_experimente} vorgestellt. Jede Architektur wird mit einer Maximalanzahl von 100 Epochen trainiert. Aufgrund der Regularisierungsmethode Early Stopping wird diese Anzahl jedoch nie erreicht. Das Training bricht jeweils ab, wenn sich die Klassifizierungsgenauigkeit der Validierungsdaten innerhalb von 20 Epochen nicht um mindestens 0,01 verbessert. Nach Abbruch werden jeweils die Gewichte der Epoche mit der höchsten Validierungsgenauigkeit wiederhergestellt. 
 
-In Abschnitt \ref{ergebnis_parameter} wird die Genauigkeit der jeweiligen Netzarchitekturen bei der Klassifizierung der realen Testdaten und die Anzahl der trainierten Epochen hinsichtlich der unterschiedlichen Parameter aus Abschnitt \ref{umsetzung_training_experimente} verglichen. Danach wird in Abschnitt \ref{ergebnis_synth_vs_real} die Genauigkeit der Klassifizierung zwischen realen und synthetischen Testdaten untersucht. Im Anschluss werden in Abschnitt \ref{ergebnis_szenarien} die Unterschiede bei der Erkennung von verschiedenen Klassen erörtert.
-
+In Abschnitt \ref{ergebnis_parameter} wird die Genauigkeit der jeweiligen Netzarchitekturen bei der Klassifizierung von realen Testdaten und die Anzahl der trainierten Epochen hinsichtlich der unterschiedlichen Parameter aus Abschnitt \ref{umsetzung_training_experimente} verglichen. Danach wird in Abschnitt \ref{ergebnis_synth_vs_real} die Genauigkeit der Klassifizierung zwischen realen und synthetischen Testdaten untersucht. Im Anschluss werden in Abschnitt \ref{ergebnis_szenarien} die Unterschiede bei der Erkennung von verschiedenen Klassen erörtert.
 
 % ===========================
 \section{Variation der Parameter}
@@ -51,11 +50,11 @@ H & Xception \newline LSTM \newline Dropout & 0,61 & 9 \\
 
 Bei dem Prinzip der Klassifizierung wird in dieser Arbeit zwischen \acp{KNN} für die Erkennung von einzelnen Bildern und für die Erkennung von 3-Sekunden-Videos mit jeweils 15 Bildern unterschieden. Die detaillierten Architekturen sind in Abschnitt \ref{umsetzung_training_architektur} vorgestellt.
 
-Insgesamt wird die höchste Genauigkeit bei der Klassifizierung der realen Testdaten von 0,95 mit der Architektur F für Videoerkennung erreicht. Dieses Ergebnis ist auch in Abbildung \ref{fig_cm_v3_lstm_d_real} in der Konfusionsmatrix (engl. confusion matrix) dargestellt. Die niedrigste Genauigkeit von 0,28 wird mit der Architektur H für Videoerkennung erreicht. Architekturen für die reine Bilderkennung erreichen Genauigkeiten zwischen 0,48 (Architektur D) und 0,73 (Architektur A). Damit erzielen diese Architekturen Ergebnisse mit weniger Varianz im Vergleich zu den Architekturen mit \ac{LSTM}-Schicht.
+Insgesamt wird die höchste Genauigkeit bei der Klassifizierung von realen Testdaten von 0,95 mit der Architektur F für Videoerkennung erreicht. Das Ergebnis dieser Architektur nach einzelnen Klassen ist auch in Abbildung \ref{fig_cm_v3_lstm_d_real} in der Konfusionsmatrix (engl. confusion matrix) dargestellt. Auf die Unterschiede der Genauigkeiten zwischen den einzelnen Klassen wird in Abschnitt \ref{ergebnis_szenarien} genauer eingegangen. Die niedrigste Genauigkeit von 0,28 wird mit der Architektur H für Videoerkennung erreicht. Architekturen für die reine Bilderkennung erreichen Genauigkeiten zwischen 0,48 (Architektur D) und 0,73 (Architektur A). Damit erzielen diese Architekturen Ergebnisse mit weniger Varianz im Vergleich zu den Architekturen mit \ac{LSTM}-Schicht. Eine Erklärung hierfür kann die niedrigere Komplexität der \acp{KNN} sein. Bei einer höheren Komplexität, also mehr trainierbaren Parametern, kann es sein, dass die Genauigkeiten zwischen verschiedenen Architekturen stärker schwankt, weil mehr Parameter für die richtige Klassifizierung benötigt werden.
 
 \begin{figure}[h]
 \centering
-{\includegraphics[scale=0.7]{cm_v3_lstm_d_real.png}}
+{\includegraphics[scale=0.7]{images/cm_v3_lstm_d_real.png}}
 \caption{Konfusionsmatrix der Klassifizierung von realen Testdaten mit der Architektur F (Inception-V3, \ac{LSTM}, Dropout)}
 \label{fig_cm_v3_lstm_d_real}
 \end{figure}
@@ -64,27 +63,27 @@ Insgesamt wird die höchste Genauigkeit bei der Klassifizierung der realen Testd
 \subsubsection{\aclp{CNN}}
 % ===========================
 
-Der Vergleich zwischen den zwei \ac{CNN}-Architekturen Inception-V3 und Xception zeigt ein klares Bild. In drei von vier Fällen kann die Architektur mit der Inception-V3-Architektur als Basis bessere Ergebnisse erzielen. Die Differenz bei der Genauigkeit liegt dabei zwischen 0,16 und 0,67. Nur die Architektur G erzielt eine höhere Genauigkeit als Architektur E mit einem Unterschied von 0,02. Insgesamt überrascht dieser Unterschied, da die Xception-Architektur in anderen Arbeiten \cite{chollet2017xception} höhere Genauigkeiten bei der Klassifizierung von Bildern erreicht hat.
+Der Vergleich zwischen den zwei \ac{CNN}-Architekturen Inception-V3 und Xception zeigt ein klares Bild. In drei von vier Fällen kann die Architektur mit der Inception-V3-Architektur als Basis bessere Ergebnisse erzielen. Die Differenz bei der Genauigkeit liegt dabei zwischen 0,16 und 0,67. Nur die Architektur G erzielt eine höhere Genauigkeit als Architektur E mit einem Unterschied von 0,02. Dieser Unterschied überrascht, da die Xception-Architektur in anderen Arbeiten \cite{chollet2017xception} höhere Genauigkeiten bei der Klassifizierung von Bildern erreicht hat.
 
 % ===========================
 \subsubsection{Regularisierung mit Dropout}
 % ===========================
 
-Es ist auffällig, dass die Architekturen für Videoklassifizierung mit Dropout in der vorletzten Fully-Connected-Schicht deutlich bessere Ergebnisse erzielen können im Vergleich zu denselben Architekturen ohne Dropout. Im Gegensatz dazu erzielen die Architekturen für die Erkennung einzelner Bilder die bessere Genauigkeit ohne Regularisierung mit Dropout in der vorletzten Schicht.
+Es ist auffällig, dass die Architekturen für Videoklassifizierung mit Dropout in der vorletzten Fully-Connected-Schicht deutlich bessere Ergebnisse erzielen können im Vergleich zu denselben Architekturen ohne Dropout. Im Gegensatz dazu erzielen die Architekturen für die Erkennung einzelner Bilder die besseren Genauigkeit ohne Regularisierung mit Dropout in der vorletzten Schicht. Die Erklärung kann auf die Grundidee von Dropout zurückgeführt werden. Dropout ist eine Methode um die Komplexität eines \acp{KNN} während dem Training zu reduzieren. Daher hat Dropout einen sehr positiven Effekt auf die Architekturen für Videoklassifizierung, die mit der \ac{LSTM}-Schicht deutlich komplexer sind, also mehr Parameter besitzen, als die Architekturen für Bildklassifizierung.
 
-In Abbildung \ref{fig_acc_v3_lstm} ist beispielhaft die Entwicklung der Genauigkeit der Trainings- und Testdaten während dem Training von den Architekturen E und F dargestellt. Es ist deutlich zu sehen, dass die Anzahl der Epochen bei Architekturen mit \ac{LSTM}-Schicht mit Dropout stark reduziert werden kann und die Genauigkeit weniger sprunghaft und schneller konvergiert.
+In Abbildung \ref{fig_acc_v3_lstm} ist beispielhaft die Entwicklung der Genauigkeit der Trainings- und Testdaten während dem Training von den Architekturen E und F dargestellt. Es ist deutlich zu sehen, dass die Anzahl der Epochen bei Architekturen mit \ac{LSTM}-Schicht mit Dropout stark reduziert werden kann und die Genauigkeit weniger sprunghaft ist und schneller konvergiert.
 
 \begin{figure}[h]
 \centering
 \begin{tabular}{cc}
-\subfloat[Architektur E (Inception-V3, LSTM)]{\includegraphics[scale=0.4]{acc_v3_lstm_86.png}} &
-\subfloat[Architektur F (Inception-V3, LSTM, Dropout)]{\includegraphics[scale=0.4]{acc_v3_lstm_dropout_23.png}}
+\subfloat[Architektur E (Inception-V3, LSTM)]{\includegraphics[scale=0.4]{images/acc_v3_lstm_86.png}} &
+\subfloat[Architektur F (Inception-V3, LSTM, Dropout)]{\includegraphics[scale=0.4]{images/acc_v3_lstm_dropout_23.png}}
 \end{tabular}
 \caption{Genauigkeit der Trainings- und Testdaten während dem Training von zwei verschiedenen Architekturen}
 \label{fig_acc_v3_lstm}
 \end{figure}
 
-Eine mögliche Erklärung dafür könnte die Komplexität der Architekturen mit \ac{LSTM}-Schicht sein. Diese Architekturen haben mehr trainierbare Parameter und sind daher anfälliger für eine Überanpassung \cite{hinton2012improving}. Regularisierung mit Dropout kann die Komplexität reduzieren und führt zu höheren Genauigkeiten \cite{hinton2012improving}. Die Architekturen mit reinen \acp{CNN} sind weniger komplex und daher könnte Dropout keine oder eine negative Auswirkung auf das Ergebnis haben.
+Eine Erklärung dafür ist die Komplexität der Architekturen mit \ac{LSTM}-Schicht. Diese Architekturen haben mehr trainierbare Parameter und sind daher anfälliger für eine Überanpassung \cite{hinton2012improving}. Dropout reduziert die Anzahl der Parameter und damit die Komplexität, was zu weniger benötigten Trainingsschritten und einer schnelleren Konvergenz der Gewichtsanpassung führt. Die Architekturen mit reinen \acp{CNN} sind weniger komplex und daher hat Dropout keine oder eine negative Auswirkung auf das Ergebnis.
 
 % ===========================
 \subsubsection{Anzahl der Epochen}
@@ -130,7 +129,7 @@ H & Xception \newline LSTM \newline Dropout & 0,61 & 0,91 \\
 
 In diesem Abschnitt werden die Unterschiede der Genauigkeiten bei der Klassifizierung zwischen realen und synthetischen Testdaten untersucht. Die Ergebnisse sind in Tabelle \ref{tab_ergebnis_synth} zusammengefasst. Es ist nicht überraschend, dass die Genauigkeiten bei der Klassifizierung von synthetischen Testdaten überwiegend deutlich höher ist, weil die \acp{KNN} mit 95\% synthetischer und nur 5\% realer Daten trainiert wurden. Das bestätigt auch die Ergebnisse der vorangegangenen Arbeit, die in Abschnitt \ref{grundlagen_nn_synthetisch} diskutiert werden. 
 
-Es ist auffällig, dass die Klassifizierung von einzelnen synthetischen Bildern mit der Xception Architektur niedriger ist als die Klassifizierung von realen Testbildern. Aktuell hat der Autor keine Erklärung hierfür. Dieses Ergebnis kann als Ausgangspunkt für weitere Arbeiten dienen.
+Es ist auffällig, dass die Klassifizierung von einzelnen synthetischen Bildern mit der Xception Architektur niedriger ist als die Klassifizierung von realen Testbildern. Aktuell hat der Autor keine Erklärung hierfür. Dieses Ergebnis kann als Ausgangspunkt für weitere Untersuchungen dienen.
 
 
 % ===========================
@@ -139,6 +138,8 @@ Es ist auffällig, dass die Klassifizierung von einzelnen synthetischen Bildern 
 % ===========================
 
 Die Betrachtung von Klassifizierungsgenauigkeiten der einzelnen Klassen ergibt kein eindeutiges Bild. Bei verschiedenen Architekturen werden verschiedene Szenen teilweise besser oder schlechter erkannt. Hervorzuheben ist, dass es deutliche Unterschiede gibt, diese aber keinem erkennbaren Muster folgen. Eine Übersicht der Genauigkeit der Klassifizierung von realen Testdaten auf der Ebene von Szenarienklassen ist in Tabelle \ref{tab_ergebnis_szenarien} dargestellt.
+
+Ausgehend von der Architektur mit der höchsten Gesamt-Genauigkeit, Architektur F, kann man die folgenden Überlegungen zu unterschiedlichen Genauigkeiten zwischen Klassen anstellen. Bei Architektur F wurden die Klassen \textit{catching up} und \textit{lane change left} sehr gut erkannt. Die Klasse \textit{free cruising} wurde am schlechtesten erkannt. Da die Erkennung auf reinen Bilddaten basiert, kann argumentiert werden, dass Szenenarien der Klasse \textit{free cruising} den Szenarien aus den Klassen \textit{following} und \textit{catching up} ähneln, weil der Unterschied nur im Abstand zu anderen Fahrzeuge liegt. Dagegen sind die Klassen \textit{lane change left} und \textit{lane change right} eindeutiger, weil jeweils die Fahrbahnmarkierung überquert wird und damit ein eideutigeres Merkmal existiert. Diese Erklärung ist aktuell allerdings nur eine mögliche Interpretation des Autors und kann bisher nicht weiter belegt werden. 
 
 \begin{table}[h]
 \small
@@ -164,10 +165,7 @@ H & 0,71 & 1,00 & 0,71 & 0,35 & 0,29 \\
 \label{tab_ergebnis_szenarien}
 \end{table}
 
-Um an dieser Stelle besser verstehen zu können auf welcher Basis die \acp{KNN} die Bilder beziehungsweise die Bildsequenzen erkennen, sollten in nachfolgenden Arbeiten weitere Untersuchungen dazu angestellt werden. So wäre es beispielsweise interessant, welche Teile der einzelnen Bilder stärker oder auch weniger stark bei der Klassifizierung berücksichtigt werden.
-
-
-
+Um an dieser Stelle besser verstehen zu können auf welcher Basis die \acp{KNN} die Bilder und Bildsequenzen erkennen, sollten in nachfolgenden Arbeiten weitere Untersuchungen dazu angestellt werden. So wäre es beispielsweise interessant, welche Teile der einzelnen Bilder stärker oder auch weniger stark bei der Klassifizierung berücksichtigt werden.
 
 
 
