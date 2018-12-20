@@ -4,7 +4,7 @@
 \label{umsetzung}
 % ===========================
 
-In diesem Kapitel wird die Umsetzung des Konzepts aus dem vorherigen Kapitel beschrieben. Zu Beginn werden die dafür notwendigen Fahrszenarien in Abschnitt \ref{umsetzung_definition} definiert. Danach wirda in den Abschnitten \ref{umsetzung_daten_synth} und \ref{umsetzung_daten_real} die Methodik für die Generierung von synthetische Trainingsdaten und reale Trainings- und Testdaten erläutert. Im Anschluss wird in Abschnitt \ref{umsetzung_training} die Architektur und die Experimente des Klassifikators für die Szenarienerkennung beschrieben.
+In diesem Kapitel wird die Umsetzung des Konzepts aus dem vorherigen Kapitel beschrieben. Zu Beginn werden die dafür notwendigen Fahrszenarien in Abschnitt \ref{umsetzung_definition} definiert. Danach wird in den Abschnitten \ref{umsetzung_daten_synth} und \ref{umsetzung_daten_real} die Methodik für die Generierung von synthetischen und realen Daten erläutert. Im Anschluss wird in Abschnitt \ref{umsetzung_training} die Architektur und die Experimente der Klassifikatoren für die Szenarienerkennung beschrieben.
 
 
 % ===========================
@@ -12,9 +12,9 @@ In diesem Kapitel wird die Umsetzung des Konzepts aus dem vorherigen Kapitel bes
 \label{umsetzung_definition}
 % ===========================
 
-In diesem Abschnitt werden Szenarien, wie in Abschnitt \ref{grundlagen_fahren_szenarien} beschrieben, als \textit{logische Szenarien} für das weitere Vorgehen in dieser Arbeit definiert. In Anlehnung an bestehende Arbeiten zu Erkennung von Fahrszenarien und auf Basis von Machbarkeitsabschätzungen für die Umsetzung werden in dieser Arbeit die Szenarien \textit{free cruising}, \textit{approaching} \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right} auf der Autobahn betrachtet. Die Autobahn wurde ausgewählt, weil es weniger Parameter zu betrachten gibt als auf anderen Straßen wie beispielsweise in der Stadt. In der folgenden Tabelle \ref{tab_definition_szenarios} werden diese Szenarien auf \textit{funktionaler} und \textit{logischer Ebene} definiert.
+In diesem Abschnitt werden Szenarien, wie in Abschnitt \ref{grundlagen_fahren_szenarien} beschrieben, als \textit{logische Szenarien} für das weitere Vorgehen in dieser Arbeit definiert. In Anlehnung an bestehende Arbeiten zur Erkennung von Fahrszenarien und auf Basis von Machbarkeitsabschätzungen für die Umsetzung werden in dieser Arbeit die Szenarien \textit{free cruising}, \textit{approaching}, \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right} auf der Autobahn betrachtet. Die Autobahn wurde ausgewählt, weil es weniger Details zu betrachten gibt als auf anderen Straßen wie beispielsweise in der Stadt. In der folgenden Tabelle \ref{tab_definition_szenarios} werden diese Szenarien auf \textit{funktionaler} und \textit{logischer Ebene} definiert.
 
-Um die Darstellung in der Tabelle zu erleichtern werden folgende Abstände zwischen Ego-Fahrzeug und Fahrzeug 2 definiert. Dabei beschreibt $ego_v$ die Geschwindigkeit des Ego-Fahrzeugs in [m/s].
+Um die Darstellung in der Tabelle zu erleichtern, werden folgende Abstände zwischen Ego-Fahrzeug und Fahrzeug 2 definiert. Dabei beschreibt $ego_v$ die Geschwindigkeit des Ego-Fahrzeugs in [m/s].
 
 \begin{equation*}
 \begin{split}
@@ -42,7 +42,7 @@ s_3 = ego_v * 3,6 * \frac{1}{3} \qquad \text{[m]} \\
 \textbf{Approaching} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego nähert sich auf linker oder rechter Fahrspur in mittlerem Abstand dem Fahrzeug 2 & Geschwindigkeit Ego abnehmend [60..200] km/h \newline Geschwindigkeit Ego < Geschwindigkeit Fahrzeug 2 \newline Abstand Ego zu Fahrzeug 2 [$s_2$..$s_0$] m \\
 \hline
 
-\textbf{Following} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt auf linker oder rechter Fahrspur in sicherem Abstand hinter Fahrzeug 2 & Geschwindigkeit Ego [60..200] km/h \newline Geschwindigkeitsdifferenz zwischen Ego und Fahrzeug 2 < Geschwindigkeit Ego $*0,05$ km/h \newline Abstand Ego zu Fahrzeug 2 [$s_3$..$s_1$] m \newline Ego befindet sich auf gleicher Fahrspur hinter Fahrzeug 2 \\
+\textbf{Following} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt auf linker oder rechter Fahrspur in sicherem Abstand hinter Fahrzeug 2 & Geschwindigkeit Ego [60..200] km/h \newline Geschwindigkeitsdifferenz zwischen Ego und Fahrzeug 2 < Geschwindigkeit Ego * 0,05 km/h \newline Abstand Ego zu Fahrzeug 2 [$s_3$..$s_1$] m \newline Ego befindet sich auf gleicher Fahrspur hinter Fahrzeug 2 \\
 \hline
 
 \textbf{Catching up} & Ego, andere Verkehrsteilnehmer \newline \underline{Interaktion:} Ego fährt auf der linken Fahrspur und verringert den vertikalen Abstand zu Fahrzeug 2, das sich vor dem Ego-Fahrzeug auf der rechten Fahrspur befindet & Geschwindigkeit Ego [60..200] km/h \newline Geschwindigkeit Fahrzeug 2 < Geschwindigkeit Ego \newline Vertikaler Abstand Ego zu Fahrzeug 2 [0..$s_0$] m \newline Ego fährt auf linker Fahrspur hinter Fahrzeug 2 das auf rechter Fahrspur fährt \\
@@ -73,11 +73,11 @@ Auf Basis der Definitionen aus dem vorherigen Abschnitt \ref{umsetzung_definitio
 \label{umsetzung_daten_synth_simulation}
 % ===========================
 
-Für die Simulation der Signal- und Bilddaten wird die kommerzielle Software CarMaker von IPG Automotive \cite{ipg2018carmaker} verwendet. Diese Simulationssoftware wird für den virtuellen Fahrversuch und \ac{HiL}-Tests eingesetzt um Komponenten in unterschiedlichen Szenarien zu testen. In dieser Arbeit wird CarMaker verwendet, um die Szenarien \textit{free cruising}, \textit{approaching}, \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right} zu simulieren.
+Für die Simulation der Signal- und Bilddaten wird die kommerzielle Software CarMaker von IPG Automotive \cite{ipg2018carmaker} verwendet. Diese Simulationssoftware wird für den virtuellen Fahrversuch und \ac{HiL}-Tests eingesetzt, um Komponenten in unterschiedlichen Szenarien zu testen. In dieser Arbeit wird CarMaker verwendet, um die Szenarien \textit{free cruising}, \textit{approaching}, \textit{following}, \textit{catching up}, \textit{overtaking}, \textit{lane change left} und \textit{lane change right} zu simulieren.
 
 Für die Aufnahme der benötigten Bilddaten wird im simulierten Fahrzeug ein entsprechender Kamerasensor konfiguriert. Die Konfiguration des Sensors orientiert sich an der Konfiguration von realen Frontview-Kameras im Fahrzeug nach Punke \cite{punke2015kamera}. So ist der Kamerasensor an der Stelle des Rückfahrspiegels platziert und hat eine Auflösung von 640 x 480 Pixeln und ein Sichtfeld von 20°.
 
-Die benötigten Signaldaten für das Annotieren werden von den Definitionen aus Abschnitt \ref{umsetzung_definition} abgeleitet. Für die eindeutige Identifikation der logischen Szenarien werden die folgenden Werte benötigt: Geschwindigkeit des Ego-Fahrzeugs, Abstand und Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen, aktuelle Fahrspur des Ego-Fahrzeugs und allen anderen Fahrzeugen und die relative Position des Ego-Fahrzeugs, i.e. ob sich das Ego-Fahrzeug vor oder hinter einem anderen Fahrzeug befindet. Um den Abstand und die Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen aufzuzeichnen, wird ein Objektsensor im Ego-Fahrzeug konfiguriert. Mit diesem Sensor können im konfigurierten Radius alle Fahrzeuge und ihr Abstand und ihre relative Geschwindigkeit zum Ego-Fahrzeug erfasst und über die \textit{OutputQuantities} in CarMaker aufgezeichnet werden. Die Geschwindigkeit des Ego-Fahrzeugs und die Fahrspur-ID und Position aller Fahrzeuge können direkt, ohne zusätzlichen Sensor, über die \textit{OutputQuantities} aufgezeichnet werden. Die jeweiligen Variablen in CarMaker sind in der Tabelle \ref{tab_output_quantities} zusammengefasst.
+Die benötigten Signaldaten für das Annotieren werden von den Definitionen aus Abschnitt \ref{umsetzung_definition} abgeleitet. Für die eindeutige Identifikation der \textit{logischen Szenarien} werden die folgenden Werte benötigt: Geschwindigkeit des Ego-Fahrzeugs, Abstand und Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen, aktuelle Fahrspur des Ego-Fahrzeugs und allen anderen Fahrzeugen und die relative Position des Ego-Fahrzeugs, i.e. ob sich das Ego-Fahrzeug vor oder hinter einem anderen Fahrzeug befindet. Um den Abstand und die Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen aufzuzeichnen, wird ein Objektsensor im Ego-Fahrzeug konfiguriert. Mit diesem Sensor können im festgelegten Radius alle Fahrzeuge und ihr Abstand und ihre relative Geschwindigkeit zum Ego-Fahrzeug erfasst und über die Funktion \textit{OutputQuantities} in CarMaker aufgezeichnet werden. Die Geschwindigkeit des Ego-Fahrzeugs und die Fahrspur-ID und Position aller Fahrzeuge können direkt, ohne zusätzlichen Sensor, über die Funktion \textit{OutputQuantities} aufgezeichnet werden. Die jeweiligen Variablen in CarMaker sind in der Tabelle \ref{tab_output_quantities} zusammengefasst.
 
 \begin{table}[h]
 \centering
@@ -102,7 +102,7 @@ Traffic.TX.Lane.Act.LaneId & Fahrspur-ID des Fahrzeugs TX \\
 \label{tab_output_quantities}
 \end{table}
 
-Für die Simulation werden zwei Strecken der Länge 6.000m und 10.000m mit dem \textit{CarMaker - Scenario Editor} erstellt. Bei beiden Strecken handelt es sich um eine 4-spurige Autobahn mit zwei Fahrspuren in jede Richtung. Die Fahrtrichtungen sind in der Mitte von einer Leitplanke getrennt und am Rand der Fahrbahn sind jeweils Standstreifen vorhanden. Abschnittsweise stehen neben der Fahrbahn auch einige Bäume, was in Abbildung \ref{fig_cm_road_strecke} mit grünen Streifen gekennzeichnet ist. Abbildung \ref{fig_cm_road_bild} zeigt die Konfiguration der simulierten Straße.
+Für die Simulation werden zwei Strecken der Länge 6.000 m und 10.000 m mit dem \textit{CarMaker - Scenario Editor} erstellt. Bei beiden Strecken handelt es sich um eine 4-spurige Autobahn mit zwei Fahrspuren in jede Richtung. Die Fahrtrichtungen sind in der Mitte von einer Leitplanke getrennt und am Rand der Fahrbahn sind jeweils Standstreifen vorhanden. Abschnittsweise stehen neben der Fahrbahn einige Bäume, was in Abbildung \ref{fig_cm_road_strecke} mit grünen Streifen gekennzeichnet ist. Abbildung \ref{fig_cm_road_bild} zeigt die Konfiguration der simulierten Straße.
 
 \begin{figure}[h]
 \centering
@@ -111,7 +111,7 @@ Für die Simulation werden zwei Strecken der Länge 6.000m und 10.000m mit dem \
 \label{fig_cm_road_bild}
 \end{figure}
 
-Auf beiden Strecken wird autonomer, stochastisch verteilter Verkehr erzeugt, was CarMaker mit einer gesonderten Funktion unterstützt. Der Verkehr wird in einer niedrigen Dichte (10 Prozent) und einem 80-prozentigen Anteil Autos erzeugt, andere Fahrzeuge sind Motorräder, Lastkraftwagen und Busse. In CarMaker ist eine Vielzahl an unterschiedlichen Fahrzeugen verfügbar, was wichtig ist um möglichst viele unterschiedliche Szenarien zu generieren. Mit dieser Konfiguration werden auf der 10.000m-Strecke 131 Fahrzeuge und auf der 6.000m-Strecke 89 Fahrzeuge generiert.
+Auf beiden Strecken wird autonomer, stochastisch verteilter Verkehr erzeugt, was CarMaker mit einer gesonderten Funktion unterstützt. Der Verkehr wird in einer niedrigen Dichte (10 Prozent) und einem 80-prozentigen Anteil Autos erzeugt. Andere Fahrzeuge sind Motorräder, Lastkraftwagen und Busse. In CarMaker ist eine Vielzahl an unterschiedlichen Fahrzeugen verfügbar, was wichtig ist, um möglichst viele unterschiedliche Szenarien zu generieren. Mit dieser Konfiguration werden auf der 10.000m-Strecke 131 Fahrzeuge und auf der 6.000m-Strecke 89 Fahrzeuge generiert.
 
 \begin{figure}[h]
 \centering
@@ -123,7 +123,7 @@ Auf beiden Strecken wird autonomer, stochastisch verteilter Verkehr erzeugt, was
 \label{fig_cm_road_strecke}
 \end{figure}
 
-Die Simulation und Generierung von Bild- und Signaldaten wird mit dem \textit{CarMaker - Test Manager} durchgeführt. Mit diesem Modul lassen sich Fahrten mit unterschiedlichen Konfigurationen simulieren. In dieser Arbeit werden die Variablen \textit{Geschwindigkeit}, \textit{Mindestabstand zu vorausfahrendem Fahrzeug}, \textit{Minimale Geschwindigkeitsdifferenz beim Überholen} und \textit{Aggressivität beim Überholen} auf beiden oben beschriebenen Strecken variiert. Die Werte der Variablen, die simuliert werden, sind in Tabelle \ref{tab_tm_variablen} aufgelistet und sind aus der Sicht des Ego-Fahrzeugs.
+Die Simulation und Generierung von Bild- und Signaldaten wird mit dem \textit{CarMaker - Test Manager} durchgeführt. Mit diesem Modul lassen sich Fahrten mit unterschiedlichen Konfigurationen simulieren. In dieser Arbeit werden die Variablen \textit{Geschwindigkeit}, \textit{Mindestabstand zu vorausfahrendem Fahrzeug}, \textit{Minimale Geschwindigkeitsdifferenz beim Überholen} und \textit{Aggressivität beim Überholen} auf beiden oben beschriebenen Strecken variiert. Die Werte der Variablen, die simuliert werden, sind in Tabelle \ref{tab_tm_variablen} aufgelistet und sind aus der Sicht des Ego-Fahrzeugs zu verstehen.
 
 \begin{table}[h]
 \centering
@@ -141,9 +141,9 @@ Aggressivität beim Überholen & 0,2 & 0,6 & 1,0 & & \\
 \label{tab_tm_variablen}
 \end{table}
 
-Die ersten drei Variablen sind selbsterklärend und werden hier nicht weiter erläutert. Die Variable \textit{Aggressivität beim Überholen} (in CarMaker \textit{Overtaking Rate} ist eine Zahl zwischen 0 und 1. Dabei markiert die 0 ein Fahrstil, bei dem sich der Fahrer sehr risikoavers beim Überholen verhält, i.e. Überholen nur in sehr sicheren Situationen. Je größer die Zahl wird, desto aggressiver wird der Überholvorgang und dementsprechend sinkt die Risikoaversion beim Überholen und der Fahrer überholt auch bei kritischen oder schlecht einsehbaren Situationen.
+Die ersten drei Variablen sind selbsterklärend und werden hier nicht weiter erläutert. Die Variable \textit{Aggressivität beim Überholen} (in CarMaker \textit{Overtaking Rate} ist eine Zahl zwischen 0 und 1. Dabei beschreibt 0 einen Fahrstil, bei dem sich der Fahrer sehr risikoavers beim Überholen verhält, i.e. Überholen nur in sehr sicheren Situationen. Je größer die Zahl wird, desto aggressiver wird der Überholvorgang und dementsprechend sinkt die Risikoaversion beim Überholen und der Fahrer überholt auch bei kritischen oder schlecht einsehbaren Situationen.
 
-Mit diesen vier Variablen mit jeweils drei bzw. fünf Werten ergeben sich 135 verschiedene Kombinationsmöglichkeiten. Somit werden auf beiden Strecken in Summe 270 Fahrten mit insgesamt 2.160 km simuliert. Signal- und Bilddaten werden mit einer Frequenz von 5 Hz aufgezeichnet, was in 326.108 aufgezeichneten Szenen (Bilder und Signaldaten) resultiert. Diese Szenen werden im folgenden Abschnitt \ref{umsetzung_daten_synth_labeling} annotiert.
+Mit diesen vier Variablen mit jeweils drei beziehungsweise fünf Werten ergeben sich 135 verschiedene Kombinationsmöglichkeiten. Somit werden auf beiden Strecken in Summe 270 Fahrten mit insgesamt 2.160 km simuliert. Signal- und Bilddaten werden mit einer Frequenz von 5 Hz aufgezeichnet, was in 326.108 aufgezeichneten Szenen (Bilder und Signaldaten) resultiert. Diese Szenen werden im folgenden Abschnitt \ref{umsetzung_daten_synth_labeling} annotiert.
 
 
 % ===========================
