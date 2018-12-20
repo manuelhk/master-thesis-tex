@@ -152,7 +152,7 @@ EVITA
     
     \input{chapters/zusammenfassung.tex}
     
-    
+    \cleardoublepage
 
     %\chapter{Fazit}
     %\label{ch:Fazit}    
@@ -172,29 +172,30 @@ EVITA
 \bibliographystyle{alpha}			%3 Buchstaben + Jahr
 %\bibliographystyle{alphadin}
 
-    % use external Bib-File, 
-		\bibliography{99_bib/standardbib}
-		\addcontentsline{toc}{chapter}{Literaturverzeichnis}	
-			\cleardoublepage
+    % use external Bib-File,
+    \addcontentsline{toc}{chapter}{Literaturverzeichnis}	
+	\bibliography{99_bib/standardbib}
+	\cleardoublepage
 % =====================================================
 % Appendix
 % ===================================================== 
     \appendix
-
-%    \input{95_anhang/anhang}
-		\cleardoublepage
-
-    \listoftables
-    \addcontentsline{toc}{chapter}{Tabellenverzeichnis}
-    	\cleardoublepage
+    %\input{95_anhang/anhang}
+    \cleardoublepage
+	
+	\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
     \listoffigures
-    \addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
-    	\cleardoublepage
-    \printindex
-    	\cleardoublepage
+    \cleardoublepage
+    
+	\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+    \listoftables
+    \cleardoublepage
+    	
+    %\printindex
+    %	\cleardoublepage
+    \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
     \input{chapters/abkuerzungsverzeichnis}
-	\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
-		\cleardoublepage
+	\cleardoublepage
 
 \end{document}
 
