@@ -62,14 +62,14 @@ s_3 = ego_v * 3,6 * \frac{1}{3} \qquad \text{[m]} \\
 \end{longtable}
 
 % ===========================
-\section{Generierung synthetischer Trainingsdaten}
+\section{Generierung synthetischer Daten}
 \label{umsetzung_daten_synth}
 % ===========================
 
-Auf Basis der Definitionen aus dem vorherigen Abschnitt \ref{umsetzung_definition} werden in diesem Abschnitt die benötigten Signal- und Bilddaten simuliert und entsprechend gelabelt. Dafür werden in Abschnitt \ref{umsetzung_daten_synth_simulation} die Signaldaten, die für die eindeutige Klassifizierung der Szenarien benötigt werden, simuliert. In Abschnitt \ref{umsetzung_daten_synth_labeling} werden diese Signaldaten verwendet um die parallel simulierten Bilddaten entsprechend zu labeln.
+Auf Basis der Definitionen aus dem vorherigen Abschnitt \ref{umsetzung_definition} werden in diesem Abschnitt die benötigten Signal- und Bilddaten simuliert und entsprechend annotiert. Dafür werden in Abschnitt \ref{umsetzung_daten_synth_simulation} die Signaldaten, die für die eindeutige Klassifizierung der Szenarien benötigt werden, simuliert. In Abschnitt \ref{umsetzung_daten_synth_labeling} werden diese Signaldaten verwendet, um die parallel simulierten Bilddaten entsprechend zu annotieren.
  
 % ===========================
-\subsection{Simulation mit CarMaker}
+\subsection{Simulation}
 \label{umsetzung_daten_synth_simulation}
 % ===========================
 
@@ -77,7 +77,7 @@ Für die Simulation der Signal- und Bilddaten wird die kommerzielle Software Car
 
 Für die Aufnahme der benötigten Bilddaten wird im simulierten Fahrzeug ein entsprechender Kamerasensor konfiguriert. Die Konfiguration des Sensors orientiert sich an der Konfiguration von realen Frontview-Kameras im Fahrzeug nach Punke \cite{punke2015kamera}. So ist der Kamerasensor an der Stelle des Rückfahrspiegels platziert und hat eine Auflösung von 640 x 480 Pixeln und ein Sichtfeld von 20°.
 
-Die benötigten Signaldaten für das Labeln werden von den Definitionen aus Abschnitt \ref{umsetzung_definition} abgeleitet. Für die eindeutige Identifikation der logischen Szenarien werden die folgenden Werte benötigt: Geschwindigkeit des Ego-Fahrzeugs, Abstand und Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen, aktuelle Fahrspur des Ego-Fahrzeugs und allen anderen Fahrzeugen und die relative Position des Ego-Fahrzeugs, i.e. ob sich das Ego-Fahrzeug vor oder hinter einem anderen Fahrzeug befindet. Um den Abstand und die Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen aufzuzeichnen, wird ein Objektsensor im Ego-Fahrzeug konfiguriert. Mit diesem Sensor können im konfigurierten Radius alle Fahrzeuge und ihr Abstand und ihre relative Geschwindigkeit zum Ego-Fahrzeug erfasst und über die \textit{OutputQuantities} in CarMaker aufgezeichnet werden. Die Geschwindigkeit des Ego-Fahrzeugs und die Fahrspur-ID und Position aller Fahrzeuge können direkt, ohne zusätzlichen Sensor, über die \textit{OutputQuantities} aufgezeichnet werden. Die jeweiligen Variablen in CarMaker sind in der Tabelle \ref{tab_output_quantities} zusammengefasst.
+Die benötigten Signaldaten für das Annotieren werden von den Definitionen aus Abschnitt \ref{umsetzung_definition} abgeleitet. Für die eindeutige Identifikation der logischen Szenarien werden die folgenden Werte benötigt: Geschwindigkeit des Ego-Fahrzeugs, Abstand und Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen, aktuelle Fahrspur des Ego-Fahrzeugs und allen anderen Fahrzeugen und die relative Position des Ego-Fahrzeugs, i.e. ob sich das Ego-Fahrzeug vor oder hinter einem anderen Fahrzeug befindet. Um den Abstand und die Geschwindigkeitsdifferenz des Ego-Fahrzeugs zu allen anderen Fahrzeugen aufzuzeichnen, wird ein Objektsensor im Ego-Fahrzeug konfiguriert. Mit diesem Sensor können im konfigurierten Radius alle Fahrzeuge und ihr Abstand und ihre relative Geschwindigkeit zum Ego-Fahrzeug erfasst und über die \textit{OutputQuantities} in CarMaker aufgezeichnet werden. Die Geschwindigkeit des Ego-Fahrzeugs und die Fahrspur-ID und Position aller Fahrzeuge können direkt, ohne zusätzlichen Sensor, über die \textit{OutputQuantities} aufgezeichnet werden. Die jeweiligen Variablen in CarMaker sind in der Tabelle \ref{tab_output_quantities} zusammengefasst.
 
 \begin{table}[h]
 \centering
@@ -107,11 +107,11 @@ Für die Simulation werden zwei Strecken der Länge 6.000m und 10.000m mit dem \
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.25]{images/cm_road_bild.png}
-\caption{Konfiguration der simulierten Straße \cite{ipg2018carmaker}}
+\caption[Konfiguration der simulierten Straße]{Konfiguration der simulierten Straße \cite{ipg2018carmaker}}
 \label{fig_cm_road_bild}
 \end{figure}
 
-Auf beiden Strecken wird autonomer, stochastisch verteilter Verkehr erzeugt, was CarMaker mit einer gesonderten Funktion unterstützt. Der Verkehr wird in einer niedrigen Dichte (10\%) und einem 80\%-igen Anteil Autos erzeugt, andere Fahrzeuge sind Motorräder, Lastkraftwagen und Busse. In CarMaker ist eine Vielzahl an unterschiedlichen Fahrzeugen verfügbar, was wichtig ist um möglichst viele unterschiedliche Szenarien zu generieren. Mit dieser Konfiguration werden auf der 10.000m-Strecke 131 Fahrzeuge und auf der 6.000m-Strecke 89 Fahrzeuge generiert.
+Auf beiden Strecken wird autonomer, stochastisch verteilter Verkehr erzeugt, was CarMaker mit einer gesonderten Funktion unterstützt. Der Verkehr wird in einer niedrigen Dichte (10 Prozent) und einem 80-prozentigen Anteil Autos erzeugt, andere Fahrzeuge sind Motorräder, Lastkraftwagen und Busse. In CarMaker ist eine Vielzahl an unterschiedlichen Fahrzeugen verfügbar, was wichtig ist um möglichst viele unterschiedliche Szenarien zu generieren. Mit dieser Konfiguration werden auf der 10.000m-Strecke 131 Fahrzeuge und auf der 6.000m-Strecke 89 Fahrzeuge generiert.
 
 \begin{figure}[h]
 \centering
@@ -119,7 +119,7 @@ Auf beiden Strecken wird autonomer, stochastisch verteilter Verkehr erzeugt, was
 \subfloat[Strecke 1]{\includegraphics[scale=0.8]{images/cm_road_1.png}} \\
 \subfloat[Strecke 2]{\includegraphics[scale=0.8]{images/cm_road_2.png}}
 \end{tabular}
-\caption{Schema der simulierten Strecken 1 und 2 \cite{ipg2018carmaker}}
+\caption[Schema der simulierten Strecken 1 und 2]{Schema der simulierten Strecken 1 und 2 \cite{ipg2018carmaker}}
 \label{fig_cm_road_strecke}
 \end{figure}
 
@@ -143,15 +143,15 @@ Aggressivität beim Überholen & 0,2 & 0,6 & 1,0 & & \\
 
 Die ersten drei Variablen sind selbsterklärend und werden hier nicht weiter erläutert. Die Variable \textit{Aggressivität beim Überholen} (in CarMaker \textit{Overtaking Rate} ist eine Zahl zwischen 0 und 1. Dabei markiert die 0 ein Fahrstil, bei dem sich der Fahrer sehr risikoavers beim Überholen verhält, i.e. Überholen nur in sehr sicheren Situationen. Je größer die Zahl wird, desto aggressiver wird der Überholvorgang und dementsprechend sinkt die Risikoaversion beim Überholen und der Fahrer überholt auch bei kritischen oder schlecht einsehbaren Situationen.
 
-Mit diesen vier Variablen mit jeweils drei bzw. fünf Werten ergeben sich 135 verschiedene Kombinationsmöglichkeiten. Somit werden auf beiden Strecken in Summe 270 Fahrten mit insgesamt 2.160 km simuliert. Signal- und Bilddaten werden mit einer Frequenz von 5 Hz aufgezeichnet, was in 326.108 aufgezeichneten Szenen (Bilder und Signaldaten) resultiert. Diese Szenen werden im folgenden Abschnitt \ref{umsetzung_daten_synth_labeling} gelabelt.
+Mit diesen vier Variablen mit jeweils drei bzw. fünf Werten ergeben sich 135 verschiedene Kombinationsmöglichkeiten. Somit werden auf beiden Strecken in Summe 270 Fahrten mit insgesamt 2.160 km simuliert. Signal- und Bilddaten werden mit einer Frequenz von 5 Hz aufgezeichnet, was in 326.108 aufgezeichneten Szenen (Bilder und Signaldaten) resultiert. Diese Szenen werden im folgenden Abschnitt \ref{umsetzung_daten_synth_labeling} annotiert.
 
 
 % ===========================
-\subsection{Daten Labeln}
+\subsection{Daten Annotation}
 \label{umsetzung_daten_synth_labeling}
 % ===========================
 
-Für das Labeln der Szenarien wird jede Szene auf Basis der Definition aus Abschnitt \ref{umsetzung_definition} mithilfe der Signaldaten klassifiziert. Die logischen Bedingungen für jedes Szenario sind dafür in Tabelle \ref{tab_szenarien_labeling} aufgelistet. Auf Basis der CarMaker-Variablen aus Tabelle \ref{tab_tm_variablen} werden folgende zusätzliche Variablen definiert, um nachfolgende Bedingungen übersichtlicher darzustellen. Dabei beschreibt $v2$ jeweils das Fahrzeug, auf Basis dessen das jeweilige Szenario klassifiziert wird.
+Für das Annotieren der Szenarien wird jede Szene auf Basis der Definition aus Abschnitt \ref{umsetzung_definition} mithilfe der Signaldaten klassifiziert. Die logischen Bedingungen für jedes Szenario sind dafür in Tabelle \ref{tab_szenarien_labeling} aufgelistet. Auf Basis der CarMaker-Variablen aus Tabelle \ref{tab_tm_variablen} werden folgende zusätzliche Variablen definiert, um nachfolgende Bedingungen übersichtlicher darzustellen. Dabei beschreibt $v2$ jeweils das Fahrzeug, auf Basis dessen das jeweilige Szenario klassifiziert wird.
 
 \begin{equation*}
 \begin{split}
@@ -189,7 +189,7 @@ v2_{laneID} = \text{Traffic.TX.Lane.Act.LaneId} \qquad \text{[1, 2]} \\
 \label{tab_szenarien_labeling}
 \end{longtable}
 
-Im Anschluss an die Klassifizierung einzelner Zeitpunkte werden diese zu Szenarien zusammengefasst, wenn mindestens 15 Zeitpunkte (3 Sekunden) in Folge mit dem gleichen Label klassifiziert wurden. Drei Sekunden wird den folgenden zwei Gründen als Länge für Szenarien in dieser Arbeit gewählt. Erstens orientiert sich diese Zeitspanne an den vorherigen Arbeiten zur Szenarienerkennung. Zweitens haben die zwei Szenarien \textit{lane change left} und \textit{lane change right} jeweils eine natürliche Länge von 3-4 Sekunden. Alle anderen Szenarien können länger sein, lassen sich aber in Blöcke von jeweils 3 Sekunden einteilen. Insgesamt werden 326.108 Zeitpunkte und 23.972 Szenarien klassifiziert. Die Anzahl der simulierten Szenarien nach Klasse ist in der Tabelle \ref{tab_verteilung_szenarien} dargestellt.
+Im Anschluss an die Klassifizierung einzelner Zeitpunkte werden diese zu Szenarien zusammengefasst, wenn mindestens 15 Zeitpunkte (3 Sekunden) in Folge mit der gleichen Klasse annotiert wurden. Drei Sekunden wird den folgenden zwei Gründen als Länge für Szenarien in dieser Arbeit gewählt. Erstens orientiert sich diese Zeitspanne an den vorherigen Arbeiten zur Szenarienerkennung. Zweitens haben die zwei Szenarien \textit{lane change left} und \textit{lane change right} jeweils eine natürliche Länge von 3-4 Sekunden. Alle anderen Szenarien können länger sein, lassen sich aber in Blöcke von jeweils 3 Sekunden einteilen. Insgesamt werden 326.108 Zeitpunkte und 23.972 Szenarien klassifiziert. Die Anzahl der simulierten Szenarien nach Klasse ist in der Tabelle \ref{tab_verteilung_szenarien} dargestellt.
 
 \begin{table}[h]
 \centering
@@ -234,12 +234,12 @@ Es sind auch einige Szenarien als \textit{unknown} klassifiziert, da zwischen de
 \subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl13.jpg}} &
 \subfloat[]{\includegraphics[scale=0.1]{images/lcl_sim/lcl14.jpg}} \\
 \end{tabular}
-\caption{Beispiel eines simulierten Szenarios der Klasse \textit{lane change left} \cite{ipg2018carmaker}}
+\caption[Beispiel eines simulierten Szenarios der Klasse \textit{lane change left}]{Beispiel eines simulierten Szenarios der Klasse \textit{lane change left} \cite{ipg2018carmaker}}
 \label{fig_beispiel_szenario_lcl}
 \end{figure}
 
 % ===========================
-\section{Generierung realer Trainings- und Testdaten}
+\section{Generierung realer Daten}
 \label{umsetzung_daten_real}
 % ===========================
 
@@ -255,11 +255,11 @@ Als Alternative werden die Aufnahmen von zwei Fahrten auf der Autobahn und Bunde
 \subfloat[Route 1: Mannheim - Rostock]{\includegraphics[scale=0.7]{images/route_1.png}} &
 \subfloat[Route 2: Karlsruhe - Kandel]{\includegraphics[scale=0.7]{images/route_2.png}} \\
 \end{tabular}
-\caption{Routen für die Aufnahme der realen Bilddaten \cite{google2018route1, google2018route2}}
+\caption[Routen für die Aufnahme der realen Bilddaten]{Routen für die Aufnahme der realen Bilddaten \cite{google2018route1, google2018route2}}
 \label{fig_strecken_real}
 \end{figure}
 
-Die Aufnahme der Route 1 umfasst über sechs Stunden Videomaterial mit über einer Stunde Fahrt auf einer 2-spurigen Autobahn \cite{youtube2018video}. Davon werden manuell zwischen 50 und 180 Szenarien aus jeder Klasse gelabelt. Da von den Szenarien \textit{lane change left} und \textit{lane change right} jeweils nur 50 Szenarien vorhanden sind, wird vom Autor eine Fahrt auf Route 2 mit einigen Spurwechseln aufgenommen. Das Ergebnis sind jeweils 17 weitere Szenarien in den Klassen \textit{lane change left} und \textit{lane change right}.Abbildung \ref{fig_beispiel_szenario_lcr_real} zeigt ein Beispiel des realen Szenarios \textit{lane change right} mit allen zugehörigen 15 Bildern.
+Die Aufnahme der Route 1 umfasst über sechs Stunden Videomaterial mit über einer Stunde Fahrt auf einer 2-spurigen Autobahn \cite{youtube2018video}. Davon werden manuell zwischen 50 und 180 Szenarien aus jeder Klasse annotiert. Da von den Szenarien \textit{lane change left} und \textit{lane change right} jeweils nur 50 Szenarien vorhanden sind, wird vom Autor eine Fahrt auf Route 2 mit einigen Spurwechseln aufgenommen. Das Ergebnis sind jeweils 17 weitere Szenarien in den Klassen \textit{lane change left} und \textit{lane change right}.Abbildung \ref{fig_beispiel_szenario_lcr_real} zeigt ein Beispiel des realen Szenarios \textit{lane change right} mit allen zugehörigen 15 Bildern.
 
 \begin{figure}[h]
 \centering
@@ -287,7 +287,7 @@ Die Aufnahme der Route 1 umfasst über sechs Stunden Videomaterial mit über ein
 In Tabelle \ref{tab_datensaetze} wird dieser Datensatz, mit synthetischen und realen Daten, mit anderen synthetischen Datensätzen, die in Abschnitt \ref{grundlagen_nn_synthetisch} vorgestellt wurden, und realen Datensätzen, die in diesem Abschnitt vorgestellt werden, verglichen.
 
 \begin{longtable}[c]{p{2cm} p{3.5cm} p{2.5cm} p{4cm}}
-\textbf{Datensatz} & \textbf{Generierung} & \textbf{Umfang} & \textbf{Label} \\
+\textbf{Datensatz} & \textbf{Generierung} & \textbf{Umfang} & \textbf{Annotation} \\
 \hline
 \endhead
 
@@ -305,7 +305,7 @@ BDD100K, \cite{yu2018bdd100k} & real mit Fahrten in der Städten New York, Berke
 \hline
 Cityscapes, \cite{cordts2016cityscapes} & real mit Fahrten in 50 Städten in Deutschland & 25.000 Bilder & semantische Annotation auf Pixelebene von 30 Klassen \\
 \hline
-Oxford RobotCar, \cite{maddern20171} & real mit Fahrten in Oxford & knapp 20 Mio. Bilder & keine Label \\
+Oxford RobotCar, \cite{maddern20171} & real mit Fahrten in Oxford & knapp 20 Mio. Bilder & keine Annotation \\
 \hline
 Diese Arbeit & synthetisch mit CarMaker und real mit zwei Autobahnfahrten in Deutschland & 24.307 Szenarien (3 Sekunden) mit insgesamt 331.133 Bilder & 7 Szenario-Klassen \\
 
@@ -324,7 +324,7 @@ In diesem Abschnitt wird zu Beginn das Format und der Import der Trainings- und 
 
 
 % ===========================
-\subsection{Vorbereitung der Inputdaten}
+\subsection{Vorbereitung der Daten}
 \label{umsetzung_training_input}
 % ===========================
 
@@ -336,7 +336,7 @@ Die Deep-Learning-Bibliothek Keras besitzt bereits Klasse, sogenannte \textit{Da
 
 Von den generierten synthetischen und realen Szenarien werden \textit{free cruising}, \textit{following}, \textit{catching up}, \textit{lane change left} und \textit{lane change right} für das Training ausgewählt. Das Szenario \textit{approaching} wird für den Proof-of-Concept in dieser Arbeit bewusst entfernt, weil es oft Überscheidungen mit dem Szenario \textit{following} gibt. Diese Überschneidungen und Ähnlichkeiten zwischen Szenarien und ihren Einfluss auf das Training eines Klassifikators können in weiteren Arbeiten untersucht werden. Das Szenario \textit{overtaking} wird entfernt, weil es mit der konfigurierten Frontkamera nicht erfasst werden kann. In folgenden Arbeiten kann dieses Szenario mithilfe weiterer Kameraperspektiven oder anderen Signaldaten berücksichtigt werden.
 
-Um das Ergebnis nicht zu verzerren, sollten für das Training mit \acp{KNN} in jeder Klasse jeweils die gleiche Anzahl an Trainings-, Validierungs- und Testdaten vorhanden sein. Aus diesem Grund werden für das Training aus jeder Klasse nur die Anzahl der Szenarien verwendet, die mindestens in jeder Klasse verfügbar sind. Damit dieser Ansatz auch in der Praxis verwendet werden kann wird außerdem darauf geachtet, dass 95\% synthetische Daten und 5\% reale Daten für das Training verwendet werden. Mit dieser Verteilung bleibt der manuelle Aufwand für das Labeln der Trainingsdaten überschaubar. Die daraus resultierende Aufteilung von synthetischen und realen Szenarien auf Trainings-, Validierungs- und Testdaten ist in Tabelle \ref{tab_daten_aufteilung} aufgeschlüsselt. Beim Training mit einzelnen Bildern wird die gleiche Verteilung angewendet und da jedes Szenario aus 15 Bildern besteht, können die Zahlen aus Tabelle \ref{tab_daten_aufteilung} dafür mit 15 multipliziert werden.
+Um das Ergebnis nicht zu verzerren, sollten für das Training mit \acp{KNN} in jeder Klasse jeweils die gleiche Anzahl an Trainings-, Validierungs- und Testdaten vorhanden sein. Aus diesem Grund werden für das Training aus jeder Klasse nur die Anzahl der Szenarien verwendet, die mindestens in jeder Klasse verfügbar sind. Damit dieser Ansatz auch in der Praxis verwendet werden kann wird außerdem darauf geachtet, dass 95 Prozent synthetische Daten und 5 Prozent reale Daten für das Training verwendet werden. Mit dieser Verteilung bleibt der manuelle Aufwand für die Annotation der Trainingsdaten überschaubar. Die daraus resultierende Aufteilung von synthetischen und realen Szenarien auf Trainings-, Validierungs- und Testdaten ist in Tabelle \ref{tab_daten_aufteilung} aufgeschlüsselt. Beim Training mit einzelnen Bildern wird die gleiche Verteilung angewendet und da jedes Szenario aus 15 Bildern besteht, können die Zahlen aus Tabelle \ref{tab_daten_aufteilung} dafür mit 15 multipliziert werden.
 
 \begin{table}[h]
 \centering
@@ -364,7 +364,7 @@ lane change right & 665 & 190 & 95 & 33 & 17 & 17 \\
 Die Bilddaten werden für das Training in die Form 299 x 299 x 3 Pixel transformiert. Diese Bildgröße ist ein Kompromiss zwischen Detailgrad und Trainingszeit und wird in Keras für die Inception-V3 und die Xception Architektur als Standardgröße vorgeschlagen \cite{chollet2015keras}.
 
 % ===========================
-\subsection{Architektur der künstlichen neuronalen Netze}
+\subsection{Design der \ac{KNN}-Architekturen}
 \label{umsetzung_training_architektur}
 % ===========================
 
@@ -384,16 +384,16 @@ Wie in Abschnitt \ref{grundlagen_nn_video} erläutert, gibt es verschiedenen Ans
 \subsubsection{\aclp{CNN}}
 % ===========================
 
-Das Training mit \acp{CNN} hat in den vergangenen Jahre große Fortschritte gemacht durch die Verfügbarkeit von großen Datenmengen, steigender Rechenleistung und die Wiederverwendung von bereits vortrainierten \acp{CNN}. Diese Verwendung von bereits trainierten Netzen nennt sich Transferlernen (engl. transfer learning) \cite{oquab2014transfer}. Die Idee von einem \ac{CNN} ist es in den frühen Schichten sehr grundlegende Merkmale (engl. low-level features) und in späteren Schichten abstraktere Merkmale (engl. high-level features) zu extrahieren. Schließlich wird Bilder auf Basis dieser abstrakten Merkmale mithilfe von einer oder mehreren Fully-Connected-Schichten klassifiziert. Diese Funktionsweise macht man sich beim Transferlernen zunutze und verwendet ein \ac{CNN} das bereits auf vielen Millionen Bildern trainiert wurde. Dieses \ac{CNN} hat bereits gelernt unterschiedliche Merkmale aus Bildern zu extrahieren. Um ein ein solches neuronales Netz für die eigene Arbeit verwenden zu können, muss man lediglich die letzten Fully-Connected-Schichten ersetzen und mit den eigenen Bilddaten und entsprechenden Klassen trainieren \cite{oquab2014transfer}. Mit diesem Verfahren kann viel Zeit und Rechenleistung gespart werden, weil die grundlegende Merkmalsextraktion nicht grundlegend neu gelernt werden muss.
+Das Training mit \acp{CNN} hat in den vergangenen Jahre große Fortschritte gemacht durch die Verfügbarkeit von großen Datenmengen, steigender Rechenleistung und die Wiederverwendung von bereits vortrainierten \acp{CNN}. Diese Verwendung von bereits trainierten Netzen nennt sich Transferlernen (engl. transfer learning) \cite{oquab2014transfer}. Die Idee von einem \ac{CNN} ist es in den frühen Schichten sehr grundlegende Merkmale (engl. low-level features) und in späteren Schichten abstraktere Merkmale (engl. high-level features) zu extrahieren. Schließlich wird Bilder auf Basis dieser abstrakten Merkmale mithilfe von einer oder mehreren Fully-Connected-Schichten klassifiziert.
 
-Ein Datensatz der häufig für das Training von \ac{CNN}-Architekturen verwendet wird ist ImageNet. ImageNet umfasst 14.197.122 Bildern und 21.841 sogenannte Synonymmengen (engl. synonym sets) \cite{deng2009imagenet}. In Synonymmengen sind Wörter der gleichen Bedeutung zusammengefasst. Dabei sind alle Wörter auch hierarchisch nach dem WordNet-Projekt eingeordnet. In dieser Arbeit werden \ac{CNN}-Architekturen verwendet, die mit dem ImageNet-Datensatz vortrainiert wurden.
+Diese Funktionsweise macht man sich beim Transferlernen zunutze und verwendet ein \ac{CNN} das bereits auf vielen Millionen Bildern trainiert wurde. Dieses \ac{CNN} hat bereits gelernt unterschiedliche Merkmale aus Bildern zu extrahieren. Um ein ein solches neuronales Netz für die eigene Arbeit verwenden zu können, muss man lediglich die letzten Fully-Connected-Schichten ersetzen und mit den eigenen Bilddaten und entsprechenden Klassen trainieren \cite{oquab2014transfer}. Mit diesem Verfahren kann viel Zeit und Rechenleistung gespart werden, weil die grundlegende Merkmalsextraktion nicht grundlegend neu gelernt werden muss. Ein Datensatz der häufig für das Training von \ac{CNN}-Architekturen verwendet wird ist ImageNet. ImageNet umfasst 14.197.122 Bildern und 21.841 sogenannte Synonymmengen (engl. synonym sets) \cite{deng2009imagenet}. In Synonymmengen sind Wörter der gleichen Bedeutung zusammengefasst. Dabei sind alle Wörter auch hierarchisch nach dem WordNet-Projekt eingeordnet. In dieser Arbeit werden \ac{CNN}-Architekturen verwendet, die mit dem ImageNet-Datensatz vortrainiert wurden.
 
 Eine Übersicht von bekannten \acp{CNN}-Architekturen ist in Abbildung \ref{fig_comparison_cnns} dargestellt. In dieser Darstellung werden die neuronalen Netze anhand ihrer erreichen Genauigkeit (engl. accuracy) und der benötigten Operationen bei der Berechnung einer Klassifizierung eingeordnet \cite{canziani2016analysis}. Die Größe der Kreise zeigt die Anzahl der Parameter der jeweiligen Architektur. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{images/comparison_cnns.png}
-\caption{Vergleich von vortrainierten \aclp{CNN}, entnommen aus \cite{canziani2016analysis}}
+\caption[Vergleich von vortrainierten \aclp{CNN}]{Vergleich von vortrainierten \aclp{CNN}, entnommen aus \cite{canziani2016analysis}}
 \label{fig_comparison_cnns}
 \end{figure}
 
@@ -408,18 +408,18 @@ Einige Jahre waren tiefe \acp{CNN} mit vielen einfach gestapelten Convolution- u
 \subfloat[Inception-Modul in dem ein 7x7-Filter mit einen 1x7-Filter gefolgt von einem 7x1 Filter ersetzt wird]{\includegraphics[scale=0.3]{images/inc_fig_6.pdf}} &
 \subfloat[Inception-Modul in statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt werden]{\includegraphics[scale=0.3]{images/inc_fig_7.pdf}}
 \end{tabular}
-\caption{Inception-Module aus der Inception-V3 Architektur \cite{szegedy2016inception}}
+\caption[Inception-Module der Inception-V3 Architektur]{Inception-Module der Inception-V3 Architektur \cite{szegedy2016inception}}
 \label{fig_inc_fig}
 \end{figure}
 
-Es wird argumentiert, dass ein Filter mit der Dimension 5x5 durch zwei aufeinanderfolgende Filter der Dimension 3x3 ersetzt werden kann, was die Rechenleistung deutlich reduziert \cite{szegedy2016inception}. Diese Funktionalität wird in einem sogenannten Inception-Modul umgesetzt, was in Abbildung \ref{fig_inc_fig}a zu sehen ist. Ein weiteres Prinzip ist, dass ein nxn-Filter mit einen 1xn-Filter gefolgt von einem nx1 Filter ersetzt werden kann, bei gleichbleibender Leistung und 33\% weniger Rechenaufwand. Dieses Prinzip ist in Abbildung \ref{fig_inc_fig}b dargestellt. Für das dritte Prinzip wird argumentiert, dass bei einer starken Dimensionsreduzierung durch Pooling-Schichten viel Information aus dem Bild verloren gehen kann. Um dies zu verhindern, werden statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt. Dieses Prinzip wird mit dem Inception-Modul aus Abbildung \ref{fig_inc_fig}c umgesetzt.
+Es wird argumentiert, dass ein Filter mit der Dimension 5x5 durch zwei aufeinanderfolgende Filter der Dimension 3x3 ersetzt werden kann, was die Rechenleistung deutlich reduziert \cite{szegedy2016inception}. Diese Funktionalität wird in einem sogenannten Inception-Modul umgesetzt, was in Abbildung \ref{fig_inc_fig}a zu sehen ist. Ein weiteres Prinzip ist, dass ein nxn-Filter mit einen 1xn-Filter gefolgt von einem nx1 Filter ersetzt werden kann, bei gleichbleibender Leistung und 33 Prozent weniger Rechenaufwand. Dieses Prinzip ist in Abbildung \ref{fig_inc_fig}b dargestellt. Für das dritte Prinzip wird argumentiert, dass bei einer starken Dimensionsreduzierung durch Pooling-Schichten viel Information aus dem Bild verloren gehen kann. Um dies zu verhindern, werden statt einer Pooling-Schicht mehrere parallele Convolution-Operationen ausgeführt. Dieses Prinzip wird mit dem Inception-Modul aus Abbildung \ref{fig_inc_fig}c umgesetzt.
 
 Die Architektur des gesamten Netzes ist in Abbildung \ref{fig_inception_v3} dargestellt. In dieser Arbeit wird ein Inception-V3 Netz verwendet, das mit dem Datenset ImageNet \cite{deng2009imagenet} trainiert wurde. Außerdem werden die letzten Schichten der Inception-V3-Architektur (in der Abbildung der \textit{final part}) am Ende des Netzes entfernt und andere Schichten eingefügt, die in den nachfolgenden Absätzen erklärt werden.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{images/inception_v3.png}
-\caption{Architektur des Inception-V3 Netzes, entnommen aus \cite{google2018inceptionv3}}
+\caption[Architektur des Inception-V3 Netzes]{Architektur des Inception-V3 Netzes, entnommen aus \cite{google2018inceptionv3}}
 \label{fig_inception_v3}
 \end{figure}
 
@@ -428,7 +428,7 @@ Die Grundidee bestehende Filter zu vereinfachen und um eine Dimension zu reduzie
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{images/inception_extreme.pdf}
-\caption{Inception-Modul der Xception-Architektur \cite{chollet2017xception}}
+\caption[Inception-Modul der Xception-Architektur]{Inception-Modul der Xception-Architektur \cite{chollet2017xception}}
 \label{fig_inception_extreme}
 \end{figure}
 
@@ -437,7 +437,7 @@ Die gesamte Xception-Architektur besteht aus mehreren dieser getrennten Convolut
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.35]{images/xception.png}
-\caption{Xception-Architektur, entnommen aus \cite{chollet2017xception}}
+\caption[Xception-Architektur]{Xception-Architektur, entnommen aus \cite{chollet2017xception}}
 \label{fig_xception}
 \end{figure}
 
@@ -449,7 +449,7 @@ Eine Fully-Connected-Schicht ist, wie in Abschnitt \ref{grundlagen_nn_entwicklun
 
 Das Ziel jedes \acp{KNN} ist es nach dem Training gute Ergebnisse auf bisher unbekannten Daten zu erzielen. Dies wird Generalisierbarkeit eines Netzes genannt \cite{bishop2006pattern}. Regularisierungsmethoden werden oft während des Trainings eingesetzt, um die Generalisierbarkeit nach dem Training zu erhöhen. In dieser Arbeit werden die Methoden Dropout \cite{hinton2012improving} und Early Stopping \cite{prechelt1998early} verwendet.
 
-Dropout ist eine Methode um beim Training von \acp{KNN} Überanpassung (engl. Overfitting) zu vermeiden und insgesamt bessere Leistung bei der Kombination von verschiedenen Architekturen zu erreichen \cite{hinton2012improving}. Die Grundidee von Dropout ist es die Komplexität eines \acp{KNN} zu reduzieren, indem bei jedem Trainingsschritt zufällig einige Neuronen und die zugehörigen Kanten im Netz, die Gewichte, entfernt. Dafür wird einer Schicht im Netz eine Rate $r$ zugeordnet. Diese Rate $r$ gibt an, welcher Anteil der Neuronen aus dieser Schicht zufällig entfernt wird. Bei $r=0,5$ werden beispielsweise 50\% aller Neuronen in jedem Trainingsschritt zufällig entfernt. Das Ergebnis ist, dass das \ac{KNN} nicht zu abhängig von einzelnen Neuronen oder Gewichten wird und insgesamt bessere Ergebnisse erzielt werden können \cite{srivastava2014dropout}. In dieser Arbeit wird Dropout mit der Rate $r=0,5$ verwendet. Obwohl Dropout keine eigenständige Schicht ist, wird es in Keras als Schicht modelliert. Dabei bezieht sich Dropout aber stets auf die jeweilige Schicht davor. Ein Beispiel von Dropout ist in Abbildung \ref{fig_dropout} dargestellt.
+Dropout ist eine Methode um beim Training von \acp{KNN} Überanpassung (engl. Overfitting) zu vermeiden und insgesamt bessere Leistung bei der Kombination von verschiedenen Architekturen zu erreichen \cite{hinton2012improving}. Die Grundidee von Dropout ist es die Komplexität eines \acp{KNN} zu reduzieren, indem bei jedem Trainingsschritt zufällig einige Neuronen und die zugehörigen Kanten im Netz, die Gewichte, entfernt. Dafür wird einer Schicht im Netz eine Rate $r$ zugeordnet. Diese Rate $r$ gibt an, welcher Anteil der Neuronen aus dieser Schicht zufällig entfernt wird. Bei $r=0,5$ werden beispielsweise 50 Prozent aller Neuronen in jedem Trainingsschritt zufällig entfernt. Das Ergebnis ist, dass das \ac{KNN} nicht zu abhängig von einzelnen Neuronen oder Gewichten wird und insgesamt bessere Ergebnisse erzielt werden können \cite{srivastava2014dropout}. In dieser Arbeit wird Dropout mit der Rate $r=0,5$ verwendet. Obwohl Dropout keine eigenständige Schicht ist, wird es in Keras als Schicht modelliert. Dabei bezieht sich Dropout aber stets auf die jeweilige Schicht davor. Ein Beispiel von Dropout ist in Abbildung \ref{fig_dropout} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -457,7 +457,7 @@ Dropout ist eine Methode um beim Training von \acp{KNN} Überanpassung (engl. Ov
 \subfloat[\ac{KNN} ohne Dropout]{\includegraphics[scale=1.5]{images/dropout_1.pdf}} &
 \subfloat[\ac{KNN} mit Dropout in der mittleren Schicht mit einer Wahrscheinlichkeit von $r=0,5$]{\includegraphics[scale=1.5]{images/dropout_2.pdf}}
 \end{tabular}
-\caption{Regularisierung mit Dropout \cite{srivastava2014dropout}}
+\caption[Regularisierung mit Dropout]{Regularisierung mit Dropout \cite{srivastava2014dropout}}
 \label{fig_dropout}
 \end{figure}
 
