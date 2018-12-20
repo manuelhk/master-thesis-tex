@@ -21,7 +21,7 @@
 
 
 % path to bibliography
-\addbibresource{chapters/my_bib.bib}
+\addbibresource{chapters/standardbib.bib}
 
 % path to images
 %\graphicspath{{images/}}
@@ -34,33 +34,19 @@
 \fancyhead{}
 \fancyhead[RE]{\leftmark}
 \fancyhead[LO]{\rightmark}
+\fancyhead[LE,RO]{\thepage}
 \fancyfoot{}
-\fancyfoot[RE]{\footnotesize{Institut für Technik der Informationsverarbeitung\\
-			   Karlsruher Institut für Technologie}}
-\fancyfoot[LO]{\footnotesize{\mytitle}}
-\fancyfoot[LE,RO]{\thepage}
+\fancyfoot[LE]{\footnotesize{Institut für Technik der Informationsverarbeitung - ITIV\\
+			   Karlsruher Institut für Technologie - KIT}}
+\fancyfoot[RO]{\footnotesize{\mytitle}}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 \fancypagestyle{plain}{
 	\fancyhf{} % clear all header and footer fields
-	\fancyfoot[LE,RO]{\thepage}
-	\fancyfoot[LO]{\footnotesize{\mytitle}}
+	%\fancyhead[LE,RO]{\thepage}
+	\fancyfoot[RO]{\footnotesize{\mytitle}}
 	\renewcommand{\headrulewidth}{0pt}
 	\renewcommand{\footrulewidth}{0.4pt}}
-
-
-% remove "Kapitel X" from every chapter headline
-%\titleformat{\chapter}[display]
-%  {\Huge\bfseries}
-%  {}
-%  {0pt}
-%  {\thechapter.\ }
-
-%\titleformat{name=\chapter,numberless}[display]
-%  {\Huge\bfseries}
-%  {}
-%  {0pt}
-%  {}
 
 
 % remove "+" from citations
