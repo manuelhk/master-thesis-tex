@@ -5,12 +5,12 @@
 \label{ergebnis}
 % ===========================
 
-In diesem Kapitel werden die Ergebnisse der trainierten \acp{KNN} aus Abschnitt \ref{umsetzung_training_architektur} mit den Parametern aus Abschnitt \ref{umsetzung_training_experimente} vorgestellt. Jede Architektur wird mit einer Maximalanzahl von 100 Epochen trainiert. Aufgrund der Regularisierungsmethode Early Stopping wird diese Anzahl jedoch nie erreicht. Das Training bricht jeweils ab, wenn sich die Klassifizierungsgenauigkeit der Validierungsdaten innerhalb von 20 Epochen nicht um mindestens 0,01 verbessert. Nach Abbruch werden jeweils die Gewichte der Epoche mit der höchsten Validierungsgenauigkeit wiederhergestellt. 
+In diesem Kapitel werden die Ergebnisse der trainierten \acp{KNN} aus Abschnitt \ref{umsetzung_training_architektur} mit den Komponenten aus Abschnitt \ref{umsetzung_training_experimente} vorgestellt. Jede Architektur wird mit einer Maximalanzahl von 100 Epochen trainiert, was einem Kompromiss aus benötigtem Rechenaufwand und der Maximierung von Trainingsschritten entspricht. Aufgrund der Regularisierungsmethode Early Stopping wird diese Anzahl jedoch nie erreicht. Das Training bricht jeweils ab, wenn sich die Klassifizierungsgenauigkeit der Validierungsdaten innerhalb von 20 Epochen nicht um mindestens 0,01 verbessert. Nach Abbruch werden jeweils die Gewichte der Epoche mit der höchsten Validierungsgenauigkeit wiederhergestellt. 
 
-In Abschnitt \ref{ergebnis_parameter} wird die Genauigkeit der jeweiligen Netzarchitekturen bei der Klassifizierung von realen Testdaten und die Anzahl der trainierten Epochen hinsichtlich der unterschiedlichen Parameter aus Abschnitt \ref{umsetzung_training_experimente} verglichen. Danach wird in Abschnitt \ref{ergebnis_synth_vs_real} die Genauigkeit der Klassifizierung zwischen realen und synthetischen Testdaten untersucht. Im Anschluss werden in Abschnitt \ref{ergebnis_szenarien} die Unterschiede bei der Erkennung von verschiedenen Klassen erörtert.
+In Abschnitt \ref{ergebnis_parameter} wird die Genauigkeit der jeweiligen Netzarchitekturen bei der Klassifizierung von realen Testdaten und die Anzahl der trainierten Epochen hinsichtlich der unterschiedlichen Komponenten aus Abschnitt \ref{umsetzung_training_experimente} verglichen. Danach wird in Abschnitt \ref{ergebnis_synth_vs_real} die Genauigkeit der Klassifizierung zwischen realen und synthetischen Testdaten untersucht. Im Anschluss werden in Abschnitt \ref{ergebnis_szenarien} die Unterschiede bei der Erkennung von verschiedenen Klassen erörtert.
 
 % ===========================
-\section{Variation der Parameter}
+\section{Variation der Komponenten}
 \label{ergebnis_parameter}
 % ===========================
 
@@ -63,7 +63,7 @@ Insgesamt wird die höchste Genauigkeit bei der Klassifizierung von realen Testd
 \subsubsection{\aclp{CNN}}
 % ===========================
 
-Der Vergleich zwischen den zwei \ac{CNN}-Architekturen Inception-V3 und Xception zeigt ein klares Bild. In drei von vier Fällen kann die Architektur mit der Inception-V3-Architektur als Basis bessere Ergebnisse erzielen. Die Differenz bei der Genauigkeit liegt dabei zwischen 0,16 und 0,67. Nur die Architektur G erzielt eine höhere Genauigkeit als Architektur E mit einem Unterschied von 0,02. Dieser Unterschied überrascht, da die Xception-Architektur in anderen Arbeiten \cite{chollet2017xception} höhere Genauigkeiten bei der Klassifizierung von Bildern erreicht hat.
+Der Vergleich zwischen den zwei \ac{CNN}-Architekturen Inception-V3 und Xception zeigt ein klares Bild. In drei von vier Fällen kann die Architektur mit der Inception-V3-Architektur als Basis bessere Ergebnisse erzielen. Die Differenz bei der Genauigkeit liegt dabei zwischen 0,16 und 0,67. Nur die Architektur G erzielt eine höhere Genauigkeit als Architektur E mit einem Unterschied von 0,02. Dieser Unterschied überrascht, da die Xception-Architektur in anderen Arbeiten \cite{chollet2017xception} höhere Genauigkeiten bei der Klassifizierung von Bildern erreichte.
 
 % ===========================
 \subsubsection{Regularisierung mit Dropout}
@@ -129,7 +129,7 @@ H & Xception \newline LSTM \newline Dropout & 0,61 & 0,91 \\
 
 In diesem Abschnitt werden die Unterschiede der Genauigkeiten bei der Klassifizierung zwischen realen und synthetischen Testdaten untersucht. Die Ergebnisse sind in Tabelle \ref{tab_ergebnis_synth} zusammengefasst. Es ist nicht überraschend, dass die Genauigkeiten bei der Klassifizierung von synthetischen Testdaten überwiegend deutlich höher ist, weil die \acp{KNN} mit 95 Prozent synthetischer und nur 5 Prozent realer Daten trainiert wurden. Das bestätigt auch die Ergebnisse der vorangegangenen Arbeit, die in Abschnitt \ref{grundlagen_nn_synthetisch} diskutiert werden. 
 
-Es ist auffällig, dass die Klassifizierung von einzelnen synthetischen Bildern mit der Xception Architektur niedriger ist als die Klassifizierung von realen Testbildern. Aktuell hat der Autor keine Erklärung hierfür. Dieses Ergebnis kann als Ausgangspunkt für weitere Untersuchungen dienen.
+Es ist auffällig, dass die Klassifizierungsgenauigkeit von einzelnen synthetischen Bildern mit der Xception Architektur niedriger ist als die Klassifizierungsgenauigkeit von realen Testbildern. Eine Untersuchung dieser Ursache sollte in zukünftigen Arbeiten stattfinden.
 
 
 % ===========================
@@ -139,7 +139,7 @@ Es ist auffällig, dass die Klassifizierung von einzelnen synthetischen Bildern 
 
 Die Betrachtung von Klassifizierungsgenauigkeiten der einzelnen Klassen ergibt kein eindeutiges Bild. Bei verschiedenen Architekturen werden verschiedene Szenen teilweise besser oder schlechter erkannt. Hervorzuheben ist, dass es deutliche Unterschiede gibt, diese aber keinem erkennbaren Muster folgen. Eine Übersicht der Genauigkeit der Klassifizierung von realen Testdaten auf der Ebene von Szenarienklassen ist in Tabelle \ref{tab_ergebnis_szenarien} dargestellt.
 
-Ausgehend von der Architektur mit der höchsten Gesamt-Genauigkeit, Architektur F, kann man die folgenden Überlegungen zu unterschiedlichen Genauigkeiten zwischen Klassen anstellen. Bei Architektur F wurden die Klassen \textit{catching up} und \textit{lane change left} sehr gut erkannt. Die Klasse \textit{free cruising} wurde am schlechtesten erkannt. Da die Erkennung auf reinen Bilddaten basiert, kann argumentiert werden, dass Szenenarien der Klasse \textit{free cruising} den Szenarien aus den Klassen \textit{following} und \textit{catching up} ähneln, weil der Unterschied nur im Abstand zu anderen Fahrzeuge liegt. Dagegen sind die Klassen \textit{lane change left} und \textit{lane change right} eindeutiger, weil jeweils die Fahrbahnmarkierung überquert wird und damit ein eideutigeres Merkmal existiert. Diese Erklärung ist aktuell allerdings nur eine mögliche Interpretation des Autors und kann bisher nicht weiter belegt werden. 
+Ausgehend von der Architektur mit der höchsten Gesamt-Genauigkeit, Architektur F, können die folgenden Überlegungen zu unterschiedlichen Genauigkeiten zwischen Klassen angestellt werden. Bei Architektur F wurden die Klassen \textit{catching up} und \textit{lane change left} sehr gut erkannt. Die Klasse \textit{free cruising} wurde am schlechtesten erkannt. Da die Erkennung auf reinen Bilddaten basiert, kann argumentiert werden, dass Szenenarien der Klasse \textit{free cruising} den Szenarien aus den Klassen \textit{following} und \textit{catching up} ähneln, weil der Unterschied nur im Abstand zu anderen Fahrzeuge liegt. Dagegen sind die Klassen \textit{lane change left} und \textit{lane change right} eindeutiger, weil jeweils die Fahrbahnmarkierung überquert wird und damit ein eideutigeres Merkmal existiert. Diese Erklärung ist aktuell allerdings nur eine mögliche Interpretation des Autors und kann bisher nicht weiter belegt werden. 
 
 \begin{table}[h]
 \small
@@ -165,7 +165,9 @@ H & 0,71 & 1,00 & 0,71 & 0,35 & 0,29 \\
 \label{tab_ergebnis_szenarien}
 \end{table}
 
-Um an dieser Stelle besser verstehen zu können auf welcher Basis die \acp{KNN} die Bilder und Bildsequenzen erkennen, sollten in nachfolgenden Arbeiten weitere Untersuchungen dazu angestellt werden. So wäre es beispielsweise interessant, welche Teile der einzelnen Bilder stärker oder auch weniger stark bei der Klassifizierung berücksichtigt werden.
+Ein interessante Beobachtung ist, dass es teilweise zu Klassifizierungsgenauigkeiten von unter 0,2 kommt. In dem Fall sind die Ergebnisse des Klassifikators schlechter als eine zufällige Bestimmung der Klasse. Eine Untersuchung dieser Beobachtung sollte in nachfolgenden Arbeiten erfolgen.
+
+Um an dieser Stelle besser verstehen zu können auf welcher Basis die \acp{KNN} die Bilder und Bildsequenzen erkennen, sollten in nachfolgenden Arbeiten weitere Untersuchungen dazu angestellt werden. So ist es beispielsweise interessant, welche Teile der einzelnen Bilder stärker oder auch weniger stark bei der Klassifizierung berücksichtigt werden.
 
 
 

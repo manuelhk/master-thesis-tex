@@ -23,9 +23,6 @@
 % path to bibliography
 \addbibresource{chapters/standardbib.bib}
 
-% path to images
-%\graphicspath{{images/}}
-
 
 % design header and footer of all pages
 \pagestyle{fancy}
@@ -54,7 +51,7 @@
 
 
 % definition of own variables
-\newcommand{\submissiondate}{21. Dezember 2018}
+\newcommand{\submissiondate}{31. Dezember 2018}
 \newcommand{\mytitle}{Künstliches Lernen: Trainingsdaten aus dem virtuellen Fahrversuch \\ für Szenarienklassifizierung mit Deep Learning Algorithmen}
 
 % define style/settings of code
@@ -103,16 +100,19 @@
 \tableofcontents
 
 %\cleardoublepage
-\input{chapters/abkuerzungsverzeichnis}
+\cleardoublepage
 \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+\input{chapters/abkuerzungsverzeichnis}
 
 %\cleardoublepage
-\listoffigures
+\cleardoublepage
 \addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+\listoffigures
 
 %\cleardoublepage
-\listoftables
+\cleardoublepage
 \addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+\listoftables
 
 \cleardoublepage
 \pagenumbering{arabic}
@@ -130,13 +130,18 @@
 \input{chapters/zusammenfassung}
 
 \cleardoublepage
-\printbibliography
+\pagenumbering{roman}
+\setcounter{page}{15}
+
+\cleardoublepage
 \renewcommand{\bibname}{Literaturverzeichnis}
 \addcontentsline{toc}{chapter}{Literaturverzeichnis}
+\printbibliography
 
 \cleardoublepage
 \appendix
 \input{chapters/appendix}
+\addcontentsline{toc}{chapter}{Appendix}
 \cleardoublepage
 
 \end{document}
