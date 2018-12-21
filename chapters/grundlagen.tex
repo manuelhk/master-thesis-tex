@@ -4,18 +4,16 @@
 \label{grundlagen}
 % ===========================
 
-In diesem Kapitel werden die zum Verständnis nötigen Grundlagen für diese Arbeit erklärt. Dabei wird im Abschnitt \ref{grundlagen_fahren} der Stand der Technik von automatisierten Fahrfunktionen und deren Entwicklung beschrieben. Im Abschnitt \ref{grundlagen_nn} wird maschinelles Lernen im Allgemeinen und im Speziellen \acp{KNN}, die für die Umsetzung dieser Arbeit nötig sind, beschrieben.
+In diesem Kapitel werden die zum Verständnis benötigten Grundlagen für diese Arbeit erklärt. Dabei wird in Abschnitt \ref{grundlagen_fahren} der Stand der Technik von automatisierten Fahrfunktionen und deren Entwicklung beschrieben. Im Abschnitt \ref{grundlagen_nn} wird maschinelles Lernen im Allgemeinen und im Speziellen \acp{KNN}, die in der Umsetzung dieser Arbeit verwendet werden, beschrieben.
 
 % ===========================
 \section{Hochautomatisiertes Fahren}
 \label{grundlagen_fahren}
 % ===========================
 
-Hochautomatisiertes Fahren wird in den vergangenen Jahren zunehmend von der Automobilindustrie vorangetrieben. Aktuelle \ac{FAS}, wie der Spurhalteassistant oder die Abstandsregelung, sind nach der Norm SAE J3016 (Abbildung \ref{fig_level_autonomes_fahren}) bei Level 2 des autonomen Fahrens eingeordnet. Dabei kontrolliert stets der Fahrer die Funktion des Assistenzsystems und überwacht die Umgebung. Ab Stufe 3 des autonomen Fahrens kontrolliert das System die Umgebung und die Funktion der \ac{FAS} \cite{sae2014taxonomy}. Die Kontrollinstanz des Fahrers existiert nicht mehr und die Sicherheit von Fahrfunktionen muss in jedem potentiellen Szenario garantiert sein. Das betrifft sowohl alle bekannten Szenarien, als auch alle bisher unbekannten Szenarien. Da für zukünftige \ac{FAS} nicht mehr alle Szenarien bekannt sind, kann die Absicherung der Funktionen nicht garantiert werden. Das stellt Automobilhersteller und Automobilzulieferer vor große Herausforderungen.
+Hochautomatisiertes Fahren wird in den vergangenen Jahren zunehmend von der Automobilindustrie vorangetrieben. Aktuelle \ac{FAS}, wie der Spurhalteassistant oder die Abstandsregelung, sind nach der Norm SAE J3016 (Abbildung \ref{fig_level_autonomes_fahren}) bei Level 2 des autonomen Fahrens eingeordnet. Dabei kontrolliert der Fahrer die Funktion des Assistenzsystems und überwacht die Umgebung. Ab Stufe 3 des autonomen Fahrens kontrolliert das System die Umgebung und die Funktion der \ac{FAS} \cite{sae2014taxonomy}. Die Kontrollinstanz des Fahrers existiert nicht mehr und die Sicherheit von Fahrfunktionen muss in jedem potentiellen Szenario garantiert sein. Das betrifft sowohl alle bekannten Szenarien, als auch alle bisher unbekannten Szenarien. Da für zukünftige \ac{FAS} nicht mehr alle Szenarien bekannt sind, kann die Absicherung der Funktionen nicht garantiert werden. Das stellt Automobilhersteller und Automobilzulieferer vor große Herausforderungen.
 
-%Das schließt sowohl die Entwicklung von \ac{FAS} als auch die dazu benötigten Testszenarien ein \cite{pfeffer2016continuous}.
-
-In den folgenden Abschnitten wird erläutert, wie aktuell diesen Herausforderungen begegnet wird. In Abschnitt \ref{grundlagen_fahren_entwicklung} wird ein allgemeiner Überblick über die aktuellen Entwicklungsmethodiken für \ac{FAS} gegeben. Danach werden in Abschnitt \ref{grundlagen_fahren_szenarien} bisherige Ansätze für die Klassifizierung von Fahrszenarien vorgestellt.
+In den folgenden Abschnitten wird erläutert, wie diesen Herausforderungen aktuell begegnet wird. In Abschnitt \ref{grundlagen_fahren_entwicklung} wird ein allgemeiner Überblick über die aktuellen Entwicklungsmethodiken für \ac{FAS} gegeben. Danach werden in Abschnitt \ref{grundlagen_fahren_szenarien} bisherige Ansätze für die Klassifizierung von Fahrszenarien vorgestellt.
 
 \begin{figure}[h]
 \centering
@@ -26,13 +24,13 @@ In den folgenden Abschnitten wird erläutert, wie aktuell diesen Herausforderung
 
 
 % ===========================
-\subsection{Entwicklung von Fahrerassistenzfunktionen}
+\subsection{Entwicklung von Fahrerassistenzsystemen}
 \label{grundlagen_fahren_entwicklung}
 % ===========================
 
 \ac{FAS} sind Funktionen im Kraftfahrzeug, die den Fahrer unterstützen. Diese Systeme nutzen Sensordaten, wie Radar-, Ultraschall-, oder Kameradaten, aus dem Fahrzeug, um den Fahrer dann auf Basis der abgeleiteten Informationen zu unterstützen. Beispielsweise erkennt ein Spurhalteassistent wenn das Fahrzeug die Spur verlässt und kann die Fahrlinie korrigieren. 
 
-Um \ac{FAS} effizient zu entwickeln und schon früh einzelne Komponenten testen zu können, werde diese in der Automobilindustrie häufig mit dem V-Modell als Vorgehensmodell entwickelt. Damit soll die Planungssicherheit und die Qualität der Entwicklung erhöht werden. Das V-Modell ist ein chronologisches Vorgehensmodell und aus der Softwareentwicklung adaptiert \cite{vmodell2005}. Das V-Modell kann in einen linken absteigenden und einen rechten aufsteigenden Ast unterteilt werden. Der linke Ast enthält die Funktionsanforderungen, die nach unten weiter detailliert und aufgeschlüsselt werden. Der rechte Ast umfasst aufsteigend Funktionstests auf dem jeweiligen Detaillierungsgrad \cite{hakuli2015virtuelle}. Das V-Modell ist in einer einfachen Version in Abbildung \ref{fig_v_modell} dargestellt.
+Um \ac{FAS} effizient zu entwickeln und schon früh einzelne Komponenten testen zu können, werden diese in der Automobilindustrie häufig mit dem V-Modell als Vorgehensmodell entwickelt. Damit soll die Planungssicherheit und die Qualität der Entwicklung erhöht werden. Das V-Modell ist ein chronologisches Vorgehensmodell und aus der Softwareentwicklung adaptiert \cite{vmodell2005}. Das V-Modell kann in einen linken absteigenden und einen rechten aufsteigenden Ast unterteilt werden. Der linke Ast enthält die Funktionsanforderungen, die nach unten weiter detailliert und aufgeschlüsselt werden. Der rechte Ast umfasst aufsteigend Funktionstests auf dem jeweiligen Detaillierungsgrad \cite{hakuli2015virtuelle}. Das V-Modell ist schematisch in Abbildung \ref{fig_v_modell} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -58,13 +56,13 @@ Die Validierung und Verifikation von \ac{FAS} folgt dem Testkonzept. Ein Testkon
 
 Testfälle werden bereits möglichst früh im Entwicklungsprozess erstellt, um eine hohe Qualität von \ac{FAS} und einzelnen Komponenten zu erreichen \cite{wachenfeld2015freigabe}. Hierfür werden in der Praxis virtuelle Fahrversuche eingesetzt. Die Idee ist eine stufenweise Digitalisierung von Komponenten aus dem realen Fahrversuch mit den Zielen die Reproduzierbarkeit zu steigern, den Aufwand zu reduzieren und insgesamt flexibler zu werden. Im virtuellen Fahrversuch werden in der frühen Konzeptphase alle Komponenten virtuell getestet und dann schrittweise durch Hardwarekomponenten ersetzt. Schließlich werden alle Komponenten im realen Fahrversuch auf der Straße mit einem realem Fahrer und anderen Verkehrsteilnehmern getestet \cite{hakuli2015virtuelle}.
 
-Beim virtuellen Fahrversuch spielen die Konzepte \ac{MiL}, \ac{SiL}, \ac{HiL} und \ac{ViL} eine wichtige Rolle. Mit \ac{MiL} und \ac{SiL} werden Funktionen auf Basis von Simulationsmodellen getestet \cite{berg2015vehicle}, indem Hardwarekomponenten simuliert werden. Mit fortschreitender Entwicklung werden immer mehr Simulationskomponenten durch die entsprechende Hardware ersetzt und mit \ac{HiL} getestet \cite{hakuli2015virtuelle}. \ac{ViL} schließt schließlich die Lücke zwischen virtuellem Fahrversuch und realem Fahrversuch. Dieses Testkonzept macht die Komplexität bei der Entwicklung von \ac{FAS} beherrschbar und reduziert den Testaufwand \cite{schwab2014durchgangige}. Für die Freigabe von \ac{FAS} ist die Realfahrt die wichtigste Methode, da sie aktuell die beste Validierung bei annehmbaren ökonomischen Aufwand ist \cite{wachenfeld2015freigabe}.
+Beim virtuellen Fahrversuch spielen die Konzepte \ac{MiL}, \ac{SiL}, \ac{HiL} und \ac{ViL} eine wichtige Rolle. Mit \ac{MiL} und \ac{SiL} werden Funktionen auf Basis von Simulationsmodellen getestet \cite{berg2015vehicle}, indem Hardwarekomponenten simuliert werden. Mit fortschreitender Entwicklung werden immer mehr Simulationskomponenten durch die entsprechende Hardware ersetzt und mit \ac{HiL} getestet \cite{hakuli2015virtuelle}. \ac{ViL} schließt schließlich die Lücke zwischen virtuellem Fahrversuch und realem Fahrversuch. Für die Freigabe von \ac{FAS} ist die Realfahrt die wichtigste Methode, da sie aktuell die beste Validierung bei annehmbaren ökonomischen Aufwand ist \cite{wachenfeld2015freigabe}.
 
-Mit steigender Automatisierung von \ac{FAS} steigt auch die Anzahl möglicher Szenarien, in denen die Sicherheit der Funktionen auch ohne Fahrer garantiert sein muss. Um alle Funktionen ausreichend testen zu können, steigt die Anzahl der benötigten Testfälle. Testfälle müssen alle potentiell eintretenden Szenarien, in denen das \ac{FAS} zum Einsatz kommen kann, abdecken. Dadurch steigt mit hochautomatisierten Funktionen der Aufwand für Validierung und Verifikation mit Testfällen \cite{bach2017reactive}. Eine Möglichkeit für die Reduzierung von Testfällen ist es, kritische Situationen zu finden und Testfälle mit weniger kritischen Situationen zu entfernen \cite{wachenfeld2015freigabe}.
+Mit steigender Automatisierung von \ac{FAS} steigt die Anzahl möglicher Szenarien, in denen die Sicherheit der Funktionen auch ohne Fahrer garantiert sein muss. Um alle Funktionen ausreichend testen zu können, steigt die Anzahl der benötigten Testfälle. Testfälle müssen alle potentiell eintretenden Szenarien, in denen das \ac{FAS} zum Einsatz kommen kann, abdecken. Dadurch steigt mit hochautomatisierten Funktionen der Aufwand für die Validierung und Verifikation \cite{bach2017reactive}. Eine Möglichkeit für die Reduzierung von Testfällen ist es, kritische Situationen zu finden und Testfälle mit weniger kritischen Situationen zu entfernen \cite{wachenfeld2015freigabe}.
 
 Heute werden Testfälle auf der Basis von Anforderungen an die Fahrfunktionen und Standardsituationen abgeleitet und getestet. Dabei wächst heute schon, mit der Beschränkung auf Standardfälle, der Testaufwand \cite{surmund2018neue}. Mit zukünftigen hochautomatisierten \ac{FAS} ab Stufe 3 des autonomen Fahrens muss das System in allen potentiellen Szenarien sicher sein und Testfälle dürfen nicht mehr auf die Standardsituationen begrenzt sein. Die Sicherheit des Gesamtsystems muss in breiterem Spektrum mit einer Vielzahl Szenarien ohne Eingriff des Fahrers garantiert werden können. Das bedeutet, dass die bisherigen Standardsituationen um neue Szenarien erweitert werden müssen \cite{surmund2018neue}.
 
-Für die Erstellung von Testfällen müssen daher alle potentiell eintretenden kritischen Szenarien bekannt sein. Der Ansatz in dieser Arbeit ist es, bekannte Szenarien zu klassifizieren und auf diese Weise bisher unbekannte und möglicherweise kritische Szenarien zu finden. Dies soll mit Hilfe von simulierten Daten geschehen, um die Skalierbarkeit mit angemessenem Aufwand garantieren zu können. Das Konzept hierzu wird im Detail in Kapitel \ref{konzept} vorgestellt.
+Für die Erstellung von Testfällen müssen daher alle potentiell eintretenden kritischen Szenarien bekannt sein. Das Ziel dieser Arbeit ist es, bekannte Szenarien zu klassifizieren und auf diese Weise bisher unbekannte und möglicherweise kritische Szenarien zu finden. Dies soll mit Hilfe von simulierten Daten geschehen, um die Skalierbarkeit mit angemessenem Aufwand garantieren zu können. Das Konzept hierzu wird im Detail in Kapitel \ref{konzept} vorgestellt.
 
  Im nächsten Abschnitt werden andere Arbeiten, welche die Klassifizierung von Szenarien untersucht haben, vorgestellt und wichtige Grundbegriffe definiert.
 
@@ -127,9 +125,9 @@ Ein Beispiel zu jeder Abstraktionsebene (funktional, logisch, konkret) ist in Ab
 
 Wie in Abschnitt \ref{grundlagen_fahren_entwicklung} beschrieben ist die Klassifizierung von Szenarien ein wichtiges Element für die Erstellung von Testfällen und die Sicherung von \ac{FAS}. In den vergangenen Jahren wurden bereits einige Arbeiten zur Klassifizierung von Szenarien veröffentlicht. In den folgenden Absätzen werden jeweils die Datenbasis, die Klassifizierungsmethode und die jeweiligen Fahrszenarien der bisherigen Arbeiten seit 2014 kurz vorgestellt.
 
-Für die Klassifizierung wurden verschiedene Sensordaten aus dem Fahrzeug verwendet. Die Autoren von fünf Arbeiten haben Beschleunigungs-, Gyroskop-, GPS- und Magnetometer-Daten mithilfe eines Smartphones ein einem Fahrzeug für die Klassifizierung aufgezeichnet \cite{xie2018driving, cervantes2016vehicle, woo2016manoeuvre, camlica2016feature, arroyo2016adaptive}. Die Verwendung von Smartphone-Daten wurde mit der einfachen und kostengünstigen Umsetzung begründet. Vier andere Arbeiten verwendeten Sensordaten wie \textit{Lenkwinkel}, \textit{Fahrzeuggeschwindigkeit}, \textit{laterale Geschwindigkeit}, \textit{Giergeschwindigkeit} und die \textit{Position des Gas- und Bremspedals}, die sie aus dem CAN-Bus des Fahrzeugs auslasen \cite{zheng2017lane, zheng2015non, li2015lane, zheng2014threshold}. Drei weitere Arbeiten basierten ihre Experimente auf Daten aus einem Fahrsimulator \cite{sun2017robust, zheng2016drivers} und realen Testfahrten \cite{gruner2017spatiotemporal}. Die verwendeten Daten waren der \textit{laterale Abstand zwischen Fahrzeug und Fahrbahnmarkierung}, \textit{Spurabfahrtsbetrag}, \textit{Beschleunigung}, \textit{Lenkwinkel}, \textit{Lenkgeschwindigkeit}, \textit{Lenkmoment} und \textit{Ort}, \textit{Ausrichtung}, und \textit{Geschwindigkeit} des Ego-Fahrzeugs und benachbarten Objekten. Dabei wurde nicht weiter spezifiziert, wie die Daten ausgelesen wurden.
+Für die Klassifizierung wurden verschiedene Sensordaten aus dem Fahrzeug verwendet. Die Autoren von fünf Arbeiten haben Beschleunigungs-, Gyroskop-, GPS- und Magnetometer-Daten mithilfe eines Smartphones in einem Fahrzeug aufgezeichnet \cite{xie2018driving, cervantes2016vehicle, woo2016manoeuvre, camlica2016feature, arroyo2016adaptive}. Die Verwendung von Smartphone-Daten wurde mit der einfachen und kostengünstigen Umsetzung begründet. Vier andere Arbeiten verwendeten Sensordaten wie \textit{Lenkwinkel}, \textit{Fahrzeuggeschwindigkeit}, \textit{laterale Geschwindigkeit}, \textit{Giergeschwindigkeit} und die \textit{Position des Gas- und Bremspedals}, die sie aus dem CAN-Bus des Fahrzeugs auslasen \cite{zheng2017lane, zheng2015non, li2015lane, zheng2014threshold}. Drei weitere Arbeiten basierten ihre Experimente auf Daten aus einem Fahrsimulator \cite{sun2017robust, zheng2016drivers} und realen Testfahrten \cite{gruner2017spatiotemporal}. Die verwendeten Daten waren der \textit{laterale Abstand zwischen Fahrzeug und Fahrbahnmarkierung}, \textit{Spurabfahrtsbetrag}, \textit{Beschleunigung}, \textit{Lenkwinkel}, \textit{Lenkgeschwindigkeit}, \textit{Lenkmoment} und \textit{Ort}, \textit{Ausrichtung}, und \textit{Geschwindigkeit} des Ego-Fahrzeugs und benachbarten Objekten. Dabei wurde nicht weiter spezifiziert, wie die Daten ausgelesen wurden.
 
-Auf Basis der Sensordaten wurden verschiedene Klassifikatoren erstellt. Es wurden die Methoden \ac{SVM} \cite{sun2017robust, cervantes2016vehicle, woo2016manoeuvre, camlica2016feature, zheng2016drivers, zheng2015non}, \ac{RF} \cite{xie2018driving, cervantes2016vehicle, zheng2016drivers}, \ac{kNN} \cite{zheng2017lane, camlica2016feature, zheng2016drivers}, \ac{HMM} \cite{zheng2017lane, li2015lane}, \ac{FRC} \cite{cervantes2016vehicle, arroyo2016adaptive}, Bayesian Inference Model \cite{sun2017robust}, \ac{CNN} \cite{gruner2017spatiotemporal}, Decision Tree \cite{zheng2014threshold} und Naive Bayes \cite{camlica2016feature} verwendet. Da die Methoden für diese Arbeit nicht weiter relevant sind, werden die an dieser Stelle nicht im Detail erläutert, es wird lediglich auf die jeweiligen Quellen verwiesen.
+Auf Basis der Sensordaten wurden verschiedene Klassifikatoren erstellt. Es wurden die Methoden \ac{SVM} \cite{sun2017robust, cervantes2016vehicle, woo2016manoeuvre, camlica2016feature, zheng2016drivers, zheng2015non}, \ac{RF} \cite{xie2018driving, cervantes2016vehicle, zheng2016drivers}, \ac{kNN} \cite{zheng2017lane, camlica2016feature, zheng2016drivers}, \ac{HMM} \cite{zheng2017lane, li2015lane}, \ac{FRC} \cite{cervantes2016vehicle, arroyo2016adaptive}, Bayesian Inference Model \cite{sun2017robust}, \ac{CNN} \cite{gruner2017spatiotemporal}, Decision Tree \cite{zheng2014threshold} und Naive Bayes \cite{camlica2016feature} verwendet. Da die Methoden für diese Arbeit nicht weiter relevant sind, werden sie an dieser Stelle nicht im Detail erläutert, es wird lediglich auf die jeweiligen Quellen verwiesen.
 
 In Tabelle \ref{tab_szenarienerkennung} sind alle dem Autor bekannten Arbeiten seit 2014 zusammengefasst. Neben den verwendeten Methoden zur Klassifizierung sind die jeweils verwendeten Sensordaten und die klassifizierten Szenarien aufgeführt.
 
@@ -138,7 +136,7 @@ In Tabelle \ref{tab_szenarienerkennung} sind alle dem Autor bekannten Arbeiten 
 \hline
 \endhead
 
-\cite{xie2018driving} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & \ac{RF} & Abbiegen, links abbiegen, rechts abbiegen, beschleunigen, bremsen, stoppen, Spurwechsel nach links, Spurwechsel nach rechts \\
+\cite{xie2018driving} & Beschleunigung, Gyroskop und GPS von einem Smartphone im Fahrzeug & \ac{RF} & Abbiegen, links abbiegen, rechts abbiegen, beschleunigen, bremsen, stoppen, Spurwechsel nach links, Spurwechsel nach rechts \\
 \hline
 
 \cite{zheng2017lane} & Lenkwinkel und Fahrzeuggeschwindwigkeit aus dem CAN-Bus & \ac{kNN}, \ac{HMM} & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
@@ -150,19 +148,19 @@ In Tabelle \ref{tab_szenarienerkennung} sind alle dem Autor bekannten Arbeiten 
 \cite{gruner2017spatiotemporal} & Ort, Ausrichtung und Geschwindigkeit des Ego-Fahrzeugs und benachbarten Objekten von realen Testfahrten & \ac{CNN} auf Basis von gestapelten Positionsgittern der Objekte & Frei fahren, anderes Fahrzeug voraus, anderes Fahrzeug überholt Ego-Fahrzeug, Querverkehr vor Ego-Fahrzeug \\
 \hline
 
-\cite{cervantes2016vehicle} & Beschleunigung von einem Smartphone das im Fahrzeug platziert ist & \ac{RF}, \ac{SVM}, \ac{FRC} & Einparken, geparkt, frei fahren, stoppen \\
+\cite{cervantes2016vehicle} & Beschleunigung von einem Smartphone im Fahrzeug & \ac{RF}, \ac{SVM}, \ac{FRC} & Einparken, geparkt, frei fahren, stoppen \\
 \hline
 
-\cite{woo2016manoeuvre} & Beschleunigung, Gyroskop, GPS und Magnetometer von einem Smartphone das im Fahrzeug platziert ist & \ac{SVM} & Stoppen, beschleunigen, bremsen, links abbiegen, rechts abbiegen \\
+\cite{woo2016manoeuvre} & Beschleunigung, Gyroskop, GPS und Magnetometer von einem Smartphone im Fahrzeug & \ac{SVM} & Stoppen, beschleunigen, bremsen, links abbiegen, rechts abbiegen \\
 \hline
 
-\cite{camlica2016feature} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & \ac{SVM}, \ac{kNN}, Naive-Bayes & Stoppen, beschleunigen, frei fahren, bremsen, Spurwechsel nach links, Spurwechsel nach rechts, links abbiegen, rechts abbiegen, in Kreisverkehr eintreten, aus Kreisverkehr austreten \\
+\cite{camlica2016feature} & Beschleunigung, Gyroskop und GPS von einem Smartphone im Fahrzeug & \ac{SVM}, \ac{kNN}, Naive-Bayes & Stoppen, beschleunigen, frei fahren, bremsen, Spurwechsel nach links, Spurwechsel nach rechts, links abbiegen, rechts abbiegen, in Kreisverkehr eintreten, aus Kreisverkehr austreten \\
 \hline
 
 \cite{zheng2016drivers} & Spurabfahrtsbetrag, Beschleunigung, Lenkwinkel, Lenkgeschwindigkeit und Lenkmoment von einem Fahrsimulator & \ac{SVM}, \ac{kNN}, \ac{RF} & Spurwechsel nach links, Spurwechsel nach rechts, Spur halten \\
 \hline
 
-\cite{arroyo2016adaptive} & Beschleunigung, Gyroskop und GPS von einem Smartphone das im Fahrzeug platziert ist & \ac{FRC} & Lenken, beschleunigen, bremsen, Bodenwelle \\
+\cite{arroyo2016adaptive} & Beschleunigung, Gyroskop und GPS von einem Smartphone im Fahrzeug & \ac{FRC} & Lenken, beschleunigen, bremsen, Bodenwelle \\
 \hline
 
 \cite{zheng2015non} & Fahrzeuggeschwindigkeit und Lenkwinkel aus dem CAN-Bus & \ac{SVM} & links abbiegen, rechts abbiegen, Spurwechsel nach links, Spurwechsel nach rechts, Kurve nach links, Kurve nach rechts, geradeaus fahren, stoppen \\
@@ -178,7 +176,7 @@ In Tabelle \ref{tab_szenarienerkennung} sind alle dem Autor bekannten Arbeiten 
 \label{tab_szenarienerkennung}
 \end{longtable}
 
-Die Datenerhebungen in den vergangenen Arbeiten wurde vor dem Hintergrund durchgeführt, vordefinierte Szenarien zu erkennen. Von diesen Szenarien wurden die benötigten Sensordaten abgeleitet und dann mit bestimmten Methoden verschiedene Klassifikatoren erstellt. Bis auf in der Arbeit von Gruner \cite{gruner2017spatiotemporal} werden für die Klassifizierung von Fahrszenarien bisher keine \acp{DNN} verwendet. Ebenfalls verwendet Gruner in seiner Arbeit keine Kamerabildern, sondern gespapelte Matritzen, auf denen jeweils die Positionen aller Verkehrsteilnehmer markiert sind. Nach Gruner \cite{gruner2017spatiotemporal} wird sich die zukünftige Forschung mit tieferen Netzstrukturen wie Recurrent Neural Networks (\acp{RNN}) beschäftigen, um zeitabhängige Szenarien noch besser zu verstehen.
+Die Datenerhebungen in den vergangenen Arbeiten wurden vor dem Hintergrund durchgeführt, vordefinierte Szenarien zu erkennen. Von diesen Szenarien wurden die benötigten Sensordaten abgeleitet und dann mit bestimmten Methoden verschiedene Klassifikatoren erstellt. Bis auf in der Arbeit von Gruner \cite{gruner2017spatiotemporal} werden für die Klassifizierung von Fahrszenarien bisher keine \acp{DNN} verwendet. Ebenfalls verwendet Gruner in seiner Arbeit keine Kamerabilder, sondern gestapelte Matrizen, auf denen jeweils die Positionen aller Verkehrsteilnehmer markiert sind. Nach Gruner \cite{gruner2017spatiotemporal} wird sich die zukünftige Forschung mit tieferen Netzstrukturen wie \acp{RNN} beschäftigen, um zeitabhängige Szenarien noch besser zu verstehen.
 
 Mit den bisherigen Ansätzen können bekannte Szenarien sehr zuverlässig erkannt werden. Bisher unbekannte Szenarien werden allerdings nur sehr bedingt erkannt, weil die Datengrundlage auf Basis der bekannten Szenarien optimiert ist. Das bedeutet, dass Daten, die für die Erkennung von bisher unbekannten Szenarien möglicherweise relevant sind, nicht erfasst und daher nicht für die Erstellung des Klassifikators verwendet werden.
 
@@ -189,7 +187,7 @@ Im Gegensatz zu den bisherigen Arbeiten, soll in dieser Arbeit die Verwendung vo
 \label{grundlagen_nn}
 % ===========================
 
-In diesem Kapitel werden künstliche Neuronale Netze (\acp{KNN}) mit mit einem Schwerpunkt auf Bilderkennung mit Convolutional Neural Networks (\acp{CNN}) und Sequenzerkennung mit \acp{LSTM} eingeführt. Im folgenden Abschnitt \ref{grundlagen_nn_ml} werden \acp{KNN} in den Gesamtkontext von maschinellem Lernen gestellt. Im Anschluss werden in Abschnitt \ref{grundlagen_nn_entwicklung} die Grundlagen zu \acp{KNN} erläutert. Dann werden komplexe Architekturen von \acp{KNN} zur Bilderkennung in Abschnitt \ref{grundlagen_nn_cnn} und zur Sequenzerkennung in Abschnitt \ref{grundlagen_nn_rnn} erklärt. In Abschnitt \ref{grundlagen_nn_synthetisch} wird auf das Training mit synthetischen Daten eingegangen und im letzten Abschnitt \ref{grundlagen_nn_video} wird die aktuelle Forschung zu Videoklassifizierung vorgestellt.
+In diesem Kapitel werden künstliche Neuronale Netze (\acp{KNN}) mit einem Schwerpunkt auf Bilderkennung mit Convolutional Neural Networks (\acp{CNN}) und Sequenzerkennung mit \acfp{LSTM} eingeführt. Im folgenden Abschnitt \ref{grundlagen_nn_ml} werden \acp{KNN} in den Gesamtkontext von maschinellem Lernen gestellt. Im Anschluss werden in Abschnitt \ref{grundlagen_nn_entwicklung} die Grundlagen zu \acp{KNN} erläutert. Danach werden komplexe Architekturen von \acp{KNN} zur Bilderkennung in Abschnitt \ref{grundlagen_nn_cnn} und zur Sequenzerkennung in Abschnitt \ref{grundlagen_nn_rnn} erklärt. In Abschnitt \ref{grundlagen_nn_synthetisch} wird auf das Training mit synthetischen Daten eingegangen und im letzten Abschnitt \ref{grundlagen_nn_video} wird die aktuelle Forschung zu Videoklassifizierung vorgestellt.
 
 % ===========================
 \subsection{Einordnung im maschinellen Lernen}
@@ -208,14 +206,14 @@ Da maschinelles Lernen sehr viele Bereiche umfasst, wird hier nur auf die releva
 
 Beim unüberwachten Lernen (engl. unsupervised learning) enthalten die Trainingsdaten ausschließlich die Inputvektoren, ohne die dazugehörigen Zielvektoren. Das Ziel dabei ist es, Muster in den gegebenen Daten zu erkennen, um beispielsweise Cluster zu bilden \cite{bishop2006pattern}. Das Clustering von Kundengruppen, die bisher unbekannt waren, fällt in diese Kategorie des maschinellen Lernens.
 
-Das verstärkende Lernen (engl. reinforcement learning) ist eine Methodik in welcher der Trainingsalgorithmus mit Situationen konfrontiert wird und jeweils aus einer Reihe von gegebenen Handlungen wählen kann. Das Ziel dabei ist es das Endergebnis, das auf der Wahl aller Handlungen basiert, zu maximieren \cite{sutton1998introduction}. Ein Beispiel hierfür ist selbstständige Erlernen des Brettspiels Schach.
+Das verstärkende Lernen (engl. reinforcement learning) ist eine Methodik in welcher der Trainingsalgorithmus mit Situationen konfrontiert wird und jeweils aus einer Reihe von gegebenen Handlungen wählen kann. Das Ziel dabei ist es, das Endergebnis, das auf der Wahl aller Handlungen basiert, zu maximieren \cite{sutton1998introduction}. Ein Beispiel hierfür ist das selbstständige Erlernen des Brettspiels Schach.
 
 
 % ===========================
 \subsubsection{Klassifizierung}
 % ===========================
 
-In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien - damit in der Kategorie überwachtes Lernen - entwickelt und umgesetzt. Das Ziel von Klassifizierungsalgorithmen ist es, gegebene Objekte auf Basis ihrer Eigenschaften einer Klasse zuzuordnen. Dabei sollen die Objekte innerhalb einer Klasse eine möglichst geringe Varianz und zwischen verschiedenen Klassen eine möglichst hohe Varianz besitzen. Klassifizierungsalgorithmen arbeiten dafür mit Trainingsdaten, die aus Inputvektoren und Zielvektoren bestehen. Ein Inputvektor enthält alle Eigenschaften und der Zielvektor die jeweilige Klasse des Objekts. In Abbildung \ref{fig_klassifizierung} ist beispielhaft ein Datensatz mit zwei Klassen dargestellt. Die Objekte im Datensatz haben jeweils die Eigenschaften $x_1$ und $x_2$.
+In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien - damit in der Kategorie des überwachten Lernens - entwickelt und umgesetzt. Das Ziel von Klassifizierungsalgorithmen ist es, gegebene Objekte auf Basis ihrer Eigenschaften einer Klasse zuzuordnen. Dabei sollen die Objekte innerhalb einer Klasse eine möglichst geringe Varianz und zwischen verschiedenen Klassen eine möglichst hohe Varianz besitzen. Klassifizierungsalgorithmen arbeiten dafür mit Trainingsdaten, die aus Inputvektoren und Zielvektoren bestehen. Ein Inputvektor enthält alle Eigenschaften und der Zielvektor die jeweilige Klasse des Objekts. In Abbildung \ref{fig_klassifizierung} ist beispielhaft die Klassifizierung eines Datensatzes mit zwei Klassen dargestellt. Die Objekte im Datensatz haben jeweils die Eigenschaften $x_1$ und $x_2$.
 
 \begin{figure}[h]
 \centering
@@ -224,7 +222,7 @@ In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien - d
 \label{fig_klassifizierung}
 \end{figure}
 
-In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingeführt, mit denen in dieser Arbeit ein Klassifikator für die Erkennung von Fahrszenarien entwickelt und trainiert wird.
+In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingeführt. Mit diesen Komponenten werden später verschiedene Klassifikatoren für die Erkennung von Fahrszenarien entwickelt und trainiert.
 
 
 % ===========================
@@ -241,7 +239,7 @@ In den folgenden Abschnitten werden schrittweise \acp{CNN} und \acp{LSTM} eingef
 \label{fig_perceptron}
 \end{figure}
 
-Um den Aktivierungswert $o(\vec{x})$ zu berechnen wird zunächst die gewichtete Summe mit dem Eingangsvektor $\vec{x}$ und den Gewichten $\vec{w}$ gebildet. Dann wird mit der Aktivierungsfunktion $\varphi$ eine Klasse bestimmt. Beim ursprünglichen Perzeptron handelt es sich dabei um eine Schwellenwertfunktion, die die zwei Werte $-1$ und $1$ annehmen kann. Damit ist das Perzeptron ein binärer Klassifikator und kann die logischen Operationen \textit{AND}, \textit{OR} und \textit{NOT} ausführen. Die logische Operation \textit{XOR} kann mit mit einem einzelnen Perzeptron nicht abgebildet werden \cite{minski1969perceptrons}.
+Um den Aktivierungswert $o(\vec{x})$ zu berechnen wird zunächst die gewichtete Summe mit dem Eingangsvektor $\vec{x}$ und den Gewichten $\vec{w}$ gebildet. Im Anschluss wird mit der Aktivierungsfunktion $\varphi$ eine Klasse bestimmt. Beim ursprünglichen Perzeptron handelt es sich dabei um eine Schwellenwertfunktion, welche die zwei Werte $-1$ und $1$ annehmen kann. Damit ist das Perzeptron ein binärer Klassifikator und kann die logischen Operationen \textit{AND}, \textit{OR} und \textit{NOT} ausführen. Die logische Operation \textit{XOR} kann mit einem einzelnen Perzeptron nicht abgebildet werden \cite{minski1969perceptrons}.
 
 \begin{equation}
 \varphi(\vec{x}, \vec{w}) = \begin{cases} 1 \qquad \text{wenn} \quad \vec{x}*\vec{w} \geq \theta \\ 0 \qquad \text{sonst} \end{cases}
@@ -258,7 +256,7 @@ w^{neu}_i = w^{alt}_i + \Delta w_i
 \Delta w_i = \eta*(t-o)*x_i
 \end{equation}
 
-Die Lernrate $\eta$ kann angepasst werden und bestimmt wie stark die Gewichte in jedem Trainingsschritt verändert werden. Üblicherweise werden Lernraten zwischen $1e-2$ und $1e-4$ gewählt.
+Die Lernrate $\eta$ kann angepasst werden und bestimmt wie stark die Gewichte in jedem Trainingsschritt verändert werden. Üblicherweise werden Lernraten zwischen $0,01$ und $0,0001$ gewählt.
 
 Neben der Schwellenwertfunktion werden für die Aktivierung von einzelnen Neuronen verschiedene Aktivierungsfunktionen verwendet. Die am meisten verwendeten Funktionen hierfür sind die \ac{tanh}-Funktion
 
@@ -292,12 +290,12 @@ Neben der Schwellenwertfunktion werden für die Aktivierung von einzelnen Neuron
 \label{fig_aktivierungsfunktionen}
 \end{figure}
 
-Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptronen werden mehrschichtige \acp{KNN}, oder auch mehrlagiges Perzeptron (engl. multilayer perceptron), modelliert. Dadurch können diese auf unterschiedliche Probleme angewendet werden und überwinden die Schwächen eines einzelnen Perzeptrons (ausschließlich binäre Klassifizierung, keine \textit{XOR}-Operation). Ein mehrschichtiges \ac{KNN} besteht aus mindestens zwei Schichten, einer Ergebnis-Schicht und mindestens einer verborgenen Schicht. Der Eingangsvektor $\vec{x}$ wird nicht als eine Schicht gezählt. Jede Schicht besteht aus $1, ..., n$ Neuronen (Perzeptronen), die im Modell als Knoten modelliert sind. Die Neuronen einer Schicht bestehen jeweils aus einer gewichteten Summe und einer Aktivierungsfunktion und sind jeweils mit dem Eingangsvektor, dem Ergebnisvektor oder den Neuronen der vorherigen und nachfolgenden Schichten verbunden. Diese Verbindungen werden als Kanten modelliert und repräsentieren die Gewichte mit denen die Neuronen verknüpft sind. Abbildung \ref{fig_knn} zeigt das Schema eines dreischichtigen \ac{KNN}.
+Mit diesen Aktivierungsfunktionen und der Verwendung mehrerer Perzeptronen kann ein \acp{KNN}, oder auch mehrlagiges Perzeptron (engl. multilayer perceptron), modelliert werden. Diese Netze können auf unterschiedliche Probleme angewendet werden und überwinden die Schwächen eines einzelnen Perzeptrons (ausschließlich binäre Klassifizierung, keine \textit{XOR}-Operation). Ein mehrschichtiges \ac{KNN} besteht aus mindestens zwei Schichten, einer Ergebnis-Schicht und mindestens einer verborgenen Schicht. Der Eingangsvektor $\vec{x}$ wird nicht als eine Schicht gezählt. Jede Schicht besteht aus $1, ..., n$ Neuronen (Perzeptronen), die im Modell als Knoten modelliert sind. Die Neuronen einer Schicht bestehen jeweils aus einer gewichteten Summe und einer Aktivierungsfunktion und sind jeweils mit dem Eingangsvektor oder den Neuronen der vorherigen und nachfolgenden Schichten verbunden. Diese Verbindungen werden als Kanten modelliert und repräsentieren die Gewichte mit denen die Neuronen verknüpft sind. Abbildung \ref{fig_knn} zeigt das Schema eines dreischichtigen \acp{KNN}.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{images/knn.pdf}
-\caption{Mehrlagiges Perzeptron mit zwei versteckten Schichten und einer Ausgangsschicht}
+\caption{Mehrlagiges Perzeptron mit zwei versteckten Schichten}
 \label{fig_knn}
 \end{figure}
 
@@ -325,8 +323,8 @@ Dabei beschreiben $t_j$ die tatsächliche Klasse, $o_j$ die errechnete Klasse un
 
 \begin{enumerate}
 \item Auf Basis eines Eingangsvektors $\vec{x}$ werden die Aktivierungswerte $\vec{y_j}$ aller versteckten Schichten $j$ und der Ergebnisvektor $\vec{o}$ berechnet.
-\item Der errechnete Ergebniswert $o_j$ wird mit dem erwarteten Ergebnis $t_j$ verglichen und die Differenz wird berechnet. Diese Different wird als Fehler bezeichnet.
-\item Auf Basis dieser Differenz werden die Gewichte zwischen allen Neuronen geändert, mit dem Ziel diese Differenz bei der nächsten Iteration zu verringern. Die Änderung wird wie folgt berechnet:
+\item Der errechnete Ergebniswert $o_j$ wird mit dem erwarteten Ergebnis $t_j$ verglichen und die Differenz wird berechnet. Diese Differenz wird als Fehler bezeichnet.
+\item Auf Basis dieser Differenz werden die Gewichte zwischen allen Neuronen geändert, mit dem Ziel die Differenz bei der nächsten Iteration zu verringern. Die Änderung wird wie folgt berechnet:
 \begin{equation}
 w^{neu}_{ij} = w^{alt}_{ij} + \Delta w_{ij}
 \end{equation}
@@ -337,7 +335,7 @@ mit
 Dabei beschreibt $w_{ij}$ das Gewicht zwischen Neuron $i$ und Neuron $j$, $\eta$ eine feste Lernrate die beeinflusst, wie stark Gewichte geändert werden und $E$ die oben definierte Fehlerfunktion.
 \end{enumerate}
 
-Mit diesem Algorithmus werden die Gewichte von mehrschichtigen \acp{KNN} bei jedem Trainingsschritt angepasst. Eine Herausforderung beim Trainieren von \acp{KNN} ist es, mit bisher unbekannten Daten gute Ergebnisse zu erzielen \cite{srivastava2014dropout}. Das bedeutet, dass im Laufe des Trainings die Gewichte so angepasst werden müssen, dass das Modell nach dem Training nicht nur mit den Trainingsdaten gute Ergebnisse erzielen kann, sondern auch auf Daten, die es zuvor nicht verarbeitet hat. Diese Fähigkeit eines Modells wird Generalisierbarkeit genannt. Wenn ein Modell hingegen nur mit den Trainingsdaten gute Ergebnisse erzielt, spricht man von Überanpassung (engl. overfitting). Im Gegensatz dazu spricht man von Unteranpassung (engl. underfitting), wenn ein Modell schon mit den Trainingsdaten sehr schlechte Ergebnisse erzielt. In Abbildung \ref{fig_overfitting} ist beispielhaft eine Unter- und Überanpassung eines binären Klassifikators dargestellt.
+Mit diesem Algorithmus werden die Gewichte von mehrschichtigen \acp{KNN} bei jedem Trainingsschritt angepasst. Eine Herausforderung beim Trainieren von \acp{KNN} ist es, mit bisher unbekannten Daten gute Ergebnisse zu erzielen \cite{srivastava2014dropout}. Das bedeutet, dass im Laufe des Trainings die Gewichte so angepasst werden müssen, dass das Modell nach dem Training nicht nur mit den Trainingsdaten gute Ergebnisse erzielen kann, sondern auch mit Daten, die es zuvor nicht verarbeitet hat. Diese Fähigkeit eines Modells wird Generalisierbarkeit genannt.
 
 \begin{figure}[h]
 \centering
@@ -345,6 +343,8 @@ Mit diesem Algorithmus werden die Gewichte von mehrschichtigen \acp{KNN} bei jed
 \caption{Beispiel einer Unter- und Überanpassung eines Klassifikators}
 \label{fig_overfitting}
 \end{figure}
+
+Wenn ein Modell hingegen nur mit den Trainingsdaten gute Ergebnisse erzielt, spricht man von Überanpassung (engl. overfitting). Im Gegensatz dazu spricht man von Unteranpassung (engl. underfitting), wenn ein Modell schon mit den Trainingsdaten sehr schlechte Ergebnisse erzielt. In Abbildung \ref{fig_overfitting} ist beispielhaft eine Unter- und Überanpassung eines binären Klassifikators dargestellt.
 
 Heute werden in Anwendungen häufig tiefe neuronale Netze (engl. deep neural networks) verwendet. Von einem tiefen neuronalen Netz spricht man, wenn es viele versteckte Schichten besitzt. Damit können Merkmale auf verschiedenen Abstraktionsebenen erkannt werden \cite{lecun2015deep}. In den folgenden Absätzen \ref{grundlagen_nn_cnn} und \ref{grundlagen_nn_rnn} werden zwei verschiedene Architekturen von tiefen neuronalen Netzen vorgestellt, die in Kapitel \ref{umsetzung} für das Klassifizierungsproblem dieser Arbeit angewendet werden.
 
@@ -354,7 +354,7 @@ Heute werden in Anwendungen häufig tiefe neuronale Netze (engl. deep neural net
 \label{grundlagen_nn_cnn}
 % ===========================
 
-Ein \acf{CNN} ist eine Architektur eines \acp{KNN} und gilt heute als Stand der Technik für Probleme in der Bilderkennung \cite{krizhevsky2012imagenet}. Die Architektur eines \acp{CNN} besteht grundsätzlich aus einer oder mehreren Convolution- und Pooling-Schichten \cite{lecun2010convolutional}. Diese Abfolge kann sich beliebig oft wiederholen und wird am Ende mit einer oder mehreren Fully-Connected-Schicht für die Klassifizierung ergänzt. In den folgenden Absätzen werden die Funktionsweisen der Convolution- und der Pooling-Schicht erklärt. Eine Fully-Connected-Schicht entspricht einer Schicht im mehrlagigen Perzeptron wie sie im vorherigen Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben wurde. In Abbildung \ref{fig_cnn} ist ein gesamtes \ac{CNN} dargestellt.
+Ein \acf{CNN} ist eine Architektur eines \acp{KNN} und gilt heute als Stand der Technik für Probleme in der Bilderkennung \cite{krizhevsky2012imagenet}. Die Architektur eines \acp{CNN} besteht grundsätzlich aus einer oder mehreren Convolution- und Pooling-Schichten \cite{lecun2010convolutional}. Die Abfolge dieser Schichten kann sich beliebig oft wiederholen und wird am Ende mit einer oder mehreren Fully-Connected-Schichten für die Klassifizierung ergänzt. In den folgenden Absätzen werden die Funktionsweisen der Convolution- und der Pooling-Schicht erklärt. Eine Fully-Connected-Schicht entspricht einer Schicht im mehrlagigen Perzeptron wie sie im vorherigen Abschnitt \ref{grundlagen_nn_entwicklung} beschrieben wurde. In Abbildung \ref{fig_cnn} ist ein gesamtes \ac{CNN} dargestellt.
 
 Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von einer Aktivierungsfunktion. Die Grundidee dieser Schicht ist die Extraktion von Merkmalen aus einem Bild oder anderen Inputdaten. Dabei werden in den ersten Schichten Merkmale auf einer niedrigen Ebene (engl. low-level features) und in späteren Schichten zunehmend abstraktere Merkmale (engl. high-level features) extrahiert. Bei der Convolution-Operation (oder auch Faltung) wird ein ausgewählter Filter mit einer festgelegten Schrittgröße (engl. stride) über das Bild bewegt und bei jedem Schritt der entsprechende Ausgabewert berechnet \cite{lecun1998cnn}. Diese Operation ist in Abbildung \ref{fig_conv_operation} dargestellt.
 
@@ -365,15 +365,15 @@ Die Convolution-Schicht besteht aus einer Convolution-Operation gefolgt von eine
 \label{fig_conv_operation}
 \end{figure}
 
-In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 6x6x1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimensionen 3x3x1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
+In diesem Beispiel handelt es sich um ein Bild mit den Dimensionen 6 x 6 x 1 Pixel, also einem zweidimensionalen Bild mit einem Farbkanal. Der Filter hat die Dimensionen 3 x 3 x 1. In dem Beispiel ist die aktuell dargestellte Rechnung wie folgt:
 
 \begin{equation*}
 0*33+0*15+1*1+0*93+0*84+0*17+1*36+0*72+0*83=37
 \end{equation*}
 
-Nach dieser Berechnung bewegt sich der Filter einen Schritt weiter nach rechts und der nächste Wert wird berechnet. Am rechten Rand des Bildes angekommen, wird der Filter eine Schrittlänge weiter nach unten gesetzt und wieder an den linken Rand gesetzt. Dies wiederholt sich bis der Filter am rechten unteren Rand des Bildes angekommen ist. Bei einem dreidimensionalen Bild, mit den drei Farbkanälen als dritte Dimension, hat der Filter ebenfalls drei Dimensionen. Die Berechnung wird analog durchgeführt. Bei dieser Operation kann die Größe des Filters und die Schrittgrüße variiert werden. Es können auch verschiedenen Filter verwendet werden, um unterschiedliche Merkmale zu extrahieren. Außerdem können sogenannte Padding-Methoden eingesetzt werden um den Rand der Bilder künstlich zu erweitern. Beim sogenannten Zero-Padding wird beispielsweise ein beliebig breiter Rand mit den Werten 0 um das Bild gelegt. Somit kann sich ein Filter auch über die existierenden Ränder hinweg bewegen und Muster an den Rändern besser erkennen. Das Ergebnis einer Convolution Schicht ist eine sogenannte Feature Map, also eine Schicht, die aus extrahierten Merkmalen besteht \cite{lecun1997convolutional}.
+Nach dieser Berechnung bewegt sich der Filter einen Schritt weiter nach rechts und der nächste Wert wird berechnet. Am rechten Rand des Bildes angekommen, wird der Filter eine Schrittlänge weiter nach unten gesetzt und wieder an den linken Rand gesetzt. Dies wiederholt sich bis der Filter am rechten unteren Rand des Bildes angekommen ist. Bei einem dreidimensionalen Bild, mit den drei Farbkanälen als dritte Dimension, hat der Filter ebenfalls drei Dimensionen. Die Berechnung wird analog durchgeführt. Bei dieser Operation kann die Größe des Filters und die Schrittgröße variiert werden. Es können auch verschiedenen Filter verwendet werden, um unterschiedliche Merkmale zu extrahieren. Außerdem können sogenannte Padding-Methoden eingesetzt werden um den Rand der Bilder künstlich zu erweitern. Beim sogenannten Zero-Padding wird beispielsweise ein beliebig breiter Rand mit den Werten 0 um das Bild gelegt. Somit kann sich ein Filter auch über die existierenden Ränder hinweg bewegen und Muster an den Rändern besser erkennen. Das Ergebnis einer Convolution-Schicht ist eine sogenannte Feature Map, also eine Schicht, die aus extrahierten Merkmalen besteht \cite{lecun1997convolutional}.
 
-Das Ziel der Pooling-Schicht ist es, die Größe der Feature Map zu reduzieren und dabei die wichtigsten Merkmale beizubehalten \cite{scherer2010evaluation}. Wie bei der Convolution-Operation, gibt es auch beim Pooling verschiedene Operationen (z.B. Average-Pooling). In Abbildung \ref{fig_pool_operation} ist die oft verwendete Max-Pooling-Operation dargestellt. Dabei werden Fenster mit einer festgelegten Breite und Höhe über das Bild bewegt und jeweils nur der maximale Wert innerhalb eines Fensters übernommen.
+Das Ziel der Pooling-Schicht ist es, die Größe von Feature Maps zu reduzieren und dabei die wichtigsten Merkmale beizubehalten \cite{scherer2010evaluation}. Wie bei der Convolution-Operation, gibt es auch beim Pooling verschiedene Operationen (z.B. Average-Pooling). In Abbildung \ref{fig_pool_operation} ist die oft verwendete Max-Pooling-Operation dargestellt. Dabei werden Fenster mit einer festgelegten Breite und Höhe über das Bild bewegt und jeweils nur der maximale Wert innerhalb eines Fensters übernommen.
 
 \begin{figure}[h]
 \centering
@@ -400,7 +400,7 @@ Mit Convolution-, Pooling- und Fully-Connected-Schichten kann die Architektur ei
 
 In diesem Abschnitt wird die Architektur von \acfp{RNN} und einer modifizierten Version davon, \acfp{LSTM}, vorgestellt. Ein \ac{RNN} ist ein \ac{KNN}, das für sequentielle Daten geeignet ist. Der Unterschied zu der Architektur eines mehrlagigen Perzeptrons ist, dass beim Training auch die Werte von Neuronen derselben Schicht berücksichtigt werden \cite{graves2012rnn}. Damit entsteht nicht nur eine Abhängigkeit zu den Aktivierungswerten der vorherigen Schicht, sondern auch zu den Werten der Neuronen derselben Schicht. Das bedeutet wiederum, dass ein \ac{RNN} nicht von einem einzigen Eingangsvektor abhängig ist, sondern von einer Sequenz von Eingangsvektoren. 
 
-Es gibt verschiedene Architekturen von \acp{RNN}, zum Beispiel mit Ergebniswerten von jedem Input (engl. many to many) oder nur einem Ergebniswert am Ende einer Sequenz (engl. many to one). Die Architekturen mit Ergebniswerten von jedem Input werden beispielsweise für die automatische Übersetzung von Texten verwendet. Dabei ist jeder Input ein neues Wort, für das jeweils ein Ergebnis, wie zum Beispiel eine Übersetzung, produziert wird, und das auch Einfluss auf die Bedeutung der folgenden Wörter hat. Architekturen mit einem Ergebniswert werden für Klassifizierungsprobleme verwendet. Dabei wird einer Sequenz von Inputdaten eine Klasse zugeordnet. Diese beiden Varianten sind beispielhaft in Abbildung \ref{fig_rnn} dargestellt. In dieser Arbeit wird in Kapitel \ref{umsetzung} die Variante mit einem Ergebnis basierend auf einer Sequenz von Inputdaten verwendet, i.e. die Berechnung einer Klasse auf Basis einer Bildsequenz.
+Es gibt verschiedene Architekturen von \acp{RNN}, zum Beispiel mit Ergebniswerten von jedem Input (engl. many to many) oder nur einem Ergebniswert am Ende einer Sequenz (engl. many to one). Die Architekturen mit Ergebniswerten von jedem Input werden beispielsweise für die automatische Übersetzung von Texten verwendet. Dabei ist jeder Input ein neues Wort, für das jeweils ein Ergebnis, wie zum Beispiel eine Übersetzung, produziert wird, und das auch Einfluss auf die Bedeutung der folgenden Wörter hat. Architekturen mit einem Ergebniswert werden für Klassifizierungsprobleme verwendet. Dabei wird einer Sequenz von Inputdaten eine Klasse zugeordnet. Diese beiden Varianten sind schematisch in Abbildung \ref{fig_rnn} dargestellt. In dieser Arbeit wird in Kapitel \ref{umsetzung} die Variante mit einem Ergebnis basierend auf einer Sequenz von Inputdaten verwendet, i.e. die Berechnung einer Klasse auf Basis einer Bildsequenz.
 
 \begin{figure}[h]
 \centering
@@ -408,13 +408,13 @@ Es gibt verschiedene Architekturen von \acp{RNN}, zum Beispiel mit Ergebniswerte
 \subfloat[many to many]{\includegraphics[scale=0.7]{images/rnn_1.pdf}} &
 \subfloat[many to one]{\includegraphics[scale=0.7]{images/rnn_2.pdf}} \\
 \end{tabular}
-\caption{Beispiel von zwei verschiedenen \ac{RNN}-Architekturen}
+\caption{Beispiel von zwei verschiedenen \acs{RNN}-Architekturen}
 \label{fig_rnn}
 \end{figure}
 
 Wenn nun in einem \ac{RNN} die Fehlerrückführung (engl. error backpropagation) angewendet wird, kommt es schnell zu dem Problem des verschwindenden oder explodierenden Gradienten (engl. vanishing or exploding gradient). Das basiert auf der Multiplikation der Gradienten von mehreren Sequenzschritten. Wenn der Gradient größer als 1 ist, wächst er sehr stark (explodiert), wenn er kleiner als 1 ist, geht er schnell gegen 0 (verschwindet). In beiden Fällen kann es zu sehr langen Trainingszeiten, in Extremfällen zu keinem Lerneffekt während des Trainings, kommen \cite{graves2012rnn}. Die Lösung dieses Problems wurde von Hochreiter und Schmidhuber \cite{hochreiter1997long} in Form der \ac{LSTM}-Zelle vorgestellt.
 
-Eine \ac{LSTM}-Zelle ist mit drei Toren, dem Eingangstor (engl. input gate), dem Merk- und Vergesstor (engl. forget gate) und dem Ausgangstor (engl. output gate), und einem Zellenzustand aufgebaut. Die Idee ist, dass die \ac{LSTM}-Zelle ein eine Zustand speichern und damit erhalten kann. Das verhindert den Effekt des verschwindenden oder explodierenden Gradienten. Die Abbildung \ref{fig_lstm} zeigt eine solche \ac{LSTM}-Zelle.
+Eine \ac{LSTM}-Zelle ist mit drei Toren, dem Eingangstor (engl. input gate), dem Merk- und Vergesstor (engl. forget gate) und dem Ausgangstor (engl. output gate), und einem Zellenzustand aufgebaut. Die Idee ist, dass die \ac{LSTM}-Zelle einen Zustand speichern und damit erhalten kann. Das verhindert den Effekt des verschwindenden oder explodierenden Gradienten. Die Abbildung \ref{fig_lstm} zeigt eine solche \ac{LSTM}-Zelle.
 
 \begin{figure}[h]
 \centering
@@ -451,13 +451,13 @@ h_t = o_t * \tanh(c_t)
 \label{grundlagen_nn_synthetisch}
 % ===========================
 
-Ein großes Problem beim Training von neuronalen Netzen ist der Aufwand um die Trainings- und Validierungsdaten zu annotieren \cite{richter2016playing}. Ein Ansatz dem entgegenzuwirken ist das Training mit synthetischen Daten oder einer Kombination aus synthetischen und realen Daten. In diesem Abschnitt werden vier Arbeiten aus den letzten Jahren vorgestellt, die diesen Ansatz untersuchen. Diese Arbeiten werden im Abschnitt \ref{umsetzung_daten_real} in Tabelle \ref{tab_datensaetze} zusammengefasst und mit dem Datensatz aus dieser Arbeit verglichen.
+Ein großes Problem beim Training von neuronalen Netzen ist der manuelle Aufwand um reale Trainings- und Validierungsdaten zu annotieren \cite{richter2016playing}. Ein Ansatz dem entgegenzuwirken ist das Training mit synthetischen Daten oder einer Kombination aus synthetischen und realen Daten. In diesem Abschnitt werden vier Arbeiten aus den letzten Jahren vorgestellt, die diesen Ansatz untersuchen. Die Datensätze dieser Arbeiten werden im Abschnitt \ref{umsetzung_daten_real} in Tabelle \ref{tab_datensaetze} zusammengefasst und mit dem Datensatz aus dieser Arbeit verglichen.
 
-Ros et al. \cite{ros2016synthia} haben für die Simulation einer virtuellen Stadt die Unity Development Platform verwendet. Mit virtuellen Fahrten wurden insgesamt circa 200.000 Bilder generiert und diese mit 11 Klassen (e.g. \textit{Sky, Buildings, Road}) auf Pixelebene annotiert. Für das Training wurden die Bilder auf eine Größe von 180 x 120 Pixeln reduziert. Das kombinierte Training mit synthetischen und realen Daten auf den Datensätzen KITTI, CamVid, U-LabelMe und CBCL hat die Genauigkeit (engl. accuracy) auf den realen Testdaten, im Vergleich zum Training mit ausschließlich realen Daten, deutlich gesteigert.
+Ros et al. \cite{ros2016synthia} haben für die Simulation einer virtuellen Stadt die Unity Development Platform verwendet. Mit virtuellen Fahrten wurden insgesamt circa 200.000 Bilder generiert und diese mit 11 Klassen (e.g. \textit{Sky, Buildings, Road}) auf Pixelebene annotiert. Für das Training wurden die Bilder auf eine Größe von 180 x 120 Pixel reduziert. Das kombinierte Training mit synthetischen und realen Daten auf den Datensätzen KITTI, CamVid, U-LabelMe und CBCL hat die Genauigkeit (engl. accuracy) auf den realen Testdaten, im Vergleich zum Training mit ausschließlich realen Daten, deutlich gesteigert.
 
 Johnson-Roberson et al. \cite{johnson2017driving} und Richter et al. \cite{richter2016playing} haben für die Generierung von Trainingsdaten das Computerspiel Grand Theft Auto V verwendet. Die Grafikleistung dieses Spiels übertrifft kommerzielle und Open-Source Simulationssoftware und ist daher sehr gut für die Simulation von Bilddaten geeignet. Johnson-Roberson et al. \cite{johnson2017driving} generierten zwei Datensätze mit 50.000 und 200.000 Bildern mit Begrenzungsboxen (engl. bounding boxes) für Fahrzeuge. Mit ihrem kombinierten Training zusammen mit dem KITTI Datensatz konnten sie die Genauigkeit auf den Testdaten, im Vergleich zum Training auf ausschließlich realen Daten, verbessern. Richter et al. \cite{richter2016playing} generierten 25.000 Bilder mit einer Annotation auf Pixelebene von 19 Klassen (e.g. \textit{Road, Sky, Car}). Mit diesen Bildern und einem kombinierten Training zusammen mit dem KITTI Datensatz konnten auch sie die Genauigkeit verbessern.
 
-Tremblay et al. \cite{tremblay2018training} verfolgten bei der Generierung von Bildern einen etwas anderen Ansatz. Sie nutzten 3D Modelle von Fahrzeugen und platzierten diese mit zufällige Positionen und Ausrichtungen auf verschiedene reale Szenen. Die 100.000 Bilder wurden mit Begrenzungsboxen (engl. bounding boxes) um Fahrzeuge annotiert. Beim Training wurden ausschließlich die synthetischen Daten verwendet und es wurde eine Genauigkeit von circa 80 Prozent erreicht.
+Tremblay et al. \cite{tremblay2018training} verfolgten bei der Generierung von Bildern einen anderen Ansatz. Sie nutzten 3D Modelle von Fahrzeugen und platzierten diese mit zufälliger Position und Ausrichtungen auf verschiedenen realen Szenen. Die 100.000 Bilder wurden mit Begrenzungsboxen (engl. bounding boxes) annotiert. Beim Training wurden ausschließlich die synthetischen Daten verwendet und es wurde eine Genauigkeit von circa 80 Prozent erreicht.
 
 Generell zeigt das Training von neuronalen Netzen mit einer Kombination von synthetischen und realen Daten bereits vielversprechende Ergebnisse, auf denen dieses Arbeit aufbauen will. Im Gegensatz zu den vergangenen Arbeiten, werden in dieser Arbeit ganze Szenarien generiert und annotiert und nicht einzelne Bilder mit Begrenzungsboxen oder semantischer Annotation auf Pixelebene.
 
@@ -476,7 +476,7 @@ Grundsätzlich kann zwischen drei verschiedenen Ansätzen bei der Klassifizierun
 \label{fig_single_frame_classification}
 \end{figure}
 
-Ein weiterer Ansatz basiert auf der Idee, Feature Maps von mehreren Bildern zu kombinieren und damit die zeitlichen Merkmalen mit 3D-Filtern eines \acp{CNN} zu extrahieren. In früheren Arbeiten dazu wurde für diese Kombination eine Pooling-Operation verwendet \cite{karpathy2014large, yue2015beyond} und es wurden verschiedene Architekturen mit früher, später oder langsamer Fusion verwendet (engl. early, late, and slow fusion). Bei der frühen Fusion werden schon zu Beginn die Eingangswerte von mehreren Bildern kombiniert und dann zusammen die Feature Maps berechnet. Bei der späten Fusion werden von allen Bildern einzeln die Merkmale extrahiert und erst am Ende mit einer Pooling-Schicht vereint. Beim Ansatz der langsamen Fusion werden schrittweise die Feature Maps von immer mehr Bildern zusammengefasst. Diese Architekturen sind schematisch in Abbildung \ref{fig_fusion_classification} dargestellt.
+Ein weiterer Ansatz basiert auf der Idee, Feature Maps von mehreren Bildern zu kombinieren und damit die zeitlichen Merkmalen mit 3D-Filtern eines \acp{CNN} zu extrahieren. In früheren Arbeiten wurde für diese Kombination eine Pooling-Operation verwendet \cite{karpathy2014large, yue2015beyond} und es wurden verschiedene Architekturen mit früher, später oder langsamer Fusion verwendet (engl. early, late, and slow fusion). Bei der frühen Fusion werden schon zu Beginn die Eingangswerte von mehreren Bildern kombiniert. Bei der späten Fusion werden von allen Bildern Merkmale extrahiert und am Ende mit einer Pooling-Schicht vereint. Beim Ansatz der langsamen Fusion werden schrittweise die Feature Maps von immer mehr Bildern zusammengefasst. Diese Architekturen sind schematisch in Abbildung \ref{fig_fusion_classification} dargestellt.
 
 \begin{figure}[h]
 \centering
@@ -494,7 +494,7 @@ Später wurden neben der Pooling-Operation andere Operationen für die Fusion en
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.8]{images/cnn_lstm_architektur.pdf}
-\caption[Klassifizierung von Videos mit einer \ac{CNN}-\ac{LSTM}-Architektur]{Klassifizierung von Videos mit einer \ac{CNN}-\ac{LSTM}-Architektur \cite{donahue2015long}}
+\caption[Klassifizierung von Videos mit einer \acs{CNN}-\acs{LSTM}-Architektur]{Klassifizierung von Videos mit einer \acs{CNN}-\acs{LSTM}-Architektur \cite{donahue2015long}}
 \label{fig_cnn_lstm_architektur}
 \end{figure}
 

@@ -6,7 +6,7 @@
 
 In dieser Arbeit wurde ein Konzept für die Klassifizierung von Szenarien entwickelt und umgesetzt. Dafür wurden im ersten Schritt beispielhaft sieben Fahrszenarien auf \textit{funktionaler und logischer Ebene} definiert. Auf Basis der \textit{logischen Definitionen} wurden Variablen abgeleitet, die das jeweilige Szenario regelbasiert annotieren können. 
 
-Im zweiten Schritt wurden mit der Simulationssoftware CarMaker 2.160 Kilometer und damit 326.108 Szenen simuliert. Zu jeder Szene wurden Bilddaten und die zuvor abgeleiteten Variablen, sogenannte Signaldaten, erzeugt. Die Bilddaten wurde mit diesen Signaldaten regelbasiert, nach der \textit{logischen Definition}, annotiert und schließlich zu 3-Sekunden-Szenarien zusammengefasst. Im Anschluss wurden einige realen Szenarien manuell annotiert.
+Im zweiten Schritt wurden mit der Simulationssoftware CarMaker 2.160 Kilometer und damit 326.108 Szenen simuliert. Zu jeder Szene wurden Bilddaten und die zuvor abgeleiteten Variablen, sogenannte Signaldaten, erzeugt. Die Bilddaten wurde mit diesen Signaldaten regelbasiert, nach der \textit{logischen Definition}, annotiert und schließlich zu 3-Sekunden-Szenarien zusammengefasst. Im Anschluss wurden reale Szenarien manuell annotiert.
 
 Im dritten Schritt wurde für das Training von \acp{KNN} ein Trainingsdatensatz mit fünf Klassen aus 95 Prozent synthetischen und 5 Prozent realen Szenarien erstellt. Insgesamt wurden acht unterschiedliche \ac{KNN}-Architekturen designed, trainiert und getestet. Das beste Modell erreicht Genauigkeiten von 95 Prozent bei der Klassifizierung von realen Testszenarien.
 
@@ -18,9 +18,9 @@ Im dritten Schritt wurde für das Training von \acp{KNN} ein Trainingsdatensatz 
 Das Ziel dieser Arbeit war es, ein Proof-of-Concept für die Erkennung von Fahrszenarien auf Basis von überwiegend synthetischen Bilddaten zu erstellen. Der Fokus lag dabei auf den folgenden Punkten:
 
 \begin{itemize}
-\item Trainingsdaten müssen nicht mehr aufwendig manuell annotiert werden
-\item Szenarien werden auf der Basis von Bilddaten klassifiziert
-\item Bisher unbekannte Szenarien können gefunden werden
+\item Trainingsdaten müssen nicht mehr aufwendig manuell annotiert werden.
+\item Szenarien werden auf der Basis von Bilddaten klassifiziert.
+\item Bisher unbekannte Szenarien können gefunden werden.
 \end{itemize}
 
 Im zweiten Schritt des Ansatzes dieser Arbeit wurde eine Methodik entwickelt und umgesetzt, mit der synthetische Bilddaten simuliert und annotiert werden können. Damit ist es in Zukunft möglich große Datenmengen für das Training von neuronalen Netzen für die Erkennung von Fahrszenarien zu generieren. Diese Methodik ist nicht auf bestimmte Szenarien festgelegt und kann in nachfolgenden Arbeiten und in der Praxis für weitere Fahrszenarien angewandt werden. Im dritten Schritt dieser Arbeit wurde zusätzlich gezeigt, dass sehr gute Klassifizierungsgenauigkeiten mit 95 Prozent synthetischen und nur 5 Prozent realen Trainingsdaten erreicht werden können. Damit ist es möglich den manuellen Aufwand für die Annotation von realen Trainingsdaten stark zu reduzieren.
@@ -34,7 +34,7 @@ In vorherigen Arbeiten, wie in Abschnitt \ref{grundlagen_fahren_szenarien} besch
 
 Der nächste Schritt ist, wie in Abschnitt \ref{zusammenfassung_ergebnis} beschrieben, die Übertragung dieses Ansatzes auf alle bisher bekannten Szenarien um unbekannte Fahrszenarien zu identifizieren. Damit kann ein Beitrag zur Absicherung von \ac{FAS} geliefert werden.
 
-Eine zweite Möglichkeit für nachfolgende Arbeiten ist es, die \ac{KNN}-Architekturen weiter zu verbessern. In dieser Arbeit wurden oft Standardkonfigurationen von Keras \cite{chollet2015keras} für die einzelnen Schichten verwendet und keine umfangreichen empirischen Untersuchungen durchgeführt. Es ist anzunehmen, dass die Genauigkeit noch gesteigert und die Trainingszeit reduziert werden kann.
+Eine zweite Möglichkeit für nachfolgende Arbeiten ist es, die \ac{KNN}-Architekturen weiter zu verbessern. In dieser Arbeit wurden meist Standardkonfigurationen von Keras \cite{chollet2015keras} für die einzelnen Schichten verwendet und keine umfangreichen empirischen Untersuchungen durchgeführt. Es ist anzunehmen, dass die Genauigkeit noch gesteigert und die Trainingszeit reduziert werden kann.
 
 Eine zusätzlicher, wichtiger nächster Schritt ist die Vergrößerung der Datenvarianz. Bisher wurden Szenarien ausschließlich auf einer 4-spurigen Autobahn bei Tageslicht simuliert. Für die Anwendung in der Praxis müssen auch Fahrten unter anderen Umständen (bei Nacht, in der Stadt etc.) simuliert und für das Training eines Klassifikators verwendet werden. Nur so kann die Anwendbarkeit in der Praxis sichergestellt werden.
 

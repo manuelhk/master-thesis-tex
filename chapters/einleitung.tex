@@ -10,13 +10,13 @@
 \label{einleitung_problemstellung}
 % ===========================
 
-Autonomes Fahren - kaum ein Trend ist aktuell ein stärkerer Treiber für die Entwicklung von hochautomatisierten \ac{FAS}. Doch die Absicherung dieser Fahrfunktionen stellt die Automobilindustrie vor große Herausforderungen. Aktuell werden Fahrfunktionen auf der Stufe 2 des autonomen Fahrens entwickelt \cite{sae2014taxonomy}. Zukünftige hochautomatisierten \ac{FAS} ab Stufe 3 unterschieden sich in einem zentralen Punkt von Funktionen der Stufe 2: Die Kontrolle der Funktionen wird nicht mehr vom Fahrer, sondern vom System übernommen. Das bedeutet, dass die Rückfallebene zum Fahrer nicht mehr existiert. Damit wird die Frage aufgeworfen, wie die Sicherheit garantiert werden kann, wenn die Kontrolle durch den Fahrer nicht mehr existiert.
+Autonomes Fahren - kaum ein Trend ist aktuell ein stärkerer Treiber für die Entwicklung von hochautomatisierten Fahrerassistenzsystemen (\acs{FAS}). Doch die Absicherung dieser Fahrfunktionen stellt die Automobilindustrie vor große Herausforderungen. Aktuell werden Fahrfunktionen auf der Stufe 2 des autonomen Fahrens entwickelt \cite{sae2014taxonomy}. Zukünftige hochautomatisierte \ac{FAS} ab Stufe 3 unterscheiden sich in einem zentralen Punkt von Funktionen der Stufe 2. Die Kontrolle der Funktionen wird nicht mehr vom Fahrer, sondern vom System übernommen. Das bedeutet, dass die Rückfallebene zum Fahrer nicht mehr existiert. Damit wird die Frage aufgeworfen, wie die Sicherheit garantiert werden kann, wenn die Kontrolle durch den Fahrer nicht mehr existiert.
 
-Aktuell folgt die Absicherung von \ac{FAS} dem Testkonzept \cite{schuldt2013effiziente}. Dabei werden Funktionen auf Basis von relevanten und bekannten Szenarien abgeleitet und entsprechende Testfälle erstellt und durchgeführt. Da ab Stufe 3 des autonomen Fahrens die Kontrolle durch den Fahrer nicht mehr existiert, müssen Fahrfunktionen zukünftig in allen potentiellen Szenarien sicher sein. Das schließt alle bisher bekannten und eine große Anzahl unbekannter Szenarien ein. Durch die steigende Anzahl unbekannter Szenarien decken Testfälle nicht mehr alle Szenarien ab und die Absicherung von \ac{FAS} ist nicht mehr garantiert.
+Aktuell folgt die Absicherung von \ac{FAS} dem Testkonzept \cite{schuldt2013effiziente}. Dabei werden Funktionen auf Basis von relevanten und bekannten Szenarien abgeleitet und entsprechende Testfälle erstellt und durchgeführt. Da ab Stufe 3 des autonomen Fahrens die Kontrolle durch den Fahrer nicht mehr existiert, müssen Fahrfunktionen zukünftig in allen potentiellen Szenarien sicher sein. Das schließt alle bisher bekannten und unbekannten Szenarien ein. Durch die steigende Anzahl unbekannter Szenarien decken Testfälle nicht mehr alle Szenarien ab und die Absicherung von \ac{FAS} kann nicht mehr garantiert werden.
 
-Weiterhin spielt der Einsatz von Verfahren des maschinellen Lernens eine zunehmend bedeutende Rolle. Eine große Herausforderung für diese Algorithmen ist, dass Trainingsdaten, sofern sie auf realen, aufgezeichneten Daten beruhen, manuell annotiert werden müssen, was diesen Prozess sehr aufwändig macht. Ein weiteres Problem von realen Daten ist Ihre geringe Varianz. Während Standardsituationen sehr häufig vorkommen und damit auch mit einem \ac{KNN} erlernt werden können, gibt es einige Situation die selten auftreten, allerdings sehr kritisch sind. Es ist daher schwieriger ein neuronales Netz für diese Situationen, wie z.B. das „schneiden“ eines anderen Fahrzeugs beim Spurwechsel, zu trainieren.
+Weiterhin spielt der Einsatz von Verfahren des maschinellen Lernens eine zunehmend bedeutende Rolle. Eine große Herausforderung für diese Algorithmen ist, dass Trainingsdaten, sofern sie auf realen, aufgezeichneten Daten beruhen, manuell annotiert werden müssen, was diesen Prozess sehr aufwändig macht. Ein weiteres Problem von realen Daten ist Ihre geringe Varianz. Während Standardsituationen sehr häufig vorkommen und damit auch mit einem \ac{KNN} erlernt werden können, gibt es andere Situationen die selten auftreten, allerdings sehr kritisch sind. Es ist daher schwieriger ein neuronales Netz für diese Situationen, wie z.B. das „schneiden“ eines anderen Fahrzeugs beim Spurwechsel, zu trainieren.
 
-Genau hier setzt diese Arbeit an. Es soll ein Beitrag dazu geliefert werden, auf Basis von größtenteils synthetischen Bilddaten, bisher unbekannte Szenarien zu finden. Durch die Verwendung von überwiegend simulierten Bilddaten soll der Ansatz auch in der Praxis Anwendung finden, weil die manuelle Annotation sehr aufwendig ist.
+Genau hier setzt diese Arbeit an. Es soll ein Beitrag dazu geliefert werden, auf Basis von größtenteils synthetischen Bilddaten, bisher unbekannte Szenarien zu finden. Durch die Verwendung von überwiegend simulierten Bilddaten soll der Ansatz auch in der Praxis Anwendung finden.
 
 
 % ===========================
@@ -24,15 +24,15 @@ Genau hier setzt diese Arbeit an. Es soll ein Beitrag dazu geliefert werden, auf
 \label{einleitung_zielsetzung}
 % ===========================
 
-Das Ergebnis der Arbeit soll ein Ansatz sein, um bisher unbekannte Testfälle zu finden. Dafür sollen Szenarien ausgewählt und definiert werden. Auf der Basis dieser Definitionen sollen Videodaten zu diesen Szenarien mit einer Simulationssoftware erzeugt und automatisch annotiert werden. Zusammen mit einem kleinen Anteil realer Videodaten soll ein neuronales Netz trainiert werden um anschließend reale Fahrszenarien klassifizieren zu können. Das Ziel ist ein Proof-of-Concept dieses Ansatzes mit einigen beispielhaften Szenarien.
+Das Ergebnis der Arbeit soll ein Ansatz sein, um bisher unbekannte Testfälle zu finden. Dafür sollen Szenarien ausgewählt und definiert werden. Auf der Basis dieser Definitionen sollen Videodaten zu diesen Szenarien mit einer Simulationssoftware erzeugt und automatisch annotiert werden. Zusammen mit einem kleinen Anteil realer Videodaten soll ein neuronales Netz trainiert werden, um anschließend reale Fahrszenarien klassifizieren zu können. Das Ziel ist ein Proof-of-Concept dieses Ansatzes mit einigen beispielhaften Szenarien.
 
 In einem nächsten Schritt kann der Ansatz auf alle bisher bekannten Szenarien übertragen werden. Dabei müssen für alle Szenarien synthetische Trainingsdaten mit einer Simulationssoftware generiert werden. Zusammen mit einem kleinen Anteil realer Trainingsdaten kann ein \ac{KNN} trainiert werden. Dieses \ac{KNN} kann im Anschluss alle bisher bekannten Szenarien erkennen und unbekannte Szenarien identifizieren, zum Beispiel mit einer Schwelle der Klassifizierungsgenauigkeit.
 
 Diese Arbeit soll einen theoretischen und praktischen Beitrag zum Training von neuronalen Netzen im Bereich des automatisierten Fahrens liefern. Die oben genannten Probleme sollen mit der Verwendung von simulierten Trainingsdaten adressiert und weiter untersucht werden. Der Fokus liegt dabei auf den folgenden Hauptpunkten:
 
 \begin{itemize}
-\item Trainingsdaten müssen nicht mehr aufwendig manuell annotiert werden
-\item Szenarien werden auf der Basis von Bilddaten klassifiziert
-\item Bisher unbekannte Szenarien können gefunden werden
+\item Trainingsdaten müssen nicht mehr aufwendig manuell annotiert werden.
+\item Szenarien werden auf der Basis von Bilddaten klassifiziert.
+\item Bisher unbekannte Szenarien können gefunden werden.
 \end{itemize}
 
