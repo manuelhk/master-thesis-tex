@@ -1,1 +1,5 @@
-# master-thesis-tex
+## Künstliches Lernen: Trainingsdaten aus dem virtuellen Fahrversuch für Szenarienklassifizierung mit Deep Learning Algorithmen
+
+### Abstract
+
+Ab Stufe 3 des autonomen Fahrens kontrolliert nicht mehr der Fahrer, sondern das System die Umgebung in der sich ein Fahrzeug bewegt. Das Resultat ist, dass die Sicherheit von hochautomatisierten Fahrerassistenzsystemen (FAS) in Zukunft in allen potentiellen Fahrszenarien garantiert sein muss. Da viele Szenarien bisher unbekannt sind, stellt diese Absicherung die Automobilindustrie vor große Herausforderungen. In dieser Arbeit wird ein Konzept für die Klassifizierung von Fahrszenarien entwickelt und umgesetzt. Dafür wird ein künstliches neuronales Netz (KNN) mit 95 Prozent synthetischen und 5 Prozent realen Videodaten aus fünf Szenarienklassen trainiert. Diese synthetischen Daten werden zuvor mit der Simulationssoftware CarMaker generiert und automatisch annotiert. Mit diesem Ansatz soll es in Zukunft möglich sein, einen Klassifikator mit allen bisher bekannten Szenarien zu trainieren. Darauf basierend kann dieser Klassifikator bekannte Szenarien erkennen und bisher unbekannte Szenarien identifizieren. Mit der Entwicklung des Ansatzes und einem Proof-of-Concept liefert diese Arbeit einen theoretischen und praktischen Beitrag zur Absicherung von hochautomatisierten FAS.
